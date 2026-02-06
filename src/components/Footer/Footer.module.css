@@ -1,0 +1,150 @@
+.Footer {
+    margin-top: 100px;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #888888;
+    padding: 40px 20px 20px 20px;
+    box-sizing: border-box;
+}
+
+.mainlogo {
+    font-size: 25px;
+    color: #fff;
+}
+
+.logodes {
+    padding-top: 13px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.logo {
+    max-width: 500px;
+    margin-top: 32px;
+}
+
+.apps{
+    right: 0;
+    margin: 5px;
+}
+
+.appimgs{
+    right: 0;
+    margin-top: 32px;
+    cursor: pointer;
+}
+
+.follow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+    color: #fff;
+    text-align: center;
+}
+
+.contacts {
+    display: flex;
+    margin-top: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.contact {
+    cursor: pointer;
+}
+
+.three {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #888888;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    padding-bottom: 18px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.footerlinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #888888;
+    margin: 20px auto 0 auto;
+    list-style: none;
+}
+
+.but {
+    text-decoration: none;
+    padding: 10px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.but:hover {
+    text-decoration: underline;
+}
+
+.copyrights {
+    margin: 32px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #888888;
+}
+
+@media (max-width: 1024px) {
+    .three {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .footerlinks {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .Footer {
+        padding: 20px 10px;
+    }
+
+    .logo, .follow, .appimgs {
+        width: 100%;
+        text-align: center;
+    }
+
+    .footerlinks {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .apps {
+        max-width: 120px;
+        max-height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mainlogo {
+        font-size: 20px;
+    }
+
+    .logodes {
+        font-size: 12px;
+    }
+
+    .apps {
+        max-width: 100px;
+    }
+}

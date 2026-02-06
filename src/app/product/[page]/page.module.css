@@ -1,0 +1,127 @@
+.productinfo{
+    justify-content: start;
+    align-items: start;
+    align-content: start;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 auto;
+    display: flex;
+    margin-top: -150px;
+}
+
+.para {
+    display: grid;
+}
+.wrap{
+  display: flex;
+  flex-direction: column;
+}
+.infoproduct{
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 20px;
+    list-style-type: none;
+    overflow: visible;
+    width: 400px;
+    margin-right: 30px;
+    margin-top: 150px;
+
+}
+
+.cartbut{
+  float: right;
+  background-color: #1a75e8;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  transition: background-color, color .3s ease-in-out;
+}
+
+.cartbut:hover{
+  background-color: #1a90e8;
+  color: #1a1a1a;
+}
+
+.cartbut1{
+  float: right;
+  background-color: #1a75e8;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  transition: background-color, color .3s ease-in-out;
+}
+
+.cartbut1:hover {
+  color: #1a1a1a;
+}
+
+.TitleT{
+  font-size: 32px;
+  margin-top: 150px;
+  white-space: nowrap;
+}
+
+.detail{
+  padding-right: 50px;
+}
+
+.arrow{
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  margin-top: 100px; 
+  margin-left: 100px;
+}
+
+.prices{
+    margin-left: 18px;
+    display: grid;
+}
+
+@media(max-width: 1050px){
+  .productinfo{
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 500px;
+    margin: 0 auto;
+    padding: 0 auto;
+    display: grid;
+    margin-top: 0px;
+}
+  .infoproduct{
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      padding: 20px;
+      list-style-type: none;
+      overflow: visible;
+      width: 350px;
+      margin-right: 30px;
+      margin-top: 0px;
+  }
+  .TitleT{
+    font-size: 29px;
+    margin-top: -500px;
+    text-align: center;
+  }
+  .detail{
+    width: 400px;
+    padding-right: 25px;
+  }
+  .arrow{
+      margin-bottom: 50px;
+  }
+  .prices{
+    margin-top: -30px;
+  }
+}

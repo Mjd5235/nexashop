@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NexaShop E-Commerce Website
 
-## Getting Started
+A modern e-commerce web application built with Next.js, designed as a portfolio project to showcase frontend architecture, UI/UX decisions, and scalable component structure.
 
-First, run the development server:
+## 🛠 Tech Stack
+- Next.js (App Router)
+- React
+- JavaScript
+- CSS Modules
+- Client-side state management
 
-```bash
+## 🧠 Architecture Decisions
+- Used Next.js App Router for better scalability and route-based layouts
+- Server components used where possible to improve performance
+- Client components isolated for cart and interactivity
+
+## ✨ Features
+- Responsive layout for all screen sizes
+- Product listing with reusable card components
+- Client-side cart logic
+- Clean separation between UI, data, and logic
+- Scalable folder structure suitable for real-world apps
+- Static product data (no backend – portfolio purpose)
+
+## 📁 Project Structure
+src/
+├─ app/
+│  ├─ api/          # API For products data
+│  ├─ cart/         # Shopping cart page and logic
+│  ├─ login/        # Login page
+│  ├─ signup/       # Signup page
+│  ├─ product/      # Product pages
+│  ├─ layout.jsx    # Main layout wrapper
+│  └─ page.jsx      # Homepage
+│
+├─ components/
+│  ├─ Header/       # Header component
+│  ├─ Footer/       # Footer component
+│  ├─ Hero/         # Hero section
+│  └─ Products/     # Products section
+│
+├─ elements/        # Small reusable components
+│  ├─ Logo/
+│  ├─ LoginLogo/
+│  └─ SignLogo/
+│
+├─ styles/          # CSS or module files
+
+Each component is responsible for a single concern to keep the codebase clean and maintainable.
+
+## 🎨 UI / UX Decisions
+- Minimal and distraction-free product cards
+- Clear call-to-action buttons
+- Optimized spacing and typography for readability
+- Desktop-first layout with full mobile responsiveness
+
+## 📚 What I Learned
+- Structuring scalable Next.js applications
+- Building reusable UI components
+- Managing client-side state without external libraries
+- Creating clean UI/UX for e-commerce platforms
+
+## 📸 Screenshots
+
+### Homepage
+![Homepage](./screenshots/Home.jpg)
+
+### Product Detail Page
+![ProductDatail](./screenshots/Product.jpg)
+
+### Cart Page
+![Cart](./screenshots/Cart.jpg)
+
+### Mobile View
+![Mobile](./screenshots/Mobile.jpg)
+
+## 🚀 Installation
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌍 Live Demo
+https://your-project.vercel.app
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👤 Author
+MAJD  
+Frontend Developer  
+GitHub: https://github.com/username

@@ -1,0 +1,153 @@
+.products {
+  margin: 32px; 
+  display: flex;
+  gap: 20px;
+  width: 1110px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  padding: 8px;
+  overflow-y: hidden;
+}
+
+.product{
+     background-color: #fff;
+     border: solid 1px white;
+     border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      list-style-type: none;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+      margin: 8px;
+      transition: box-shadow ,transform .3s ease-in-out;
+      transform: scale(1);
+      overflow: visible;
+      height: 100%;
+      flex: 0 0 auto;
+      width: 250px;
+}
+.product:hover{
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+   transform: scale(1.02);
+}
+
+.arrow path{
+  transition: fill .3s ease-in-out;
+  fill: white;
+}
+.arrow:hover path{
+  fill: #888888;
+}
+
+.prodes{
+  font-size: 11px;
+  padding: 15px 0px;
+  text-align: left;
+  height: 145px;
+}
+
+.protitle{
+  height: 44px;
+}
+
+.price{
+  text-align: left;
+  display:flex;
+}
+
+.proarea {
+  height: 100%;
+  background-color: white;
+}
+
+.cartbut{
+  float: right;
+  background-color: #1a75e8;
+  color: white;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  transition: background-color, color .3s ease-in-out;
+}
+
+.cartbut:hover{
+  background-color: #1a90e8;
+  color: #1a1a1a;
+}
+
+.arrow1{
+  top: 392.5px;
+  left: 350;
+}
+
+.arrow2{
+  top: 202.5px;
+  right: 350;
+}
+
+
+@media(max-width: 1660px){
+  .arrow1{
+  top: 392.5px;
+  left: 250;
+}
+
+.arrow2{
+  top: 202.5px;
+  right: 250;
+}
+}
+
+@media(max-width: 1450px){
+  .arrow1{
+  top: 392.5px;
+  left: 150;
+}
+
+.arrow2{
+  top: 202.5px;
+  right: 150;
+}
+}
+
+@media(max-width: 1260px){
+  .arrow1{
+  top: 392.5px;
+  left: 50;
+}
+
+.arrow2{
+  top: 202.5px;
+  right: 50;
+}
+}
+
+@media(max-width: 1200px){
+  .products{
+    width: 920px;
+    overflow-x: scroll;
+  }
+  .arrow2{
+    right: 100;
+  }
+}
+
+@media(max-width: 960px){
+  .products{
+    width: 640px;
+  }
+    .arrow1{
+       display: none;
+  }
+  .arrow2{
+    display: none;
+  }
+}
+
+@media(max-width: 850px){
+  .products{
+    width: 370px;
+  }
+}
