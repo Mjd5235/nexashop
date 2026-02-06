@@ -24,10 +24,11 @@
 .twobut{
     display: flex;
     gap: 20px;
+    padding-left: 200px;
     text-align: center;
     align-items: center;
-    left: 200;
     position: relative;
+    
 }
 
 .learn{
