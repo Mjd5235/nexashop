@@ -19,7 +19,7 @@ export default function Hero() {
           <Link href='/'><h1 className={styles.logoname}>
           NexaShop
         </h1></Link>
-          <h1> —Where Majdjfd</h1><h1> Meets Shopping</h1><h1 className={styles.logoname}>Excellence.</h1></div>
+          <h1> —Where Innovation</h1><h1> Meets Shopping</h1><h1 className={styles.logoname}>Excellence.</h1></div>
         <div className={styles.space}>
         <div className={styles.twobut}>
         <div>
