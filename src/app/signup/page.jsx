@@ -69,9 +69,9 @@ export default function Page() {
 
   return (
     <div>      
-      
+      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center"}}><SignLogo /><Link href="/"><Image className={styles.arrow2} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute"}} alt="BackIcon"/></Link></div>
 <div className={styles.container}>
-    <SignLogo /><Link href="/"><Image src={'/help_icons/backarrow.png'} width={50} height={50} style={{marginBottom: "680px", cursor: "pointer"}} alt="BackIcon"/></Link>
+    
       <div className={styles.card}>
         <h2 className={styles.title}>Create your account</h2>
 
@@ -115,7 +115,7 @@ export default function Page() {
               required
               style={{border: wrongPass ? "solid 1px red" : null, backgroundColor: "white"}}
             />
-            <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewPass} alt="HelpIcon"/>
+            <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "15px", marginTop: "-32px", marginLeft: "290px"}} onClick={ViewPass} alt="HelpIcon"/>
             {wrongPass ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{PasswordError}</p> : null}
           </div>
 
@@ -130,7 +130,7 @@ export default function Page() {
               required
               style={{border: wrongConPass ? "solid 1px red" : null, backgroundColor: "white"}}
             />
-            <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewConPass} alt="HelpIcon"/>
+            <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "290px"}} onClick={ViewConPass} alt="HelpIcon"/>
             {wrongConPass ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{ConPasswordError}</p> : null}
           </div>
 

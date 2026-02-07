@@ -13,6 +13,7 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  
 }
 
 .title {
@@ -84,4 +85,21 @@
 
 .link:hover {
   text-decoration: underline;
+}
+
+.arrow{
+  top: 218px;
+}
+
+.arrow2{
+  top: 140px;
+}
+
+@media (max-height: 850px){
+  .arrow{
+    top: 128px;
+  }
+  .arrow2{
+    top: 50px;
+  }
 }

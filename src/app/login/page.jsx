@@ -43,8 +43,9 @@ export default function Page() {
 
 
   return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center"}}><LoginLogo /><Link href="/"><Image className={styles.arrow} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute"}} alt="BackIcon"/></Link></div>
     <div className={styles.container}>
-        <LoginLogo /><Link href="/"><Image src={'/help_icons/backarrow.png'} width={50} height={50} style={{marginBottom: "520px", cursor: "pointer"}} alt="HelpIcon"/></Link><LoginLogo />
       <div className={styles.card}>
         <h2 className={styles.title}>Welcome back</h2>
         
@@ -74,7 +75,7 @@ export default function Page() {
               onChange={u => {setPassword(u.target.value); setWrongPass(false)}}
               required
               style={{border: wrongPass ? "solid 1px red" : null, backgroundColor: "white"}}
-            /><Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewPass} alt="HelpIcon"/>
+            /><Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "290px"}} onClick={ViewPass} alt="HelpIcon"/>
             {wrongPass === true ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{passwordError}</p> : null}
           </div>
 
@@ -90,6 +91,7 @@ export default function Page() {
           </Link>
         </p>
       </div>
+    </div>
     </div>
   );
 }

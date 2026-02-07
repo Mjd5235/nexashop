@@ -10,3 +10,10 @@
 .logo:hover{
     text-decoration: underline;
 }
+
+
+@media (max-height: 850px){
+  .logo{
+    margin-top: 10px;
+  }
+}
