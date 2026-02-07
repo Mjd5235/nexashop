@@ -131,7 +131,7 @@
 
     .apps {
         max-width: 120px;
-        max-height: 45px;
+        max-height: 40px;
     }
 }
 
@@ -146,5 +146,6 @@
 
     .apps {
         max-width: 100px;
+        max-height: 33.33px;
     }
 }
