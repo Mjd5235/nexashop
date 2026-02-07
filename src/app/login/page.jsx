@@ -58,7 +58,7 @@ export default function Page() {
               value={email}
               onChange={u => {setEmail(u.target.value); setWrongEmail(false)}}
               required
-              style={{border: wrongEmail ? "solid 1px red" : null}}
+              style={{border: wrongEmail ? "solid 1px red" : null, backgroundColor: "white"}}
             />
             {wrongEmail ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "3px"}}>{emailError}</p> : null}
           </div>
@@ -73,7 +73,7 @@ export default function Page() {
               value={password}
               onChange={u => {setPassword(u.target.value); setWrongPass(false)}}
               required
-              style={{border: wrongPass ? "solid 1px red" : null}}
+              style={{border: wrongPass ? "solid 1px red" : null, backgroundColor: "white"}}
             /><Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewPass} alt="HelpIcon"/>
             {wrongPass === true ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{passwordError}</p> : null}
           </div>

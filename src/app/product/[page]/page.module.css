@@ -67,7 +67,6 @@
 .TitleT{
   font-size: 32px;
   margin-top: 150px;
-  white-space: nowrap;
 }
 
 .detail{
@@ -85,6 +84,7 @@
 .prices{
     margin-left: 18px;
     display: grid;
+    
 }
 
 @media(max-width: 1050px){
@@ -110,7 +110,7 @@
       margin-top: 0px;
   }
   .TitleT{
-    font-size: 29px;
+    font-size: 30px;
     margin-top: -500px;
     text-align: center;
   }
@@ -124,4 +124,10 @@
   .prices{
     margin-top: -30px;
   }
+}
+
+@media(max-width: 460px){
+  .productinfo{
+    padding-right: 110px;
+}
 }

@@ -79,48 +79,48 @@
 
 .arrow1{
   top: 392.5px;
-  left: 350;
+  left: 350px;
 }
 
 .arrow2{
   top: 202.5px;
-  right: 350;
+  right: 350px;
 }
 
 
 @media(max-width: 1660px){
   .arrow1{
   top: 392.5px;
-  left: 250;
+  left: 250px;
 }
 
 .arrow2{
   top: 202.5px;
-  right: 250;
+  right: 250px;
 }
 }
 
 @media(max-width: 1450px){
   .arrow1{
   top: 392.5px;
-  left: 150;
+  left: 150px;
 }
 
 .arrow2{
   top: 202.5px;
-  right: 150;
+  right: 150px;
 }
 }
 
 @media(max-width: 1260px){
   .arrow1{
   top: 392.5px;
-  left: 50;
+  left: 50px;
 }
 
 .arrow2{
   top: 202.5px;
-  right: 50;
+  right: 50px;
 }
 }
 
@@ -130,7 +130,7 @@
     overflow-x: scroll;
   }
   .arrow2{
-    right: 100;
+    right: 100px;
   }
 }
 

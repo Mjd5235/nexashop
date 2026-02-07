@@ -7,13 +7,13 @@
 .heroimg{
     margin-right: 311px;
     margin-top: 100px;
-    right: 0;
+    right: 0px;
     position: absolute;
     border-radius: 20px;
 }
 
 .herotext{
-    width: 700;
+    width: 700px;
     font-size: 25px;
     color: #1a1a1a;
     padding-left: 155px;
@@ -24,11 +24,10 @@
 .twobut{
     display: flex;
     gap: 20px;
-    padding-left: 200px;
+    left: 200px;
     text-align: center;
     align-items: center;
     position: relative;
-    
 }
 
 .learn{
@@ -69,14 +68,14 @@
     .heroimg{
         margin-top: 150px;
         margin-right: 355px;
-        right: 0;
+        right: 0px;
         position: absolute;
         border-radius: 20px;
         width: 500px;
         height: 333px;
     }
     .herotext{
-        width: 700;
+        width: 700px;
         font-size: 20px;
         color: #1a1a1a;
         padding-left: 155px;
@@ -88,7 +87,7 @@
 @media(max-width:1500px) {
 
     .heroimg{
-        right: 0;
+        right: 0px;
         position: absolute;
         margin-right: 155px;
         border-radius: 20px;
@@ -125,18 +124,18 @@
         height: 300px;
     }
     .herotext{
-        width: 700;
+        width: 700px;
         font-size: 15px;
         color: #1a1a1a;
-        padding-left: 55px;
+        padding-left: 0px;
         padding-bottom: 53px;
         padding-top: 25px;
     }
     .twobut{
-        margin: 0 auto;
+        margin: 0px auto;
         justify-content: center;
         align-items: center;
         position: relative;
-        left: 0;
+        left: 0px;
     }
 }

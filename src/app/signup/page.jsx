@@ -85,7 +85,7 @@ export default function Page() {
               value={name}
               onChange={u => {setName(u.target.value); setWrongName(false)}}
               required
-              style={{border: wrongName ? "solid 1px red" : null}}
+              style={{border: wrongName ? "solid 1px red" : null, backgroundColor: "white"}}
             />
             {wrongName ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "3px"}}>{NameError}</p> : null}
           </div>
@@ -99,7 +99,7 @@ export default function Page() {
               value={email}
               onChange={u=>{ setEmail(u.target.value); setWrongEmail(false)}}
               required
-              style={{border: wrongEmail ? "solid 1px red" : null}}
+              style={{border: wrongEmail ? "solid 1px red" : null, backgroundColor: "white"}}
             />
             {wrongEmail ?<p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "3px"}}>{emailError}</p> : null}
           </div>
@@ -113,7 +113,7 @@ export default function Page() {
               value={password}
               onChange={u => {setPassword(u.target.value); setWrongPass(false)}}
               required
-              style={{border: wrongPass ? "solid 1px red" : null}}
+              style={{border: wrongPass ? "solid 1px red" : null, backgroundColor: "white"}}
             />
             <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewPass} alt="HelpIcon"/>
             {wrongPass ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{PasswordError}</p> : null}
@@ -128,7 +128,7 @@ export default function Page() {
               value={confirmPassword}
               onChange={u => {setConfirmPassword(u.target.value); setWrongConPass(false)}}
               required
-              style={{border: wrongConPass ? "solid 1px red" : null}}
+              style={{border: wrongConPass ? "solid 1px red" : null, backgroundColor: "white"}}
             />
             <Image src={'/help_icons/visible.png'} width={20} height={20} style={{cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "305px"}} onClick={ViewConPass} alt="HelpIcon"/>
             {wrongConPass ? <p style={{color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px"}}>{ConPasswordError}</p> : null}
