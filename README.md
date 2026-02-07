@@ -79,9 +79,9 @@ npm install
 npm run dev
 
 ## 🌍 Live Demo
-https://your-project.vercel.app
+https://nexashop-gamma.vercel.app/
 
 ## 👤 Author
 MAJD  
 Frontend Developer  
-GitHub: https://github.com/username
+GitHub: https://github.com/Mjd5235
