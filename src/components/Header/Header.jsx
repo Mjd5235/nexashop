@@ -39,7 +39,7 @@ export default function Header() {
       <Logo />
       <div className={styles.space}>
         <div className={styles.authbut}>
-          {Name !== null ? <div style={{display: "flex"}}><button className={styles.signup} style={{border: "none", cursor: "pointer", marginRight: "10px",}} onClick={RemoveUser}>Log Out</button><p style={{marginTop: "9px"}}>Welcome</p><h3 style={{color: "#1a75e8", paddingLeft: "7px",marginTop: "7px"}}>{Name}</h3></div> : <div><Link style={{marginRight: "15px"}} className={styles.signup} href='/signup'>Sign Up</Link><Link className={styles.login} href='/login'>Login</Link></div>}
+          {Name !== null ? <div style={{display: "flex"}}><button className={styles.signup} style={{border: "none", cursor: "pointer", marginRight: "10px",}} onClick={RemoveUser}>Log Out</button><p className={styles.wel} style={{marginTop: "9px"}}>Welcome</p><h3 className={styles.logname} style={{color: "#1a75e8", paddingLeft: "7px",marginTop: "7px",}}>{Name}</h3></div> : <div><Link style={{marginRight: "15px"}} className={styles.signup} href='/signup'>Sign Up</Link><Link className={styles.login} href='/login'>Login</Link></div>}
         
         <div className={`${styles.cart} cartIcon`}>
           <Link href='/cart'>

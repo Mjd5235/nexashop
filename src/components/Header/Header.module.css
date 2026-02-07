@@ -88,12 +88,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+        margin-left: -15px;
 }
 
-@media (max-width: 400px){
+.logname {
+    font-size: 19px;
+}
+
+@media (max-width: 560px){
     .authbut{
         margin-right: -50px;
     }
+    .wel{
+    display: none;
+}
+    .logname {
+    font-size: 17px;
+    margin-left: -10px;
+}
     .cartCount{
         right: -31px;
     }
