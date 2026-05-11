@@ -1,0 +1,30 @@
+.feeds {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.feed {
+    margin-top: 30px;
+}
+
+.time {
+    margin-top: 5px;
+    margin-left: 50px;
+}
+
+.imgmes {
+    display: flex;
+}
+
+.ID {
+    cursor: pointer;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.ID:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}

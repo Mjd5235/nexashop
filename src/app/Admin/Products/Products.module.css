@@ -1,0 +1,65 @@
+.thead tr {
+    background-color: #b2b2b2;
+    color: #1a1a1a;
+    height: 40px;
+}
+
+.table {
+    border-collapse: collapse;
+}
+
+.desc {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 100px;
+}
+
+.pro {
+    border-bottom: solid 1px #1a1a1a
+}
+
+.newpro {
+    background-color: #22c55e;
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+}
+
+.newpro:hover {
+    background-color: #16a34a;
+    border-radius: 12px;
+}
+
+.saveChan {
+    background-color: #22c55e;
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+}
+
+.saveChan:hover {
+    background-color: #16a34a;
+}
+
+.cancel {
+    background-color: rgb(243, 244, 246);
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+    color: #2a2a2a;
+}
+
+.cancel:hover {
+    background-color: #bbb;
+}
+
+
+.reset {
+    background-color: #1a99e8;
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+    color: white;
+}
+
+.reset:hover {
+    background-color: #1a75e8;
+}

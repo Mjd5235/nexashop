@@ -1,57 +1,59 @@
 .products {
-  margin: 32px; 
+  margin: 32px;
   display: flex;
   gap: 20px;
-  width: 1110px;
+  width: 1120px;
   margin: 0 auto;
   overflow-x: hidden;
-  padding: 8px;
+  padding: 14px;
   overflow-y: hidden;
 }
 
-.product{
-     background-color: #fff;
-     border: solid 1px white;
-     border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      list-style-type: none;
-      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-      margin: 8px;
-      transition: box-shadow ,transform .3s ease-in-out;
-      transform: scale(1);
-      overflow: visible;
-      height: 100%;
-      flex: 0 0 auto;
-      width: 250px;
-}
-.product:hover{
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
-   transform: scale(1.02);
+.product {
+  background-color: #fff;
+  border: solid 1px white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  list-style-type: none;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  margin: 8px;
+  transition: box-shadow, transform .3s ease-in-out;
+  transform: scale(1);
+  overflow: visible;
+  height: 100%;
+  flex: 0 0 auto;
+  width: 250px;
 }
 
-.arrow path{
+.product:hover {
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
+}
+
+.arrow path {
   transition: fill .3s ease-in-out;
   fill: white;
 }
-.arrow:hover path{
+
+.arrow:hover path {
   fill: #888888;
 }
 
-.prodes{
+.prodes {
   font-size: 11px;
   padding: 15px 0px;
   text-align: left;
   height: 145px;
 }
 
-.protitle{
+.protitle {
   height: 44px;
 }
 
-.price{
+.price {
   text-align: left;
-  display:flex;
+  display: flex;
 }
 
 .proarea {
@@ -59,7 +61,7 @@
   background-color: white;
 }
 
-.cartbut{
+.cartbut {
   float: right;
   background-color: #1a75e8;
   color: white;
@@ -72,82 +74,85 @@
   transition: background-color, color .3s ease-in-out;
 }
 
-.cartbut:hover{
+.cartbut:hover {
   background-color: #1a90e8;
   color: #1a1a1a;
 }
 
-.arrow1{
+.arrow1 {
   top: 392.5px;
   left: 350px;
 }
 
-.arrow2{
+.arrow2 {
   top: 202.5px;
   right: 350px;
 }
 
 
-@media(max-width: 1660px){
-  .arrow1{
-  top: 392.5px;
-  left: 250px;
+@media(max-width: 1660px) {
+  .arrow1 {
+    top: 392.5px;
+    left: 250px;
+  }
+
+  .arrow2 {
+    top: 202.5px;
+    right: 250px;
+  }
 }
 
-.arrow2{
-  top: 202.5px;
-  right: 250px;
-}
+@media(max-width: 1450px) {
+  .arrow1 {
+    top: 392.5px;
+    left: 150px;
+  }
+
+  .arrow2 {
+    top: 202.5px;
+    right: 150px;
+  }
 }
 
-@media(max-width: 1450px){
-  .arrow1{
-  top: 392.5px;
-  left: 150px;
+@media(max-width: 1260px) {
+  .arrow1 {
+    top: 392.5px;
+    left: 50px;
+  }
+
+  .arrow2 {
+    top: 202.5px;
+    right: 50px;
+  }
 }
 
-.arrow2{
-  top: 202.5px;
-  right: 150px;
-}
-}
-
-@media(max-width: 1260px){
-  .arrow1{
-  top: 392.5px;
-  left: 50px;
-}
-
-.arrow2{
-  top: 202.5px;
-  right: 50px;
-}
-}
-
-@media(max-width: 1200px){
-  .products{
+@media(max-width: 1200px) {
+  .products {
     width: 920px;
     overflow-x: scroll;
   }
-  .arrow2{
+
+  .arrow2 {
     right: 100px;
   }
 }
 
-@media(max-width: 960px){
-  .products{
+@media(max-width: 960px) {
+  .products {
     width: 640px;
   }
-    .arrow1{
-       display: none;
+
+  .arrow1 {
+    display: none;
   }
-  .arrow2{
+
+  .arrow2 {
     display: none;
   }
 }
 
-@media(max-width: 850px){
-  .products{
+@media(max-width: 850px) {
+  .products {
     width: 370px;
   }
 }

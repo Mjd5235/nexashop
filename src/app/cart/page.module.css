@@ -1,28 +1,290 @@
-.cart{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    margin-top: 50px;
+.SkeletonCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resCenterSk {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.Skeleton {
+  --skeleton-bg: #f0f0f0;
+  --skeleton-shimer: linear-gradient(90deg,
+      #f0f0f0 25%,
+      #e5e5e5 50%,
+      #f0f0f0 75%);
+  width: 900px;
+  height: 275px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  border-bottom: solid 1px var(--skeleton-bg);
+  padding-bottom: 31px;
+}
+
+.SecSkeleton {
+  --skeleton-bg: #f0f0f0;
+  --skeleton-shimer: linear-gradient(90deg,
+      #f0f0f0 25%,
+      #e5e5e5 50%,
+      #f0f0f0 75%);
+  width: 900px;
+  height: 275px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.imageSkeleton,
+.SecimageSkeleton,
+.titleSkeleton,
+.timeSkeleton,
+.chooseColorSk,
+.colorSkeleton,
+.colorCircleSk,
+.warrantySkeleton,
+.warrantyTextSk,
+.quanSkeleton,
+.dequanSkeleton,
+.coquanSkeleton,
+.inquanSkeleton,
+.decreaseSkeleton,
+.counterSkeleton,
+.increaseSkeleton,
+.propriSkeleton,
+.shipSkeleton,
+.totalSkeleton,
+.deleteSkeleton,
+.deleteIconSk {
+  background-color: var(--skeleton-bg);
+  background-image: var(--skeleton-shimer);
+  background-size: 200% 100%;
+  animation: shimer 1.5s infinite linear;
+}
+
+.imageSkeleton {
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+}
+
+.SecimageSkeleton {
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+}
+
+@keyframes shimer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.detailsSkeleton {
+  height: 100%;
+  width: 440px;
+  margin-top: 30px;
+}
+
+.titleSkeleton {
+  width: 150px;
+  height: 30px;
+  border-radius: 4px;
+}
+
+.timeSkeleton {
+  margin-top: 10px;
+  width: 125px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.colorsSkeletons {
+  display: flex;
+}
+
+.chooseColorSk {
+  margin-top: 15px;
+  width: 75px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.colorSkeleton {
+  margin-right: 8px;
+  margin-top: 5px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.colorCircleSk {
+  width: 26px;
+  height: 26px;
+  border-radius: 100%;
+}
+
+.warrantySkeleton {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  width: 500px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.warrantyTextSk {
+  margin-left: 12px;
+  width: 245px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.quantitySkeleton {
+  display: flex;
+  width: 120px;
+}
+
+.quanSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 120px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.dequanSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 32px;
+  border-radius: 8px 0 0 8px;
+}
+
+.coquanSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 32px;
+}
+
+.inquanSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 32px;
+  border-radius: 0 8px 8px 0;
+}
+
+.decreaseSkeleton {
+  width: 15px;
+  height: 5px;
+  border-radius: 4px;
+}
+
+.counterSkeleton {
+  width: 10px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.increaseSkeleton {
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.pricesSkeleton {
+  width: 150px;
+  height: 220px;
+  margin-top: 25px;
+}
+
+.propriSkeleton {
+  width: 178px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.shipSkeleton {
+  margin-top: 10px;
+  width: 125px;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.totalSkeleton {
+  margin-top: 18px;
+  width: 178px;
+  height: 30px;
+  border-radius: 4px;
+}
+
+.deleteSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 98px;
+  width: 58px;
+  height: 35px;
+  border-radius: 10px;
+  margin-left: 92px;
+}
+
+.deleteIconSk {
+  width: 16px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+
+
+
+
+.cart {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 50px;
 }
 
 .product {
   display: grid;
-  grid-template-columns: 100px 1fr auto; 
+  grid-template-columns: 100px 1fr auto;
   align-items: center;
 }
 
 
 .product {
-    display: flex;
+  display: flex;
 }
 
-.proimg{
-    right: 0;
-    position: relative;
-    display: flex;
-    margin: 0 auto;
+.proimg {
+  right: 0;
+  position: relative;
+  display: flex;
+  margin: 0 auto;
 }
+
 .left img {
   border-radius: 10px;
   object-fit: cover;
@@ -79,11 +341,149 @@
   border: none;
   cursor: pointer;
   transition: 0.25s ease;
-  box-shadow: 0px 6px 14px rgba(0,0,0,0.18);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .cartbut:hover {
   background: linear-gradient(135deg, #178800, #0c5f00);
   transform: scale(1.04);
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.22);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.del {
+  margin-top: 100px;
+}
+
+
+
+@media(max-width: 920px) {
+
+  .Skeleton {
+    width: 100%;
+    height: 750px;
+    display: grid;
+    padding-bottom: 0;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+
+
+  .SecSkeleton {
+    display: none;
+  }
+
+  .imageSkeleton {
+    width: 175px;
+    height: 175px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .detailsSkeleton {
+    margin-left: 36px;
+    height: 100%;
+    width: 440px;
+    display: grid;
+    justify-content: center;
+  }
+
+  .titleSkeleton {
+    margin-top: 0px;
+    width: 195px;
+    height: 30px;
+    border-radius: 4px;
+  }
+
+  .timeSkeleton {
+    width: 155px;
+    height: 20px;
+    margin-left: 20px;
+    margin-top: 3px;
+  }
+
+  .chooseColorSk {
+    margin-top: 15px;
+    width: 87px;
+    margin-left: 53px;
+  }
+
+  .colorsSkeletons {
+    display: flex;
+    margin-left: 42px;
+  }
+
+  .warrantySkeleton {
+    margin-top: 15px;
+    margin-left: -38px;
+    width: 273px;
+    height: 38px;
+  }
+
+  .warrantyTextSk {
+    margin-left: 12px;
+    width: 245px;
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  .quantitySkeleton {
+    display: flex;
+    width: 120px;
+    margin-left: 50px;
+  }
+
+  .quanSkeleton {
+    margin-left: 37px;
+    margin-top: 16px;
+  }
+
+  .pricesSkeleton {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .propriSkeleton {
+    width: 188px;
+    height: 20px;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-left: -6px;
+  }
+
+  .shipSkeleton {
+    margin-top: 10px;
+    width: 125px;
+    margin-left: 12px;
+    height: 15px;
+    border-radius: 4px;
+  }
+
+  .totalSkeleton {
+    width: 210px;
+    margin-top: 25px;
+    margin-left: -17px;
+  }
+
+  .deleteSkeleton {
+    margin-top: 28px;
+    margin-left: 60px;
+  }
+
+  .deleteIconSk {
+    width: 16px;
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  .del {
+    margin-top: 32px;
+    margin-bottom: 19px;
+  }
 }
