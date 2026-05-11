@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
@@ -8,7 +8,7 @@ import styles from '../signup/SignUp.module.css'
 import LoginLogo from "../../elements/LoginLogo/LoginLogo"
 import { supabase } from "@/lib/SubaBaseClient";
 
-export default function Page() {
+function LoginContents() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -127,4 +127,12 @@ export default function Page() {
       </div>
     </div>
   );
+}
+
+export default function page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <LoginContents />
+    </Suspense>
+  )
 }

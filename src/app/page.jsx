@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Header from "@/components/Header/Header";
@@ -8,7 +8,7 @@ import Products from "@/components/Products/Products";
 import Footer from "@/components/Footer/Footer";
 import "@/styles/page.module.css";
 
-export default function Home() {
+function Home() {
 
   const searchParms = useSearchParams()
 
@@ -34,4 +34,9 @@ export default function Home() {
       <Footer />
     </div>
   );
+}
+export default function page() {
+  <Suspense fallback={<div></div>}>
+    <Home />
+  </Suspense>
 }
