@@ -1,9 +1,11 @@
-import React from "react"
-import Dashboard from "./Dashboard"
+"use client"
+import dynamic from 'next/dynamic';
 
-export default function page() {
+const DashboardClient = dynamic(() => import('./Dashboard'), {
+  ssr: false,
+  loading: () => <div></div>
+});
 
-  return (
-    <Dashboard />
-  )
+export default function Page() {
+  return <DashboardClient />;
 }

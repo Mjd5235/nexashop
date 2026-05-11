@@ -8,7 +8,7 @@ import Products from "@/components/Products/Products";
 import Footer from "@/components/Footer/Footer";
 import "@/styles/page.module.css";
 
-function Home() {
+function HomePage() {
 
   const searchParms = useSearchParams()
 
@@ -35,8 +35,10 @@ function Home() {
     </div>
   );
 }
-export default function page() {
-  <Suspense fallback={<div></div>}>
-    <Home />
-  </Suspense>
+export default function Home() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <HomePage />
+    </Suspense>
+  )
 }
