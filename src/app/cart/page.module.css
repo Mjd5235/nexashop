@@ -18,7 +18,7 @@
       #e5e5e5 50%,
       #f0f0f0 75%);
   width: 900px;
-  height: 275px;
+  height: 301px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,18 +34,21 @@
       #e5e5e5 50%,
       #f0f0f0 75%);
   width: 900px;
-  height: 275px;
+  height: 301px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-content: center;
+  padding-bottom: 31px;
 }
 
 .imageSkeleton,
 .SecimageSkeleton,
 .titleSkeleton,
 .timeSkeleton,
+.stockSkeleton,
 .chooseColorSk,
+.chooseColorSecSk,
 .colorSkeleton,
 .colorCircleSk,
 .warrantySkeleton,
@@ -109,14 +112,28 @@
   border-radius: 4px;
 }
 
+.stockSkeleton {
+  width: 88px;
+  height: 20px;
+  margin-top: 16px;
+  border-radius: 4px;
+}
+
 .colorsSkeletons {
   display: flex;
 }
 
 .chooseColorSk {
   margin-top: 15px;
-  width: 75px;
-  height: 20px;
+  width: 87px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.chooseColorSecSk {
+  margin-top: 11px;
+  width: 87px;
+  height: 16px;
   border-radius: 4px;
 }
 
@@ -360,7 +377,7 @@
 
   .Skeleton {
     width: 100%;
-    height: 750px;
+    height: 740px;
     display: grid;
     padding-bottom: 0;
     justify-content: center;
@@ -392,10 +409,14 @@
     justify-content: center;
   }
 
+  .TiPrSkeleton {
+    margin-top: 21px;
+  }
+
   .titleSkeleton {
     margin-top: 0px;
     width: 195px;
-    height: 30px;
+    height: 22px;
     border-radius: 4px;
   }
 
@@ -403,22 +424,34 @@
     width: 155px;
     height: 20px;
     margin-left: 20px;
-    margin-top: 3px;
+    margin-top: 10px;
+  }
+
+  .stockSkeleton {
+    margin-top: 7px;
+    margin-left: 55px;
   }
 
   .chooseColorSk {
-    margin-top: 15px;
+    margin-top: 12px;
+    width: 87px;
+    margin-left: 53px;
+  }
+
+  .chooseColorSecSk {
+    margin-top: 20px;
     width: 87px;
     margin-left: 53px;
   }
 
   .colorsSkeletons {
     display: flex;
+    margin-top: -5px;
     margin-left: 42px;
   }
 
   .warrantySkeleton {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-left: -38px;
     width: 273px;
     height: 38px;
@@ -439,7 +472,7 @@
 
   .quanSkeleton {
     margin-left: 37px;
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
   .pricesSkeleton {
@@ -453,27 +486,27 @@
     width: 188px;
     height: 20px;
     border-radius: 4px;
-    margin-top: 20px;
-    margin-left: -6px;
+    margin-top: 32px;
+    margin-left: -16px;
   }
 
   .shipSkeleton {
     margin-top: 10px;
     width: 125px;
-    margin-left: 12px;
+    margin-left: -3px;
     height: 15px;
     border-radius: 4px;
   }
 
   .totalSkeleton {
     width: 210px;
-    margin-top: 25px;
-    margin-left: -17px;
+    margin-top: 20px;
+    margin-left: -32px;
   }
 
   .deleteSkeleton {
-    margin-top: 28px;
-    margin-left: 60px;
+    margin-top: 29px;
+    margin-left: 46px;
   }
 
   .deleteIconSk {
@@ -486,4 +519,42 @@
     margin-top: 32px;
     margin-bottom: 19px;
   }
+
+  .StockText {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    height: 18px;
+    padding-bottom: 6px;
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    cursor: default;
+  }
+}
+
+.animateSpin {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.StockText {
+  font-size: 16px;
+  font-weight: 600;
+  width: 245px;
+  height: 18px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  cursor: default;
 }

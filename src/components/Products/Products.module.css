@@ -9,6 +9,18 @@
   overflow-y: hidden;
 }
 
+.skeletons {
+  margin: 32px;
+  display: flex;
+  gap: 20px;
+  width: 1120px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  padding: 14px;
+  padding-left: 22px;
+  overflow-y: hidden;
+}
+
 .product {
   background-color: #fff;
   border: solid 1px white;
@@ -74,6 +86,17 @@
   transition: background-color, color .3s ease-in-out;
 }
 
+.outStock {
+  float: right;
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+}
+
 .cartbut:hover {
   background-color: #1a90e8;
   color: #1a1a1a;
@@ -132,6 +155,11 @@
     overflow-x: scroll;
   }
 
+  .skeletons {
+    width: 920px;
+    overflow-x: scroll;
+  }
+
   .arrow2 {
     right: 100px;
   }
@@ -139,6 +167,10 @@
 
 @media(max-width: 960px) {
   .products {
+    width: 640px;
+  }
+
+  .skeletons {
     width: 640px;
   }
 
@@ -155,4 +187,54 @@
   .products {
     width: 370px;
   }
+
+  .skeletons {
+    width: 370px;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+  border-radius: 4px;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.skeletonCard {
+  width: 250px;
+  height: 651px;
+  padding: 30px;
+  background: #fff;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  margin-right: 14px;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding-left: 20px;
+}
+
+.skeletonTitle {
+  width: 100%;
+  text-align: center;
+  margin: 50px 0;
+}
+
+.StockText {
+  font-size: 12px;
+  font-weight: 600;
+  height: 18px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 14px;
+  cursor: default;
 }

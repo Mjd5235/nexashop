@@ -12,9 +12,14 @@ export default function Page() {
 
   const [data6, setData6] = useState([]);
   const [logged, setLogged] = useState(false)
+  const [localCart, setLocalCart] = useState(false)
   const [selectedColor, setSelectedColor] = useState({});
   const [quan, setQuan] = useState(1)
   const [Loading, setLoading] = useState(true)
+  const [increasingId, setIncId] = useState(null)
+  const [decreasingId, setDecId] = useState(null)
+  const [isRemoving, setIsRemoving] = useState(null)
+
   const timerRef = useRef()
 
   useEffect((index) => {
@@ -23,23 +28,39 @@ export default function Page() {
       if (!data.user) {
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
         setData6(cartItems)
-
       } else {
-        const { data: cart, error: bug } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time)").eq("user_id", data.user.id).order("created_at", { ascending: false })
-
-        if (bug) { alert(bug.message) } else {
-          setData6(cart)
-          setLoading(false)
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        if (cartItems.length === 0) {
+          const { data: cart, error: bug } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
+          if (bug) { console.log(bug.message) } else {
+            if (cart && cart.length > 0) {
+              setData6(cart)
+            } else {
+              const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+              setData6(cartItems)
+              window.dispatchEvent(new Event("cartUpdated"));
+              setLocalCart(true)
+              setLoading(false)
+            }
+          }
         }
+        const { data: cart, } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
+        setData6(cart)
+        setLocalCart(false)
+        setLoading(false)
       }
+      setLoading(false)
+      setIsRemoving(null)
     }
     getData()
+
   }, [quan]);
 
 
   const removeFromCart = async (index, img) => {
+    setIsRemoving(img.id)
     const { data } = await supabase.auth.getUser()
-    if (!data.user) {
+    if (!data.user || localCart === true) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
       cart.splice(index, 1);
@@ -51,12 +72,13 @@ export default function Page() {
       const { } = await supabase.from("cart").delete().eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
       setQuan(prev => prev + 5)
     }
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
 
   const removeCart = async () => {
     const { data } = await supabase.auth.getUser()
-    if (!data.user) {
+    if (!data.user || localCart === true) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       cart.splice("cart");
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -68,21 +90,34 @@ export default function Page() {
       setData6(null)
       setQuan(prev => prev + 5)
     }
+    window.dispatchEvent(new Event("cartUpdated"));
+    setLoading(false)
   }
 
   const increaseQty = async (index, img) => {
+    setIncId(img.id)
     const { data } = await supabase.auth.getUser()
-    if (!data.user) {
+    if (!data.user || localCart === true) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      if (cart[index].quantity < 3) {
+      if (cart[index].quantity < 3 && cart[index].quantity + 1 <= img.stock) {
         cart[index].quantity += 1;
         localStorage.setItem("cart", JSON.stringify(cart));
         setData6([...cart]);
+      } else {
+        if (img.stock !== 3) {
+          toast.error(`Oops! Only ${img.stock} ${img.stock === 1 ? "item" : "items"} left in stock.`, { id: "stock-limit-toast" })
+        } else {
+          toast.error('You have added maximum count of this product: 3', {
+            id: "quantity-limit"
+          });
+        }
+        setIncId(null)
+        return;
       }
     }
     else {
       const newData = [...data6]
-      if (newData[index].quantity < 3) {
+      if (newData[index].quantity < 3 && newData[index].quantity + 1 <= img.products.stock) {
         const Quantity = newData[index].quantity += 1
         setData6([...newData])
 
@@ -93,15 +128,25 @@ export default function Page() {
         timerRef.current = setTimeout(async () => { const { } = await supabase.from("cart").update({ quantity: Quantity }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key); timerRef.current = null }, 50)
       }
       else {
-        toast.error('You have added maximum count of this product: 3...', { id: "cart-quantity" });
+        if (img.products.stock !== 3) {
+          toast.error(`Oops! Only ${img.products.stock} ${img.products.stock === 1 ? "item" : "items"} left in stock.`, { id: "stock-limit-toast" })
+        } else {
+          toast.error('You have added maximum count of this product: 3', {
+            id: "quantity-limit"
+          });
+        }
+        setIncId(null)
         return;
       }
     }
+    window.dispatchEvent(new Event("cartUpdated"));
+    setIncId(null)
   };
 
   const decreaseQty = async (index, img) => {
+    setDecId(img.id)
     const { data } = await supabase.auth.getUser()
-    if (!data.user) {
+    if (!data.user || localCart === true) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       if (cart[index].quantity > 0) {
         cart[index].quantity -= 1;
@@ -131,7 +176,8 @@ export default function Page() {
         setQuan(prev => prev + 5)
       }
     }
-
+    window.dispatchEvent(new Event("cartUpdated"));
+    setDecId(null)
   };
 
   const CheckedOut = async () => {
@@ -139,15 +185,59 @@ export default function Page() {
     const { data } = await supabase.auth.getUser()
     if (data.user) {
       setLogged(true)
-
       const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
       setData6(null)
+      setLoading(false)
+    }
+    window.dispatchEvent(new Event("cartUpdated"));
+  }
+
+  const StockValidation = async (img) => {
+    const { data } = await supabase.auth.getUser()
+    if (!data.user) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.id === img.id);
+
+      if (existing.quantity > img.stock) {
+        existing.quantity = img.stock;
+        toast.error("kjldsfsdf", { id: "kljsdf" })
+      }
+
+    }
+    if (data.user) {
+      if (img.quantity > img.products.stock) {
+        if (img.products.stock !== 0) {
+          const { } = await supabase.from("cart").update({ quantity: img.products.stock }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+        } else {
+          const { } = await supabase.from("cart").delete().eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+        }
+        const { data: cart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
+        setData6(cart)
+        toast("We’ve updated your cart items to match the current stock.",
+          {
+            icon: "🛍️",
+            style: {
+              backgroundColor: "#fff",
+              color: "#1a1a1a",
+              borderLeft: "solid 4px #1a75e8",
+              maxWidth: "400px",
+              boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)",
+              borderRadius: "6px",
+              padding: "14px 20px",
+              fontWeight: "600",
+              fontSize: "14px"
+            }
+          }
+          , { id: "update-cart-quantity", duration: 5000 }
+        )
+        window.dispatchEvent(new Event("cartUpdated"));
+      }
     }
   }
 
   const totalPrice = data6 && data6.reduce((acc, item) => {
     const shipping = 12;
-    const price = Number(item.products.price);
+    const price = Number(logged === false || localCart === true ? item.price : item.products.price);
     const quantity = Number(item.quantity);
 
     return acc + price * quantity + shipping
@@ -262,7 +352,8 @@ overflow-y: hidden;
           {data6.map((img, index) => (
 
             <li
-              key={img.products.primary_key}
+              onLoad={() => StockValidation(img)}
+              key={logged === false || localCart === true ? img.primary_key : img.products.primary_key}
               style={{
                 display: "grid",
                 gridTemplateColumns: "150px 1fr 150px",
@@ -274,11 +365,11 @@ overflow-y: hidden;
               }} className="cart-item"
             >
               <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}>
-                <Link href={`/product/${img.products.id}`}>
+                <Link href={`/product/${logged === false || localCart === true ? img.primary_key : img.products.primary_key}`}>
                   <div style={{ position: "relative", width: "270px", height: "170px" }}>
                     <Image
-                      src={img.products.image}
-                      alt={img.products.title}
+                      src={logged === false || localCart === true ? img.image : img.products.image}
+                      alt={logged === false || localCart === true ? img.title : img.products.title}
                       fill
                       className="cart-image"
                       style={{
@@ -300,8 +391,8 @@ overflow-y: hidden;
                   }}
                 >
 
-                  <Link href={`/product/${img.products.id}`}>
-                    {img.products.title}{" "}
+                  <Link href={`/product/${logged === false || localCart === true ? img.primary_key : img.products.primary_key}`}>
+                    {logged === false || localCart === true ? img.title : img.products.title}{" "}
                   </Link>
 
                   {selectedColor[index] && (
@@ -312,8 +403,10 @@ overflow-y: hidden;
                 </h2>
 
                 <p style={{ margin: "8px 0", color: "#555" }}>
-                  <span style={{ textAlign: "left", left: 0, fontSize: "13px", float: "left", display: "flex", fontSize: "16px" }}>{img.products.time === 1 ? "Delivery by" : "Arrives in"}<span style={{ fontWeight: "bold", paddingLeft: "4px" }}>{img.products.time === 1 && "tomorrow" || img.products.time % 7 !== 0 && ` ${img.products.time} days` || img.products.time % 7 === 0 && ` ${img.products.time / 7} ${img.products.time / 7 === 1 ? `week` : `weeks`}`}</span></span>
+                  <span style={{ textAlign: "left", left: 0, fontSize: "13px", float: "left", display: "flex", fontSize: "16px" }}>{logged === false || localCart === true ? img.time === 1 ? "Delivery by" : "Arrives in" : img.products.time === 1 ? "Delivery by" : "Arrives in"}<span style={{ fontWeight: "bold", paddingLeft: "4px" }}>{logged === false || localCart === true ? img.time === 1 && "tomorrow" || img.time % 7 !== 0 && ` ${img.time} days` || img.time % 7 === 0 && ` ${img.time / 7} ${img.time / 7 === 1 ? `week` : `weeks`}` : img.products.time === 1 && "tomorrow" || img.products.time % 7 !== 0 && ` ${img.products.time} days` || img.products.time % 7 === 0 && ` ${img.products.time / 7} ${img.products.time / 7 === 1 ? `week` : `weeks`}`}</span></span>
                 </p>
+
+                <span className={styles.StockText} style={{ color: logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? "#d97706" : img.stock !== 0 ? "#16a34a" : "#94a3b8" : img.products.stock <= 5 && img.products.stock !== 0 ? "#d97706" : img.products.stock !== 0 ? "#16a34a" : "#94a3b8" }}>{logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? `only ${img.stock} ${img.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.stock !== 0 ? "In Stock ✓" : "Sold Out ✕" : img.products.stock <= 5 && img.products.stock !== 0 ? `only ${img.products.stock} ${img.products.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.products.stock !== 0 ? "In Stock ✓" : "Sold Out ✕"}</span>
 
                 <div style={{ marginTop: "15px" }}>
                   <p
@@ -393,6 +486,7 @@ overflow-y: hidden;
                   }}
                 >
                   <button
+                    disabled={increasingId === img.id || decreasingId === img.id}
                     onClick={() => decreaseQty(index, img)}
                     style={{
                       width: "35px",
@@ -402,31 +496,38 @@ overflow-y: hidden;
                       borderRight: "1px solid #ccc",
                       cursor: "pointer",
                       fontSize: "18px",
+                      pointerEvents: (increasingId === img.id || decreasingId === img.id) ? "none" : "auto",
                     }}
                   >
                     -
                   </button>
-
-                  <div
-                    style={{
-                      width: "50px",
-                      textAlign: "center",
-                      lineHeight: "32px",
-                    }}
-                  >
-                    {img.quantity}
-                  </div>
+                  {increasingId === img.id || decreasingId === img.id
+                    ?
+                    <svg className={styles.animateSpin} style={{ width: "43.33px", marginRight: "3px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg>
+                    :
+                    <div
+                      style={{
+                        width: "50px",
+                        textAlign: "center",
+                        lineHeight: "32px",
+                      }}
+                    >
+                      {img.quantity}
+                    </div>}
 
                   <button
+                    disabled={increasingId === img.id || decreasingId === img.id}
                     onClick={() => increaseQty(index, img)}
                     style={{
                       width: "35px",
+                      marginLeft: increasingId === img.id || decreasingId === img.id ? "3px" : "",
                       height: "100%",
                       background: "white",
                       border: "0",
                       borderLeft: "1px solid #ccc",
                       cursor: "pointer",
                       fontSize: "18px",
+                      pointerEvents: (increasingId === img.id || decreasingId === img.id) ? "none" : "auto"
                     }}
                   >
                     +
@@ -436,7 +537,7 @@ overflow-y: hidden;
 
               <div className="cart-prices" style={{ textAlign: "right", whiteSpace: "nowrap" }}>
                 <p style={{ margin: 0, fontSize: "18px" }}>
-                  Product: <b style={{ whiteSpace: "nowrap" }}>{Number(img.products.price * img.quantity).toFixed(2)} SAR</b>
+                  Product: <b style={{ whiteSpace: "nowrap" }}>{Number(logged === false || localCart === true ? img.price * img.quantity : img.products.price * img.quantity).toFixed(2)} SAR</b>
                 </p>
 
                 <p style={{ margin: "10px 30px 10px 0px" }}>
@@ -451,25 +552,28 @@ overflow-y: hidden;
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Total: {Number(img.products.price * img.quantity + 12).toFixed(2)} SAR
+                  Total: {Number(logged === false || localCart === true ? img.price * img.quantity + 12 : img.products.price * img.quantity + 12).toFixed(2)} SAR
                 </h3>
                 <div className={styles.del}>
-                  <button className='deletePro' style={{ backgroundColor: "white", border: "solid 1px #1a1a1a", width: "58px", height: "35px", borderRadius: "10px", cursor: "pointer", }} onClick={() => removeFromCart(index, img)}> <img src="https://cdn-icons-png.flaticon.com/512/484/484662.png" alt="Bin" width="16" height="17" /></button>
+                  <button className='deletePro' style={{ backgroundColor: "white", border: "solid 1px #1a1a1a", width: "58px", height: "35px", borderRadius: "10px", cursor: "pointer", }} onClick={() => removeFromCart(index, img)}>{isRemoving === img.id ? <svg className={styles.animateSpin} style={{ width: "43.33px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg> : <img src="https://cdn-icons-png.flaticon.com/512/484/484662.png" alt="Bin" width="16" height="17" />}</button>
                 </div>
               </div>
             </li>
-          ))}
-        </ul>
+          ))
+          }
+        </ul >
       ) : (
-        Loading === true || Loading == false ?
+        Loading === true ?
           <div>
             <div className={styles.SkeletonCenter}>
               <div className={styles.Skeleton}>
                 <div className={styles.imageSkeleton}></div>
                 <div className={styles.detailsSkeleton}>
-                  <div className={styles.titleSkeleton}></div>
-                  <div className={styles.timeSkeleton}></div>
-
+                  <div className={styles.TiPrSkeleton}>
+                    <div className={styles.titleSkeleton}></div>
+                    <div className={styles.timeSkeleton}></div>
+                  </div>
+                  <div className={styles.stockSkeleton}></div>
                   <div className={styles.chooseColorSk}></div>
                   <div className={styles.colorsSkeletons}>
                     <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
@@ -503,8 +607,8 @@ overflow-y: hidden;
                 <div className={styles.detailsSkeleton}>
                   <div className={styles.titleSkeleton}></div>
                   <div className={styles.timeSkeleton}></div>
-
-                  <div className={styles.chooseColorSk}></div>
+                  <div className={styles.stockSkeleton}></div>
+                  <div className={styles.chooseColorSecSk}></div>
                   <div className={styles.colorsSkeletons}>
                     <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
                     <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
@@ -533,7 +637,7 @@ overflow-y: hidden;
             </div>
           </div>
           :
-          <div style={{ textAlign: "center", marginTop: "200px" }}>
+          <div style={{ textAlign: "center", marginTop: "169px" }}>
             <p style={{ fontSize: "20px" }}>
               Your cart is empty… add some items!
             </p>

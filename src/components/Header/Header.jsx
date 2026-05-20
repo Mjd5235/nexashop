@@ -17,17 +17,32 @@ export default function Header() {
 
     const ref = useRef()
 
+
     const [ProfB, SetProB] = useState(false)
+    const [localCart, setLocalCart] = useState(null)
 
     const updateCartCount = async () => {
         const { data } = await supabase.auth.getUser()
         if (data.user) {
-            const { data: quan, } = await supabase.from("cart").select("*").eq("user_id", data.user.id)
-            console.log(quan.quantity)
-            setCartCount(quan.reduce((acc, item) => acc + (item.quantity || 1), 0));
-        } else {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            setCartCount(cart.reduce((acc, item) => acc + (item.quantity || 1), 0));
+            const { data: cart, error } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time)").eq("user_id", data.user.id).order("created_at", { ascending: false })
+            if (cart && cart.length === 0) {
+                setLocalCart(true)
+                const locart = JSON.parse(localStorage.getItem("cart")) || [];
+                setCartCount(locart.reduce((acc, item) => acc + (item.quantity || 1), 0));
+            } else {
+
+                setLocalCart(false)
+                const { data: quan, } = await supabase.from("cart").select("*").eq("user_id", data.user.id)
+                setCartCount(quan.reduce((acc, item) => acc + (item.quantity || 1), 0));
+                if (error) {
+                    console.log(error.message)
+                }
+            }
+        }
+
+        if (!data.user) {
+            const locart = JSON.parse(localStorage.getItem("cart")) || [];
+            setCartCount(locart.reduce((acc, item) => acc + (item.quantity || 1), 0));
         }
     }
 
@@ -82,7 +97,7 @@ export default function Header() {
         if (data.user) {
             const { error } = await supabase.auth.signOut()
             if (error) {
-                alert(error)
+                console.log(error.message)
             }
             else {
                 setName(null)

@@ -7,6 +7,7 @@ import Hero from '@/components/Hero/Hero'
 import Products from "@/components/Products/Products";
 import Footer from "@/components/Footer/Footer";
 import "@/styles/page.module.css";
+import { supabase } from "@/lib/SubaBaseClient";
 
 function HomePage() {
 
@@ -17,12 +18,35 @@ function HomePage() {
   const hasShown = useRef(false)
 
   useEffect(() => {
+    const updateCart = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (data.user) {
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartToSync = cartItems.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity,
+        }))
+        if (cartItems.length > 0) {
+          localStorage.removeItem("cart")
+          const { error } = await supabase.rpc("sync_and_merge_cart", {
+            user_id_param: data.user.id,
+            items_to_merge: cartToSync,
+          })
+          if (error) {
+            alert(error.message)
+          } else {
+            window.dispatchEvent(new Event("cartUpdated"));
+          }
+        }
+      }
+    }
 
     if (hasShown.current === false && searchParms.get("login") === 'success') {
       toast.success("Logged in successfully!")
       hasShown.current = true;
       router.replace('/')
     }
+    updateCart()
   }, [searchParms])
 
 

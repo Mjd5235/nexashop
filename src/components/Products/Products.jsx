@@ -15,6 +15,7 @@ export default function Products() {
   ]
 
   const [data1, setData1] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getData = async () => {
@@ -31,13 +32,14 @@ export default function Products() {
         console.log(data)
         console.log(supabase)
       }
+      setLoading(false)
     }
     getData()
   }, [])
 
   return (
     <div id="products" className={styles.proarea}>
-      {categories.map(cat => (<AllCategories key={cat.id} category={cat.category} title={cat.title} data1={data1.filter(p => p.category === cat.category)} />))}
+      {categories.map(cat => (<AllCategories key={cat.id} category={cat.category} title={cat.title} loading={loading} data1={data1.filter(p => p.category === cat.category)} />))}
     </div>
   );
 }
