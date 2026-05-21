@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from './Products.module.css';
 import Link from "next/link";
 import { supabase } from "@/lib/SubaBaseClient";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function AllCategories({ title, data1, loading }) {
@@ -54,7 +54,7 @@ export default function AllCategories({ title, data1, loading }) {
                 if (existing) {
                     existing.quantity += 1;
                 } else {
-                    cart.push({ ...item, quantity: 1 });
+                    cart.push({ ...item, quantity: 1, stock: item.stock });
                 }
             }
             localStorage.setItem("cart", JSON.stringify(cart));

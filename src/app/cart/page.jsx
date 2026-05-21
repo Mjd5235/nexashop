@@ -19,6 +19,8 @@ export default function Page() {
   const [increasingId, setIncId] = useState(null)
   const [decreasingId, setDecId] = useState(null)
   const [isRemoving, setIsRemoving] = useState(null)
+  const hasShown = useRef(false)
+  const hasChanged = useRef(false)
 
   const timerRef = useRef()
 
@@ -27,7 +29,15 @@ export default function Page() {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-        setData6(cartItems)
+        const productsId = cartItems.map(item => item.id)
+
+        const { data: Products } = await supabase.from("products").select("*").in("primary_key", productsId)
+        const UpdatedCart = Products.map(item => {
+          const MatchedCartItem = cartItems.find(cart => cart.id === item.id)
+          return { ...item, quantity: MatchedCartItem ? MatchedCartItem.quantity : 1 }
+        })
+        setData6(UpdatedCart)
+        console.log(`stock0= ${UpdatedCart.quantity}`)
       } else {
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
         if (cartItems.length === 0) {
@@ -49,12 +59,15 @@ export default function Page() {
         setLocalCart(false)
         setLoading(false)
       }
+      if (data6 && data6.length > 0) {
+        StockValidation(data6)
+      }
       setLoading(false)
       setIsRemoving(null)
     }
     getData()
 
-  }, [quan]);
+  }, [quan, data6 && data6.length]);
 
 
   const removeFromCart = async (index, img) => {
@@ -98,7 +111,7 @@ export default function Page() {
     setIncId(img.id)
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let cart = data6
       if (cart[index].quantity < 3 && cart[index].quantity + 1 <= img.stock) {
         cart[index].quantity += 1;
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -147,7 +160,7 @@ export default function Page() {
     setDecId(img.id)
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let cart = data6
       if (cart[index].quantity > 0) {
         cart[index].quantity -= 1;
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -192,48 +205,53 @@ export default function Page() {
     window.dispatchEvent(new Event("cartUpdated"));
   }
 
-  const StockValidation = async (img) => {
+  const StockValidation = async (cartItems, index) => {
     const { data } = await supabase.auth.getUser()
     if (!data.user) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existing = cart.find(p => p.id === img.id);
+      const updatedCart = cartItems.map(item => {
 
-      if (existing.quantity > img.stock) {
-        existing.quantity = img.stock;
-        toast.error("kjldsfsdf", { id: "kljsdf" })
+        if (item.quantity > item.stock) {
+          hasChanged.current = true;
+          return { ...item, quantity: item.stock }
+        }
+        return item
+      }).filter(item => item.quantity > 0)
+      if (hasChanged.current === true) {
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        setData6([...updatedCart]);
+        if (hasShown.current === false) {
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          hasShown.current = true
+        }
+      }
+    }
+
+    if (data.user) {
+      for (let img of cartItems) {
+        if (img.quantity > img.products.stock) {
+          if (img.products.stock !== 0) {
+            const { } = await supabase.from("cart").update({ quantity: img.products.stock }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+            hasChanged.current = true
+          } else {
+            const { } = await supabase.from("cart").delete().eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+            hasChanged.current = true
+          }
+        }
       }
 
-    }
-    if (data.user) {
-      if (img.quantity > img.products.stock) {
-        if (img.products.stock !== 0) {
-          const { } = await supabase.from("cart").update({ quantity: img.products.stock }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
-        } else {
-          const { } = await supabase.from("cart").delete().eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
-        }
+      if (hasChanged.current === true) {
+
         const { data: cart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
         setData6(cart)
-        toast("We’ve updated your cart items to match the current stock.",
-          {
-            icon: "🛍️",
-            style: {
-              backgroundColor: "#fff",
-              color: "#1a1a1a",
-              borderLeft: "solid 4px #1a75e8",
-              maxWidth: "400px",
-              boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)",
-              borderRadius: "6px",
-              padding: "14px 20px",
-              fontWeight: "600",
-              fontSize: "14px"
-            }
-          }
-          , { id: "update-cart-quantity", duration: 5000 }
-        )
+        if (hasShown.current === false) {
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          hasShown.current = true
+        }
         window.dispatchEvent(new Event("cartUpdated"));
       }
     }
   }
+
 
   const totalPrice = data6 && data6.reduce((acc, item) => {
     const shipping = 12;
@@ -352,7 +370,6 @@ overflow-y: hidden;
           {data6.map((img, index) => (
 
             <li
-              onLoad={() => StockValidation(img)}
               key={logged === false || localCart === true ? img.primary_key : img.products.primary_key}
               style={{
                 display: "grid",
