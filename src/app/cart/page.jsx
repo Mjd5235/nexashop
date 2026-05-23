@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from "next/link";
 import { supabase } from "@/lib/SubaBaseClient";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
 
@@ -21,8 +22,10 @@ export default function Page() {
   const [isRemoving, setIsRemoving] = useState(null)
   const hasShown = useRef(false)
   const hasChanged = useRef(false)
+  const [checked, setChecked] = useState(null)
 
   const timerRef = useRef()
+  const router = useRouter()
 
   useEffect((index) => {
     const getData = async () => {
@@ -37,7 +40,6 @@ export default function Page() {
           return { ...item, quantity: MatchedCartItem ? MatchedCartItem.quantity : 1 }
         })
         setData6(UpdatedCart)
-        console.log(`stock0= ${UpdatedCart.quantity}`)
       } else {
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
         if (cartItems.length === 0) {
@@ -194,18 +196,53 @@ export default function Page() {
   };
 
   const CheckedOut = async () => {
-    if (logged === true) { toast.success("Checked Out Successfully.") } else { toast.error("Please log in to continue to checkout.") }
     const { data } = await supabase.auth.getUser()
     if (data.user) {
-      setLogged(true)
-      const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
-      setData6(null)
-      setLoading(false)
+      hasChanged.current = false;
+      const { data: cart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
+      for (let img of cart) {
+        if (img.quantity > img.products.stock) {
+          if (img.products.stock !== 0) {
+            const { } = await supabase.from("cart").update({ quantity: img.products.stock }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+            hasChanged.current = true
+          } else {
+            const { } = await supabase.from("cart").delete().eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
+            hasChanged.current = true
+          }
+        }
+      }
+
+      if (hasChanged.current === true) {
+        const { data: FinalCart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
+        setData6(FinalCart)
+        if (hasShown.current === false) {
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          hasShown.current = true
+        }
+        window.dispatchEvent(new Event("cartUpdated"));
+      } else {
+        toast.success("Checked Out Successfully.")
+        const { data: cartDetails } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
+        for (let img of cartDetails) {
+          const newStock = img.products.stock - img.quantity
+          const { error } = await supabase.from("products").update({ stock: newStock }).eq("primary_key", img.products.primary_key)
+          if (error) { console.log(error.message) }
+          router.push("/checkout/success")
+        }
+
+
+        const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
+        setData6(null)
+        setLogged(true)
+        setLoading(false)
+      }
+    } else {
+      toast.error("Please log in to continue to checkout.")
     }
     window.dispatchEvent(new Event("cartUpdated"));
   }
 
-  const StockValidation = async (cartItems, index) => {
+  const StockValidation = async (cartItems) => {
     const { data } = await supabase.auth.getUser()
     if (!data.user) {
       const updatedCart = cartItems.map(item => {
