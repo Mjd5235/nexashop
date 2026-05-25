@@ -143,7 +143,7 @@ export default function Page() {
         timerRef.current = setTimeout(async () => { const { } = await supabase.from("cart").update({ quantity: Quantity }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key); timerRef.current = null }, 50)
       }
       else {
-        if (img.products.stock !== 3) {
+        if (img.quantity !== 3) {
           toast.error(`Oops! Only ${img.products.stock} ${img.products.stock === 1 ? "item" : "items"} left in stock.`, { id: "stock-limit-toast" })
         } else {
           toast.error('You have added maximum count of this product: 3', {
@@ -195,7 +195,7 @@ export default function Page() {
     setDecId(null)
   };
 
-  const CheckedOut = async () => {
+  const CheckedOut = async (totat_price) => {
     const { data } = await supabase.auth.getUser()
     if (data.user) {
       hasChanged.current = false;
@@ -221,13 +221,17 @@ export default function Page() {
         }
         window.dispatchEvent(new Event("cartUpdated"));
       } else {
-        toast.success("Checked Out Successfully.")
+        const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "CONFIRMED", user_id: data.user.id }).single()
+        if (error) { console.log(error.message) } else {
+          document.cookie = "allowed_to_success=true; path=/; max-age=1"
+          router.push("/checkout/success")
+          toast.success("Checked Out Successfully.", { id: "Thank-you" })
+        }
         const { data: cartDetails } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
         for (let img of cartDetails) {
           const newStock = img.products.stock - img.quantity
           const { error } = await supabase.from("products").update({ stock: newStock }).eq("primary_key", img.products.primary_key)
           if (error) { console.log(error.message) }
-          router.push("/checkout/success")
         }
 
 
@@ -691,7 +695,7 @@ overflow-y: hidden;
             </div>
           </div>
           :
-          <div style={{ textAlign: "center", marginTop: "169px" }}>
+          <div style={{ textAlign: "center", height: "167px", justifyContent: "center", alignItems: "center", display: "flex" }}>
             <p style={{ fontSize: "20px" }}>
               Your cart is empty… add some items!
             </p>
@@ -718,7 +722,7 @@ overflow-y: hidden;
             </div>
 
 
-            <button onClick={CheckedOut} className={styles.cartbut}>Checkout</button>
+            <button onClick={() => CheckedOut(finalPrice)} className={styles.cartbut}>Checkout</button>
 
 
             <button

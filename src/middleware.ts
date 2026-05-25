@@ -33,6 +33,15 @@ export async function middleware(request: NextRequest) {
   if (user) {
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
 
+    if (pathname === "/checkout/success") {
+      const isAllowed = request.cookies.get("allowed_to_success")
+      if (!isAllowed) {
+        return NextResponse.redirect(new URL('/', request.url))
+      } else {
+        return response;
+      }
+    }
+
     if (profile?.role === 'user') {
 
       if (pathname) {
@@ -61,5 +70,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/Admin/:path*', '/login', '/signup'],
+  matcher: ['/Admin/:path*', '/login', '/signup', '/checkout/success'],
 }
