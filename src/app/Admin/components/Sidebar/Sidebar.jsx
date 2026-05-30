@@ -26,7 +26,7 @@ export default function Sidebar({ height, font }) {
     <div style={{ height: height, backgroundColor: "#1a1a1a", paddingTop: "32px" }}>
       <div style={{ display: "grid", justifyContent: "center", alignContent: 'center', alignItems: "center", marginTop: "25px", paddingBottom: "20px", borderBottom: "solid 1px gray", width: "200px", marginLeft: "25px" }}>
         <h3 style={{ display: "flex", color: "white", }}>Welcome<span style={{ display: "flex", color: "#1a75e8", fontSize: "20px" }}>&nbsp;{Name}</span></h3>
-        <h5 style={{ color: "#adabab", display: "grid", marginLeft: "40px", marginTop: "7px", }}>Author</h5>
+        <span style={{ color: "#adabab", display: "grid", marginLeft: "40px", marginTop: "7px", fontSize: "14px" }}>Author</span>
       </div>
 
       <div style={{ marginTop: "32px", marginLeft: "25px", }}>

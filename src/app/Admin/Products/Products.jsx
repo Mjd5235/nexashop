@@ -6,6 +6,12 @@ import Image from 'next/image';
 import { supabase } from "@/lib/SubaBaseClient";
 import styles from './Products.module.css'
 import Link from 'next/link';
+import { Inter } from 'next/font/google';
+
+const InterSans = Inter({
+    subsets: ["latin"],
+    weight: ["500"]
+})
 
 export default function Products() {
 
@@ -18,6 +24,9 @@ export default function Products() {
     const [Sort, setSorted] = useState("latest")
 
     const [reversed, setReversed] = useState(true)
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deleteConfirmed, setDeleteConfirmed] = useState(false)
+    const [productToDelete, setProductToDelete] = useState(null)
 
     const sortData = [
         { id: 1, name: "latest", },
@@ -43,7 +52,6 @@ export default function Products() {
                 console.log(error.message)
             } else {
                 setData1(data)
-                console.log(supabase)
             }
         }
 
@@ -61,16 +69,22 @@ export default function Products() {
         return () => document.removeEventListener("click", handleClickOutside)
     }, [])
 
-    const DeleteFromData = async (id) => {
-        const { error } = await supabase
-            .from("products")
-            .delete()
-            .eq("id", id)
+    const DeleteFromData = async () => {
+        if (deleteConfirmed === true) {
 
-        if (error) {
-            console.log(error.message)
+            const { error } = await supabase
+                .from("products")
+                .delete()
+                .eq("id", productToDelete)
+
+            if (error) {
+                console.log(error.message)
+            } else {
+                setData1(prev => prev.filter(product => product.id !== productToDelete))
+            }
+            setShowConfirm(false)
         } else {
-            setData1(prev => prev.filter(product => product.id !== id))
+            return;
         }
     }
 
@@ -107,7 +121,7 @@ export default function Products() {
                                                 </button>
 
                                                 {LogBut &&
-                                                    <ul style={{ backgroundColor: "#3a3a3a", borderRadius: "0 0 8px 0", paddingLeft: "11px", marginTop: "-7px", paddingTop: "2px", paddingBottom: "8px", display: 'grid', justifyContent: "center", alignItems: "center", alignContent: 'center', fontWeight: "bold", border: "none", color: "white", fontSize: "15px", }}>
+                                                    <ul style={{ backgroundColor: "#3a3a3a", borderRadius: "0 0 8px 0", paddingLeft: "11px", marginTop: "-7px", paddingTop: "2px", paddingBottom: "8px", display: 'grid', justifyContent: "center", alignItems: "center", alignContent: 'center', fontWeight: "bold", border: "none", color: "white", fontSize: "15px", height: "62px" }}>
                                                         {sortData.map(sort => (
                                                             <li key={sort.id}><button style={{ background: "none", border: "none", fontWeight: "bold", fontSize: Sort === sort.name ? "16px" : "15px", color: Sort === sort.name ? "#1a90e8" : "white", cursor: "pointer" }} onClick={() => { setSorted(sort.name); setReversed(sort.name === "latest" ? true : false) }}> {sort.name}</button></li>
                                                         ))}
@@ -146,11 +160,37 @@ export default function Products() {
                                                 <td style={{ paddingLeft: "19px" }}>{product.stock}</td>
                                                 <td>{<div style={{ backgroundColor: product.stock === 0 && "#ef4444" || product.stock < 10 && "#f59e0b" || product.stock >= 10 && "#22c55e", display: 'flex', justifyContent: 'center', alignItems: "center", alignContent: "center", padding: "10px 0px 10px 0px", color: "white", borderRadius: "8px", width: "110px", fontWeight: "bold" }}>{product.stock === 0 && "Out of stock" || product.stock < 10 && "Low stock" || product.stock >= 10 && "In stock"}</div>}</td>
                                                 <td><Link href={`/Admin/Products/Edit/${product.id}`}><Image style={{ backgroundColor: "#1a75e8", padding: "10px", marginLeft: "15px", borderRadius: "8px", marginTop: "3px" }} src={'/Admin/Icons/edit.svg'} width={45} height={45} alt='edit' /></Link></td>
-                                                <td onClick={() => DeleteFromData(product.id)}><Image style={{ backgroundColor: "#ef4444", padding: "10px", borderRadius: "8px", marginTop: "3px", cursor: "pointer", marginLeft: "25px" }} src={'/Admin/Icons/delete.svg'} width={45} height={45} alt='edit' /></td>
+                                                <td><Image onClick={() => { setProductToDelete(product.id); setShowConfirm(true) }} style={{ backgroundColor: "#ef4444", padding: "10px", borderRadius: "8px", marginTop: "3px", cursor: "pointer", marginLeft: "25px" }} src={'/Admin/Icons/delete.svg'} width={45} height={45} alt='edit' /></td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
+                                {showConfirm === true && (
+                                    <div className={styles.modalOverlay} onClick={() => setShowConfirm(false)}>
+                                        <div className={InterSans.className}>
+                                            <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+                                                <h3>Are you sure?</h3>
+                                                <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+
+                                                <div className={styles.modalButtons}>
+                                                    <button
+                                                        onClick={() => setShowConfirm(false)}
+                                                        className={`${styles.modalBtn} ${styles.btnCancel}`}
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => { setDeleteConfirmed(true); DeleteFromData(); }}
+                                                        className={`${styles.modalBtn} ${styles.btnDelete}`}
+                                                    >
+                                                        Yes, Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

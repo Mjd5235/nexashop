@@ -59,13 +59,27 @@
     background-color: #2D1A1A;
     border-radius: 6px;
     transition: border-radius .1s ease-in-out;
-    font-weight: bold;
+    font-weight: 600;
     display: flex;
     justify-content: left;
 }
 
 .logout:hover {
     background-color: #3D2222;
+}
+
+.orders {
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: flex;
+    justify-content: left;
+    background-color: rgba(255, 255, 255, 0.06);
+    transition: all .1s ease-in-out;
+}
+
+.orders:hover {
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .sectionsbut {
@@ -98,7 +112,6 @@
     background-color: #1a75e8;
     border-radius: 6px;
     transition: border-radius .1s ease-in-out;
-    font-weight: bold;
 }
 
 .Dashboard:hover {
@@ -107,11 +120,15 @@
 
 .cartCount {
     background-color: #1a75e8;
-    padding: 2.5px 5px 2.5px 5px;
     border: solid 1px #1a75e8;
     border-radius: 100%;
     position: absolute;
-    right: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 18px;
+    width: 20px;
+    height: 20px;
     top: 16px;
     color: white;
     font-size: 11px;

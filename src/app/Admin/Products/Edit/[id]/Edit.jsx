@@ -32,6 +32,9 @@ export default function Edit() {
     const find = data1.find(prod => prod.id.toString() === idFromUrl)
 
     const [sided, setSided] = useState(true)
+    const [nameLength, setNameLength] = useState()
+    const [DescriptionLength, setDescriptionLength] = useState()
+    const [FeaturesLength, setFeaturesLength] = useState()
 
     const SideB = () => {
         { sided === true ? setSided(false) : setSided(true) }
@@ -83,7 +86,8 @@ export default function Edit() {
         let filePath = find.image_path
 
         if (file) {
-            const fileName = file.name
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            const fileName = `${uniqueSuffix} - ${file.name}`
             filePath = `${find.category}/${fileName}`
 
             const { error: removeError } = await supabase
@@ -91,7 +95,7 @@ export default function Edit() {
                 .from("products images")
                 .remove([find.image_path])
             if (removeError) {
-                alert(removeError.message)
+                console.log(removeError.message)
             }
 
             const { error: uploadError } = supabase
@@ -99,7 +103,7 @@ export default function Edit() {
                 .from("products images")
                 .upload(filePath, file)
             if (uploadError) {
-                alert(uploadError.message)
+                console.log(uploadError.message)
             }
 
             const { data } = supabase
@@ -127,7 +131,7 @@ export default function Edit() {
                 .eq("id", idFromUrl)
 
             if (error) {
-                alert(error.message)
+                console.log(error.message)
             } else {
                 alert("Updated successfully")
                 router.push("/Admin/Products")
@@ -155,7 +159,7 @@ export default function Edit() {
                                 <div style={{ display: "flex", marginTop: "30px", justifyContent: "space-between" }}>
                                     <div style={{ fontWeight: "bold", background: "linear-gradient(to right, #1a75e8, #92d0ff)", fontWeight: "700", fontSize: "32px", letterSpacing: "0.5px", color: "transparent", whiteSpace: 'nowrap', backgroundClip: "text", width: "350px", marginLeft: "30px" }}>Edit product details</div>
                                 </div>
-                                <div style={{ marginTop: "50px", marginLeft: "30px", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)", width: "1050px", padding: "45px", borderRadius: "12px", height: "865px" }}>
+                                <div style={{ marginTop: "50px", marginLeft: "30px", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)", width: "1050px", padding: "45px", borderRadius: "12px", height: "900px" }}>
                                     <div style={{ display: "flex" }}>
 
                                         <div style={{ display: "grid", marginLeft: "-60px", }} ><span style={{ color: "#4a4a4a", marginLeft: "84px", }}>Product Image</span><div style={{ position: "relative", width: "270px", height: "170px" }}><Image style={{ objectFit: "contain" }} src={preview !== null && preview !== "" ? preview : find.image} fill alt={find.title} /></div></div>
@@ -180,12 +184,12 @@ export default function Edit() {
                                     </div>
 
                                     <div style={{ display: "flex", marginTop: "50px", }}>
-                                        <div style={{ display: "grid", marginRight: "50px", flex: "1", }}><span style={{ color: "#4a4a4a" }}>Product name</span><input value={name !== null ? name : find.title} onChange={(e) => { setName(e.target.value) }} style={{ padding: "8px", marginTop: "6px", }} type="text" /></div>
-                                        <div style={{ display: "grid", flex: "1", }}><span style={{ color: "#4a4a4a", }}>Product Category</span><select style={{ padding: "5px" }} value={category ?? find.category} onChange={(e) => { setCategory(e.target.value); }}>{categories.map(cat => (<option key={cat.id}>{cat.name}</option>))}</select></div>
+                                        <div style={{ display: "grid", marginRight: "50px", flex: "1", marginTop: "1px" }}><span style={{ color: "#4a4a4a" }}>Product name</span><input maxLength={35} value={name !== null ? name : find.title} onChange={(e) => { setName(e.target.value); setNameLength(e.target.value.length) }} style={{ padding: "8px", marginTop: "6px", }} type="text" /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{nameLength} / 35</span></div>
+                                        <div style={{ display: "grid", flex: "1", height: "60px" }}><span style={{ color: "#4a4a4a", }}>Product Category</span><select style={{ padding: "5px" }} value={category ?? find.category} onChange={(e) => { setCategory(e.target.value); }}>{categories.map(cat => (<option key={cat.id}>{cat.name}</option>))}</select></div>
                                     </div>
                                     <div style={{ display: "flex" }}>
-                                        <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Description</span><textarea value={description !== null ? description : find.description} onChange={(e) => { setDescription(e.target.value) }} type="text" style={{ width: "455px", marginRight: "50px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /></div>
-                                        <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Features</span><textarea value={features !== null ? features : find.features} onChange={(e) => { setFeatures(e.target.value) }} type="text" style={{ width: "455px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /></div>
+                                        <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Description</span><textarea maxLength={330} value={description !== null ? description : find.description} onChange={(e) => { setDescription(e.target.value); setDescriptionLength(e.target.value.length) }} type="text" style={{ width: "455px", marginRight: "50px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{DescriptionLength} / 330</span></div>
+                                        <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Features</span><textarea maxLength={330} value={features !== null ? features : find.features} onChange={(e) => { setFeatures(e.target.value); setFeaturesLength(e.target.value.length) }} type="text" style={{ width: "455px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{FeaturesLength} / 330</span></div>
                                     </div>
 
                                     <div style={{ display: "flex", marginTop: "50px" }}>

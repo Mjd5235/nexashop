@@ -9,6 +9,7 @@ import Footer from "@/components/Footer/Footer";
 import "@/styles/page.module.css";
 import { supabase } from "@/lib/SubaBaseClient";
 
+
 function HomePage() {
 
   const searchParms = useSearchParams()

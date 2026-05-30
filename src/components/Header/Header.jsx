@@ -101,6 +101,7 @@ export default function Header() {
             }
             else {
                 setName(null)
+                window.location.reload()
             }
         }
     }
@@ -120,7 +121,7 @@ export default function Header() {
                                 </div>
                             </button>
                             {ProfB &&
-                                <div style={{ position: "absolute", top: "65px", right: "12px", width: "265px", height: role ? "265px" : "175px", backgroundColor: "#242424", border: 'solid 1px #333333' }}>
+                                <div style={{ position: "absolute", top: "65px", right: "12px", width: "265px", height: "auto", backgroundColor: "#242424", border: 'solid 1px #333333' }}>
                                     <div style={{ display: 'flex', marginLeft: "16px", marginTop: "24px", borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px" }}>
                                         <div style={{ backgroundColor: "#1a75e8", padding: "9.5px 14px 9px 14px", borderRadius: "100%", cursor: "pointer", width: "44.5px", height: "44px" }}>
                                             <h3 className={styles.logname} style={{ cursor: "pointer", color: "#fff", display: "flex", justifyContent: "center", alignItems: "center", alignContent: 'center', justifyItems: "center", fontWeight: "normal" }}>
@@ -129,18 +130,23 @@ export default function Header() {
                                         </div>
                                         <div style={{ display: 'grid', marginLeft: "16px", marginTop: "5px", }}>
                                             <h3 style={{ fontWeight: "normal", marginBottom: "6px" }}>{!role ? `welcome ${Name}` : Name}{role && ` - ${role}`}</h3>
-                                            <h4 style={{ color: "gray", fontSize: "14px", }}>{email}</h4>
+                                            <h4 style={{ color: "gray", fontSize: "14px", fontWeight: "400" }}>{email}</h4>
                                         </div>
                                     </div>
                                     <div>
                                         {role &&
                                             <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px", marginLeft: "20px" }}>
                                                 <Link href='/Admin/Dashboard' className={styles.Dashboard} style={{ border: "none", cursor: "pointer", marginTop: "24px", width: "210px", }}>
-                                                    <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "2px", }}><Image style={{ marginRight: "8px" }} src='/Admin/Icons/Dashboard.svg' width={25} height={25} alt="Dashboard" />Dashboard</span>
+                                                    <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "2px", }}><Image style={{ marginRight: "8px" }} src='/help_icons/Dashboard.svg' width={25} height={25} alt="Dashboard" />Dashboard</span>
                                                 </Link>
                                             </div>
                                         }
-                                        <div style={{ display: "flex", justifyContent: 'center' }}>
+                                        <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px", marginLeft: "20px" }}>
+                                            <Link className={styles.orders} href='/orders' style={{ border: "none", cursor: "pointer", marginTop: "24px", width: "210px", color: "#fff", fontWeight: "bold" }}>
+                                                <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "2px", fontWeight: "normal" }}><Image style={{ marginRight: "8px" }} src='/help_icons/order.svg' width={25} height={25} alt="orders" />My Orders</span>
+                                            </Link>
+                                        </div>
+                                        <div style={{ display: "flex", justifyContent: 'center', marginBottom: "20px" }}>
                                             <button className={styles.logout} style={{ border: "none", cursor: "pointer", marginRight: "10px", marginTop: "12px", width: "210px", }} onClick={RemoveUser}>
                                                 <Image src='/help_icons/logout.svg' width={25} height={25} alt="Logout" />
                                                 <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "8px" }}>Log Out</span>

@@ -221,19 +221,29 @@ export default function Page() {
         }
         window.dispatchEvent(new Event("cartUpdated"));
       } else {
-        const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "CONFIRMED", user_id: data.user.id }).single()
-        if (error) { console.log(error.message) } else {
-          document.cookie = "allowed_to_success=true; path=/; max-age=1"
-          router.push("/checkout/success")
-          toast.success("Checked Out Successfully.", { id: "Thank-you" })
+        const { data: CartItems, error: upl } = await supabase.from("cart").select("product_id, quantity, products: product_id (primary_key, title, image, price)").eq("user_id", data.user.id)
+        if (upl) { alert(upl.message) } else {
+          const mappedCartItems = CartItems.map(item => ({
+            product_id: item.product_id,
+            image: item.products.image,
+            title: item.products.title,
+            price: item.products.price,
+            quantity: item.quantity,
+          }))
+          const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "CONFIRMED", user_id: data.user.id, cart_items: mappedCartItems, }).single()
+          if (error) { console.log(error.message) } else {
+            document.cookie = "allowed_to_success=true; path=/; max-age=10"
+            router.push("/checkout/success")
+            toast.success("Checked Out Successfully.", { id: "Thank-you" })
+          }
         }
+
         const { data: cartDetails } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
         for (let img of cartDetails) {
           const newStock = img.products.stock - img.quantity
           const { error } = await supabase.from("products").update({ stock: newStock }).eq("primary_key", img.products.primary_key)
           if (error) { console.log(error.message) }
         }
-
 
         const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
         setData6(null)
@@ -295,14 +305,13 @@ export default function Page() {
 
 
   const totalPrice = data6 && data6.reduce((acc, item) => {
-    const shipping = 12;
     const price = Number(logged === false || localCart === true ? item.price : item.products.price);
     const quantity = Number(item.quantity);
 
-    return acc + price * quantity + shipping
+    return acc + price * quantity
   }, 0);
 
-  const finalPrice = Number(totalPrice && totalPrice.toFixed(2))
+  const finalPrice = Number(totalPrice && totalPrice.toFixed(2)) + 12
 
 
 
@@ -364,7 +373,11 @@ overflow-y: hidden;
   /* الزرين يصيرون أعرض */
   .cart-actions button {
     width: 90% !important;
-  }A
+  }
+
+  .ship-price {
+    margin-left: 30px !important;
+  }
 
   h1 {
     font-size: 32px !important;
@@ -593,25 +606,26 @@ overflow-y: hidden;
                 </div>
               </div>
 
-              <div className="cart-prices" style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-                <p style={{ margin: 0, fontSize: "18px" }}>
-                  Product: <b style={{ whiteSpace: "nowrap" }}>{Number(logged === false || localCart === true ? img.price * img.quantity : img.products.price * img.quantity).toFixed(2)} SAR</b>
+              <div className="cart-prices" style={{ textAlign: "right", whiteSpace: "nowrap", marginTop: "8px", }}>
+                <p style={{ margin: 0, fontSize: "18px", marginTop: "10px" }}>
+                  Product: <b style={{ whiteSpace: "nowrap" }}>{Number(logged === false || localCart === true ? img.price : img.products.price).toFixed(2)} SAR</b>
                 </p>
 
-                <p style={{ margin: "10px 30px 10px 0px" }}>
-                  Shipping: <b>12 SAR</b>
+                <p className="ship-price" style={{ margin: "15px 30px 10px 0px", backgroundColor: "#22c55e", display: "flex", justifyContent: 'center', alignItems: 'center', borderRadius: "8px", padding: "3px 6px", width: "196px" }}>
+                  <b>Free Shipping</b>
                 </p>
-
                 <h3
                   style={{
                     marginTop: "18px",
                     color: "#171717",
                     fontSize: "24px",
                     whiteSpace: "nowrap",
+
                   }}
                 >
-                  Total: {Number(logged === false || localCart === true ? img.price * img.quantity + 12 : img.products.price * img.quantity + 12).toFixed(2)} SAR
+                  Total: {Number(logged === false || localCart === true ? img.price * img.quantity : img.products.price * img.quantity).toFixed(2)} SAR
                 </h3>
+
                 <div className={styles.del}>
                   <button className='deletePro' style={{ backgroundColor: "white", border: "solid 1px #1a1a1a", width: "58px", height: "35px", borderRadius: "10px", cursor: "pointer", }} onClick={() => removeFromCart(index, img)}>{isRemoving === img.id ? <svg className={styles.animateSpin} style={{ width: "43.33px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg> : <img src="https://cdn-icons-png.flaticon.com/512/484/484662.png" alt="Bin" width="16" height="17" />}</button>
                 </div>
@@ -638,7 +652,7 @@ overflow-y: hidden;
                     <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
                     <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
                   </div>
-                  <div className={styles.warrantySkeleton}><div className={styles.warrantyTextSk}></div></div>
+                  <div className={styles.warrentContainer}><div className={styles.warrantySkeleton}><div className={styles.warrantyTextSk}></div></div></div>
                   <div className={styles.quanSkeleton}>
                     <div className={styles.dequanSkeleton}>
                       <div className={styles.decreaseSkeleton}></div>
@@ -685,11 +699,11 @@ overflow-y: hidden;
                     </div>
                   </div>
                 </div>
-                <div className={styles.pricesSkeleton}>
+                <div className={styles.SecpricesSkeleton}>
                   <div className={styles.propriSkeleton}></div>
                   <div className={styles.shipSkeleton}></div>
                   <div className={styles.totalSkeleton}></div>
-                  <div className={styles.deleteSkeleton}><div className={styles.deleteIconSk}></div></div>
+                  <div className={styles.SecdeleteSkeleton}><div className={styles.deleteIconSk}></div></div>
                 </div>
               </div>
             </div>

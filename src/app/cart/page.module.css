@@ -18,13 +18,13 @@
       #e5e5e5 50%,
       #f0f0f0 75%);
   width: 900px;
-  height: 301px;
+  height: 305px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-content: center;
   border-bottom: solid 1px var(--skeleton-bg);
-  padding-bottom: 31px;
+  padding-bottom: 10px;
 }
 
 .SecSkeleton {
@@ -34,12 +34,12 @@
       #e5e5e5 50%,
       #f0f0f0 75%);
   width: 900px;
-  height: 301px;
+  height: 305px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-content: center;
-  padding-bottom: 31px;
+  margin-top: 9px;
 }
 
 .imageSkeleton,
@@ -64,6 +64,7 @@
 .shipSkeleton,
 .totalSkeleton,
 .deleteSkeleton,
+.SecdeleteSkeleton,
 .deleteIconSk {
   background-color: var(--skeleton-bg);
   background-image: var(--skeleton-shimer);
@@ -232,7 +233,13 @@
 .pricesSkeleton {
   width: 150px;
   height: 220px;
-  margin-top: 25px;
+  margin-top: 5px;
+}
+
+.SecpricesSkeleton {
+  width: 150px;
+  height: 220px;
+  margin-top: -17px;
 }
 
 .propriSkeleton {
@@ -242,16 +249,16 @@
 }
 
 .shipSkeleton {
-  margin-top: 10px;
-  width: 125px;
-  height: 15px;
-  border-radius: 4px;
+  margin-top: 15px;
+  width: 178px;
+  height: 26px;
+  border-radius: 8px;
 }
 
 .totalSkeleton {
   margin-top: 18px;
   width: 178px;
-  height: 30px;
+  height: 24px;
   border-radius: 4px;
 }
 
@@ -259,7 +266,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 98px;
+  margin-top: 106px;
+  width: 58px;
+  height: 35px;
+  border-radius: 10px;
+  margin-left: 92px;
+}
+
+.SecdeleteSkeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 110px;
   width: 58px;
   height: 35px;
   border-radius: 10px;
@@ -368,7 +386,7 @@
 }
 
 .del {
-  margin-top: 100px;
+  margin-top: 106px;
 }
 
 
@@ -402,7 +420,6 @@
   }
 
   .detailsSkeleton {
-    margin-left: 36px;
     height: 100%;
     width: 440px;
     display: grid;
@@ -410,11 +427,11 @@
   }
 
   .TiPrSkeleton {
-    margin-top: 21px;
+    margin-top: 30px;
   }
 
   .titleSkeleton {
-    margin-top: 0px;
+    margin-left: 46px;
     width: 195px;
     height: 22px;
     border-radius: 4px;
@@ -423,19 +440,19 @@
   .timeSkeleton {
     width: 155px;
     height: 20px;
-    margin-left: 20px;
+    margin-left: 66px;
     margin-top: 10px;
   }
 
   .stockSkeleton {
     margin-top: 7px;
-    margin-left: 55px;
+    margin-left: 100px;
   }
 
   .chooseColorSk {
     margin-top: 12px;
     width: 87px;
-    margin-left: 53px;
+    margin-left: 100px;
   }
 
   .chooseColorSecSk {
@@ -447,14 +464,18 @@
   .colorsSkeletons {
     display: flex;
     margin-top: -5px;
-    margin-left: 42px;
+    margin-left: 88px;
   }
 
   .warrantySkeleton {
+    margin-left: 38px;
     margin-top: 10px;
-    margin-left: -38px;
-    width: 273px;
+    width: 290px;
     height: 38px;
+  }
+
+  .warrentContainer {
+    margin-left: -39px;
   }
 
   .warrantyTextSk {
@@ -471,8 +492,8 @@
   }
 
   .quanSkeleton {
-    margin-left: 37px;
-    margin-top: 14px;
+    margin-left: 84px;
+    margin-top: 15px;
   }
 
   .pricesSkeleton {
@@ -486,26 +507,28 @@
     width: 188px;
     height: 20px;
     border-radius: 4px;
-    margin-top: 32px;
-    margin-left: -16px;
+    margin-top: 50px;
+    margin-left: -20px;
   }
 
   .shipSkeleton {
-    margin-top: 10px;
-    width: 125px;
-    margin-left: -3px;
-    height: 15px;
-    border-radius: 4px;
+    margin-top: 15px;
+    width: 195px;
+    height: 26px;
+    border-radius: 8px;
+    margin-left: -22px;
   }
 
   .totalSkeleton {
-    width: 210px;
-    margin-top: 20px;
-    margin-left: -32px;
+    margin-top: 18px;
+    width: 230px;
+    height: 24px;
+    border-radius: 4px;
+    margin-left: -40px;
   }
 
   .deleteSkeleton {
-    margin-top: 29px;
+    margin-top: 35px;
     margin-left: 46px;
   }
 
@@ -531,6 +554,8 @@
     align-items: center;
     cursor: default;
   }
+
+
 }
 
 .animateSpin {
