@@ -4,13 +4,15 @@ import { usePathname } from "next/navigation";
 import styles from './page.module.css'
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import Link from "next/link";
 import { supabase } from "@/lib/SubaBaseClient";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
 
   const path = usePathname();
+
+  const router = useRouter()
 
   const [data1, setData1] = useState([]);
 
@@ -280,7 +282,7 @@ export default function Page() {
   return (
     <div onLoad={Check}>
       <Header />
-      <div style={{ marginBottom: "100px", }}><Link href="/"><img className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" /></Link>
+      <div style={{ marginBottom: "100px", }}><img onClick={() => { router.back() }} className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" />
         {product ? (
           <div className="product-card">
             <div className={styles.productinfo}>

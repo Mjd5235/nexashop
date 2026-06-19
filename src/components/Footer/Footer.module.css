@@ -2,7 +2,7 @@
     margin-top: 100px;
     width: 100%;
     background-color: #1a1a1a;
-    color: #888888;
+    color: #bbb;
     padding: 40px 20px 20px 20px;
     box-sizing: border-box;
 }
@@ -19,9 +19,21 @@
     line-height: 1.5;
 }
 
-.logo {
+.aboutSec {
     max-width: 500px;
+}
+
+.logo {
+    font-size: 26px;
+    position: relative;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1;
     margin-top: 32px;
+}
+
+.blueLogo {
+    color: #1a75e8;
 }
 
 .apps {

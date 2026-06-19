@@ -16,13 +16,15 @@
     justify-content: left;
     align-items: center;
     position: absolute;
-    color: #1a1a1a;
+    color: #000;
     margin-top: 30px;
     margin-left: 40px;
+    font-weight: 700;
+    line-height: 1;
 }
 
-.logo:hover {
-    text-decoration: underline;
+.blueLogo {
+    color: #1a75e8;
 }
 
 .card {
@@ -205,6 +207,7 @@
     color: #1a75e8;
     font-size: 24px;
     letter-spacing: -0.02em;
+    font-weight: 800;
 }
 
 .emailSentWrapper {

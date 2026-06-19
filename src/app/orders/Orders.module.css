@@ -150,6 +150,15 @@
     color: #059669;
 }
 
+.statusProcessing {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.statusProcessing .badgeDot {
+    background: #d97706;
+}
+
 .badgeConfirmed .badgeDot {
     background: #059669;
 }

@@ -160,7 +160,7 @@ export default function AllCategories({ title, data1, loading }) {
 
     return (
         <div style={{ position: "relative", margin: "0 auto", display: "grid", }}>
-            <h2 style={{ marginTop: "50px", textAlign: 'center', justifyContent: 'center', alignItems: "center", display: "flex", marginBottom: "50px" }}>{title}</h2>
+            <h2 style={{ marginTop: "100px", textAlign: 'center', justifyContent: 'center', alignItems: "center", display: "flex", marginBottom: "50px" }}>{title}</h2>
             <ul className={loading === true ? styles.skeletons : styles.products} style={{ justifyContent: "flex-start", alignItems: "center", overflowX: data1.length > 4 && "scroll", display: "flex", gap: "10px", }}>
                 {loading === true ? data.map(img => (
                     <div key={img.id} className={styles.skeletonCard}>

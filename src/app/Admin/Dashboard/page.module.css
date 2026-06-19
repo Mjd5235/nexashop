@@ -1,29 +1,118 @@
-.logout{
+.logout {
     background-color: #1a75e8;
 }
 
-.logout:hover{
+.logout:hover {
     background-color: #1a90e8;
 }
+
 .product {
     background-color: #fff;
-     border: solid 1px white;
-     border-radius: 10px;
-      padding: 40px 40px 50px;
-      text-align: left;
-      list-style-type: none;
-      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-      margin: 8px;
-      transition: box-shadow ,transform .3s ease-in-out;
-      transform: scale(1);
-      overflow: visible;
-      height: 100%;
-      flex: 0 0 auto;
-      width: 250px;
-      margin-left: 30px;
+    border: solid 1px white;
+    border-radius: 10px;
+    padding: 40px 40px 50px;
+    text-align: left;
+    list-style-type: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    margin: 8px;
+    transition: box-shadow, transform .3s ease-in-out;
+    transform: scale(1);
+    overflow: visible;
+    height: 100%;
+    flex: 0 0 auto;
+    width: 250px;
+    margin-left: 30px;
 }
 
-.product:hover{
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
-   transform: scale(1.01);
+.product:hover {
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+    transform: scale(1.01);
+}
+
+.dashboardGrid {
+    display: grid;
+    height: 3400px;
+}
+
+.mainFlexContainer {
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.sidebarWrapper {
+    display: none;
+}
+
+.sidebarHidden {
+    display: flex;
+}
+
+.menuIcon {
+    display: flex;
+    margin-top: 20px;
+    position: absolute;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.contentContainer {
+    width: 100%;
+}
+
+.dashboardTitle {
+    margin-top: 30px;
+    font-weight: 700;
+    margin: 30 auto;
+    display: flex;
+    justify-content: left;
+    margin-left: 120px;
+    background: linear-gradient(120deg, #1a75e8, #1a90e8);
+    font-size: 32px;
+    letter-spacing: 0.5px;
+    background-clip: text;
+    color: transparent;
+}
+
+.chartsSection {
+    display: flex;
+    width: 85%;
+    gap: 30px;
+    margin: 0 auto;
+}
+
+.bottomSection {
+    display: flex;
+}
+
+.ordersGrid {
+    display: grid;
+}
+
+@media (max-width: 768px) {
+    .sidebarHidden {
+        display: none;
+    }
+
+    .sidebarHidden {
+        display: none;
+    }
+
+    .dashboardTitle {
+        margin-left: 50px;
+    }
+
+}
+
+@media (max-width: 1800px) {
+    .chartsSection {
+        width: 100%;
+        margin: 0 auto;
+        margin-left: 20px;
+        display: grid;
+    }
+
+    .bottomSection {
+        display: grid;
+    }
 }

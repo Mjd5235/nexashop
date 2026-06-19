@@ -4,12 +4,6 @@ import styles from './page.module.css'
 import { Inter } from 'next/font/google'
 import { supabase } from '@/lib/SubaBaseClient'
 import Link from 'next/link'
-import { Montserrat } from 'next/font/google'
-
-const MontserratSans = Montserrat({
-    subsets: ["latin"],
-    weight: ['900']
-});
 
 const InterSans = Inter({
     subsets: ["latin"],
@@ -48,8 +42,8 @@ export default function Success() {
                     <div className={styles.card}>
                         <div className={styles.logo}>
                             <Link href='/'>
-                                <div className={MontserratSans.className}>
-                                    NexaShop
+                                <div className={InterSans.className}>
+                                    <span>Nexa</span><span className={styles.blueLogo}>Shop</span>
                                 </div>
                             </Link>
                         </div>

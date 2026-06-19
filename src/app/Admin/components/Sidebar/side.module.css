@@ -5,3 +5,98 @@
 .link:hover {
     text-decoration: underline;
 }
+
+.sidebarContainer {
+    background-color: #1a1a1a;
+    padding-top: 32px;
+    width: 250px;
+}
+
+.profileSection {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px gray;
+    width: 200px;
+    margin-left: 25px;
+}
+
+.welcomeText {
+    display: flex;
+    color: white;
+}
+
+.nameHighlight {
+    display: flex;
+    color: #1a75e8;
+    font-size: 20px;
+}
+
+.roleText {
+    color: #adabab;
+    display: grid;
+    margin-left: 40px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.linksContainer {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkItem {
+    display: flex;
+    align-items: center;
+    color: white;
+    margin-top: 50px;
+    padding: 10px 30px;
+    border-radius: 8px;
+}
+
+.linkItemActive {
+    background-color: #2a2a2a;
+}
+
+.linkContent {
+    display: flex;
+}
+
+.linkIcon {
+    margin-right: 10px;
+    margin-bottom: -4px;
+}
+
+.linkText {
+    display: flex;
+}
+
+@media (max-width: 1200px) {
+    .sidebarContainer {
+        width: 75px;
+    }
+
+    .profileSection {
+        display: none;
+    }
+
+    .linkText {
+        display: none;
+    }
+
+    .linkItemActive {
+        background-color: #2a2a2a;
+        width: 80px;
+        border-radius: 0;
+        margin-top: 150px;
+    }
+
+    .linkIcon {
+        margin-left: 0px;
+    }
+}

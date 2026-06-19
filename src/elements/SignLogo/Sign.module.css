@@ -1,19 +1,11 @@
-.logo{
-    font-size: 25px;
-    position: absolute;
-    top: 50px;
-    display: flex;
-    color: #1a1a1a;
-    margin-top: 100px;
+.logo {
+  font-size: 21px;
+  position: relative;
+  color: #000;
+  font-weight: 700;
+  line-height: 1;
 }
 
-.logo:hover{
-    text-decoration: underline;
-}
-
-
-@media (max-height: 850px){
-  .logo{
-    margin-top: 10px;
-  }
+.blueLogo {
+  color: #1a75e8;
 }

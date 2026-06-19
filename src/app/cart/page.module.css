@@ -583,3 +583,11 @@
   align-items: center;
   cursor: default;
 }
+
+.arrow {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  margin-top: 100px;
+  margin-left: 100px;
+}

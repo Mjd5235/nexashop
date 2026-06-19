@@ -7,7 +7,7 @@ import { supabase } from "@/lib/SubaBaseClient";
 import Image from "next/image";
 
 
-export default function Header() {
+export default function Header({ router }) {
 
     const [cartCount, setCartCount] = useState(0);
     const [Name, setName] = useState(null)
@@ -136,14 +136,14 @@ export default function Header() {
                                     <div>
                                         {role &&
                                             <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px", marginLeft: "20px" }}>
-                                                <Link href='/Admin/Dashboard' className={styles.Dashboard} style={{ border: "none", cursor: "pointer", marginTop: "24px", width: "210px", }}>
+                                                <Link href='/Admin/Dashboard' className={styles.orders} style={{ border: "none", cursor: "pointer", marginTop: "24px", width: "210px", }}>
                                                     <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "2px", }}><Image style={{ marginRight: "8px" }} src='/help_icons/Dashboard.svg' width={25} height={25} alt="Dashboard" />Dashboard</span>
                                                 </Link>
                                             </div>
                                         }
-                                        <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px", marginLeft: "20px" }}>
-                                            <Link className={styles.orders} href='/orders' style={{ border: "none", cursor: "pointer", marginTop: "24px", width: "210px", color: "#fff", fontWeight: "bold" }}>
-                                                <span style={{ fontSize: "14px", display: "flex", alignItems: "center", marginLeft: "2px", fontWeight: "normal" }}><Image style={{ marginRight: "8px" }} src='/help_icons/order.svg' width={25} height={25} alt="orders" />My Orders</span>
+                                        <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', borderBottom: "solid 2px #2d2d2d", paddingBottom: "20px", width: "210px", marginLeft: "20px", }}>
+                                            <Link className={router === "orders" ? styles.Dashboard : styles.orders} href='/orders' style={{ border: "none", cursor: "pointer", fontSize: "14px", marginTop: "24px", width: "210px", color: "#fff", fontWeight: "bold", }}>
+                                                <span style={{ display: "flex", alignItems: "center", marginLeft: "2px", fontWeight: "normal", }}><Image style={{ marginRight: "8px" }} src='/help_icons/order.svg' width={25} height={25} alt="orders" />My Orders</span>
                                             </Link>
                                         </div>
                                         <div style={{ display: "flex", justifyContent: 'center', marginBottom: "20px" }}>

@@ -94,12 +94,11 @@ export default function Page() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}><SignLogo /><Link href="/"><Image className={styles.arrow2} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute" }} alt="BackIcon" /></Link></div>
+      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}><Link href="/"><Image className={styles.arrow2} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute" }} alt="BackIcon" /></Link></div>
       <div className={styles.container}>
-
         <div className={styles.card}>
+          <SignLogo />
           <h2 className={styles.title}>Create your account</h2>
-
           <form className={styles.form}>
             <div className={styles.formGroup}>
               <label>Full Name</label>

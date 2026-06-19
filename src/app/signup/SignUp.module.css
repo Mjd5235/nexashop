@@ -13,7 +13,7 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  
+
 }
 
 .title {
@@ -21,6 +21,7 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 1.5rem;
+  margin-top: 3rem;
   color: #1a1a1a;
 }
 
@@ -87,19 +88,20 @@
   text-decoration: underline;
 }
 
-.arrow{
+.arrow {
   top: 218px;
 }
 
-.arrow2{
+.arrow2 {
   top: 140px;
 }
 
-@media (max-height: 850px){
-  .arrow{
+@media (max-height: 850px) {
+  .arrow {
     top: 128px;
   }
-  .arrow2{
+
+  .arrow2 {
     top: 50px;
   }
 }

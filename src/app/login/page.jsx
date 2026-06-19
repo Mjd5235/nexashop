@@ -75,9 +75,10 @@ function LoginContents() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}><LoginLogo /><Link href="/"><Image className={styles.arrow} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute" }} alt="BackIcon" /></Link></div>
+      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}><Link href="/"><Image className={styles.arrow} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute" }} alt="BackIcon" /></Link></div>
       <div className={styles.container}>
         <div className={styles.card}>
+          <LoginLogo />
           <h2 className={styles.title}>Welcome back</h2>
 
           {wrongLog ? <div style={{ display: 'flex', justifyContent: 'center' }}><p style={{ color: "#C53030", backgroundColor: "#FFF5F5", border: "solid 1px #FEB2B2", width: "330px", padding: "5px", fontSize: "13px", display: 'flex', justifyContent: "center", marginTop: "3px", marginBottom: "16px", }}>{LoginError}</p></div> : null}

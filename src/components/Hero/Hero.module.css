@@ -1,141 +1,264 @@
 .hero {
-    height: 600px;
-    background: linear-gradient(to left, black, white );
     color: black;
+    background-image: url('/Hero/nexashop_bg.png');
+    background-color: black;
+    height: 100vh;
+    min-height: 570px;
+    background-size: cover;
+    width: 100%;
+    background-position: center;
+    align-items: center;
+    display: grid;
+    padding-left: 120px;
 }
 
-.heroimg{
-    margin-right: 311px;
-    margin-top: 100px;
-    right: 0px;
-    position: absolute;
-    border-radius: 20px;
-}
-
-.herotext{
+.herotext {
+    font-weight: 400;
+    line-height: 1.4;
     width: 700px;
-    font-size: 25px;
-    color: #1a1a1a;
-    padding-left: 155px;
-    padding-bottom: 53px;
-    padding-top: 140px;
+    font-size: 32px;
+    color: #fff;
+    padding-bottom: 30px;
 }
 
-.twobut{
+.textWrapper {
+    display: grid;
+    align-items: center;
+}
+
+.heroNormalText {
+    width: 450px;
+    font-weight: 600;
+}
+
+.twobut {
     display: flex;
     gap: 20px;
-    left: 200px;
     text-align: center;
     align-items: center;
+    margin-top: 40px;
     position: relative;
 }
 
-.learn{
+.learn {
     color: #fff;
-    padding: 18px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #1a1a1a;
-    border-radius: 16px;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: solid 1px white;
+    border-radius: 8px;
+    transition: all .5s ease-in-out;
+    width: 205px;
+    height: 55px;
+}
+
+.arrowIcon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 8px;
+}
+
+
+.shop:hover .arrowIcon {
+    transform: translateX(5px);
+}
+
+.learn:hover .arrowIcon {
+    transform: translateX(5px);
+}
+
+.Herofeatures {
+    align-items: center;
+    margin-top: 80px;
+    display: flex;
+    font-size: 13px;
+    box-shadow: (255, 255, 255, 0.9);
+    font-weight: 500;
+    width: 510px;
+    max-width: 600px;
+}
+
+.heroFeature {
+    margin-right: 20px;
+    width: 160px;
+    max-width: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heroFeatureImg {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    position: relative;
 }
 
 .shop {
-    color: #1a1a1a;
-    padding: 18px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #1a75e8 ;
-    border-radius: 16px;
-    transition: background-color,color .1s ease-in-out;
+    color: #fff;
+    padding: 18px 40px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    background-color: #1a75e8;
+    width: 205px;
+    height: 55px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.shop:hover{
-    background-color: #1558b0;
+.shop:hover {
+    transform: translateY(-4px);
+    background-color: #1a82ff;
+    box-shadow: 0 15px 30px -5px rgba(26, 117, 232, 0.4);
+}
+
+.logoname {
+    color: #fff;
+    margin-bottom: 16px;
+    font-size: 100px;
+    font-weight: 700;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 20px;
+    cursor: default;
+}
+
+.excelText {
     color: white;
 }
 
-.learn:hover{
-    background-color: #fff;
-    color: #1a1a1a;
-}
-
-.logoname{
+.shopText {
     color: #1a75e8;
 }
 
-@media(max-width: 1760px){
-
-    .heroimg{
-        margin-top: 150px;
-        margin-right: 355px;
-        right: 0px;
-        position: absolute;
-        border-radius: 20px;
-        width: 500px;
-        height: 333px;
-    }
-    .herotext{
-        width: 700px;
-        font-size: 20px;
-        color: #1a1a1a;
-        padding-left: 155px;
-        padding-bottom: 53px;
-        padding-top: 140px;
-    }
-}
-
-@media(max-width:1500px) {
-
-    .heroimg{
-        right: 0px;
-        position: absolute;
-        margin-right: 155px;
-        border-radius: 20px;
-        width: 500px;
-        height: 333px;
+@media(max-width: 1440px) {
+    .hero {
+        padding-left: 70px;
     }
 
-    .herotext{
-        width: 700;
-        font-size: 20px;
-        color: #1a1a1a;
-        padding-left: 155px;
-        padding-bottom: 53px;
-        padding-top: 140px;
+    .logoname {
+        font-size: 82px;
+    }
+
+    .herotext {
+        font-size: 28px;
+    }
+
+    .Herofeatures {
+        font-size: 12px;
+    }
+
+    .heroFeatureImg {
+        width: 35px;
+        height: 35px;
     }
 }
 
-@media(max-width:1270px) {
-
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 710px;
-  }
-    .heroimg{
-        right: 0;
-        position: static;
-        border-radius: 20px;
-        margin-right: 0px;
-        margin-top: 100px;
-        width: 450px;
-        height: 300px;
+@media(max-width:1024px) {
+    .hero {
+        padding-left: 70px;
     }
-    .herotext{
-        width: 700px;
+
+    .logoname {
+        font-size: 66px;
+    }
+
+    .herotext {
+        font-size: 22px;
+    }
+
+    .Herofeatures {
+        font-size: 11px;
+    }
+
+    .heroFeatureImg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .shop {
+        width: 185px;
+        height: 49px;
+        font-size: 14px;
+    }
+
+    .learn {
+        width: 185px;
+        height: 49px;
+        font-size: 14px;
+    }
+}
+
+@media(max-width:930px) {
+    .hero {
+        padding-left: 40px;
+    }
+
+    .logoname {
+        font-size: 52px;
+    }
+
+    .herotext {
+        font-size: 18px;
+        margin-top: 75px;
+    }
+
+    .heroNormalText {
+        width: 250px;
+    }
+
+    .Herofeatures {
+        font-size: 10px;
+    }
+
+    .heroFeature {
+        margin-top: 20px;
+    }
+
+    .heroFeatureImg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .twobut {
+        display: grid;
+    }
+
+    .shop {
         font-size: 15px;
-        color: #1a1a1a;
-        padding-left: 0px;
-        padding-bottom: 53px;
-        padding-top: 25px;
+        width: 205px;
+        height: 45px;
     }
-    .twobut{
-        margin: 0px auto;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        left: 0px;
+
+    .learn {
+        font-size: 15px;
+        width: 205px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 560px) {
+    .Herofeatures {
+        max-width: 350px;
+        display: grid;
+        margin-top: 40px;
+    }
+
+    .heroFeature {
+        width: 100px;
+    }
+}
+
+@media (max-width: 475px) {
+    .hero {
+        background-position: 40% center;
     }
 }

@@ -1,3 +1,36 @@
+.dashboardGrid {
+    display: grid;
+    height: 3400px;
+    width: 100%;
+}
+
+.mainFlexContainer {
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+.sidebarWrapper {
+    display: none;
+}
+
+.sidebarHidden {
+    display: flex;
+}
+
+.menuIcon {
+    display: flex;
+    margin-top: 20px;
+    position: absolute;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.contentContainer {
+    width: 100%;
+}
+
 .thead tr {
     background-color: #b2b2b2;
     color: #1a1a1a;
@@ -167,4 +200,20 @@
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+}
+
+
+@media (max-width: 768px) {
+    .sidebarHidden {
+        display: none;
+    }
+
+    .sidebarHidden {
+        display: none;
+    }
+
+    .dashboardTitle {
+        margin-left: 50px;
+    }
+
 }

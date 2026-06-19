@@ -24,6 +24,7 @@ export default function Page() {
   const hasChanged = useRef(false)
   const [checked, setChecked] = useState(null)
 
+
   const timerRef = useRef()
   const router = useRouter()
 
@@ -221,16 +222,17 @@ export default function Page() {
         }
         window.dispatchEvent(new Event("cartUpdated"));
       } else {
-        const { data: CartItems, error: upl } = await supabase.from("cart").select("product_id, quantity, products: product_id (primary_key, title, image, price)").eq("user_id", data.user.id)
+        const { data: CartItems, error: upl } = await supabase.from("cart").select("product_id, quantity, products: product_id (primary_key, title, image, price, category)").eq("user_id", data.user.id)
         if (upl) { alert(upl.message) } else {
           const mappedCartItems = CartItems.map(item => ({
             product_id: item.product_id,
             image: item.products.image,
             title: item.products.title,
             price: item.products.price,
+            category: item.products.category,
             quantity: item.quantity,
           }))
-          const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "CONFIRMED", user_id: data.user.id, cart_items: mappedCartItems, }).single()
+          const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "Confirmed", user_id: data.user.id, cart_items: mappedCartItems, user_email: data.user.email, user_avatar: data.user.user_metadata.name.charAt(0).toUpperCase() }).single()
           if (error) { console.log(error.message) } else {
             document.cookie = "allowed_to_success=true; path=/; max-age=10"
             router.push("/checkout/success")
@@ -252,6 +254,7 @@ export default function Page() {
       }
     } else {
       toast.error("Please log in to continue to checkout.")
+      router.push("/login")
     }
     window.dispatchEvent(new Event("cartUpdated"));
   }
@@ -311,7 +314,7 @@ export default function Page() {
     return acc + price * quantity
   }, 0);
 
-  const finalPrice = Number(totalPrice && totalPrice.toFixed(2)) + 12
+  const finalPrice = Number(totalPrice && totalPrice.toFixed(2))
 
 
 
@@ -390,7 +393,7 @@ overflow-y: hidden;
   return (
     <div>
       <Header />
-
+      <div onClick={() => { router.back() }} style={{}}><img className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" /></div>
       <style>{responsiveStyles}</style>
 
       <h1
@@ -398,7 +401,6 @@ overflow-y: hidden;
           textAlign: "center",
           fontSize: "52px",
           marginBottom: "65px",
-          paddingTop: "115px",
           fontWeight: "700",
           letterSpacing: "1px",
           color: "#111",
@@ -419,6 +421,7 @@ overflow-y: hidden;
             padding: 0,
             maxWidth: "900px",
             margin: "0 auto",
+            marginTop: "0px"
           }}
         >
           {data6.map((img, index) => (

@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 
 const InterSans = Inter({
   subsets: ["latin"],
-  weight: ["400", "600", "800"]
+  weight: ["400", "600", "800"],
 })
 
 const geistSans = Geist({

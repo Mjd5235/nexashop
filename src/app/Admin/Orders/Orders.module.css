@@ -1,0 +1,372 @@
+.OrdersBg {
+    background-color: #f4f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.AlignmentCon {
+    margin-left: 277px;
+}
+
+.container {
+    max-width: 1100px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.headerSection {
+    margin-bottom: 40px;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a75e8;
+    margin-bottom: 32px;
+}
+
+.summaryCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.summaryCard {
+    background: white;
+    justify-content: center;
+    display: grid;
+    padding: 28px;
+    border-radius: 22px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.02)sss;
+    height: 116px;
+    transition: transform 0.2s;
+}
+
+.summaryCard:hover {
+    transform: translateY(-4px);
+}
+
+.summaryLabel {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summaryValue {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.summaryValueBlue {
+    color: #1a75e8;
+}
+
+.summaryValueOrange {
+    color: #f59e0b;
+}
+
+.summaryValueGreen {
+    color: #10b981;
+}
+
+.controlsBar {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.searchWrapper {
+    position: relative;
+    width: 500px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border-radius: 16px;
+    border: 1px solid #eef2f6;
+    background: white;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.searchInput:focus {
+    border-color: #1a75e8;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+/* Custom Select Component Styles */
+.customSelect {
+    position: relative;
+    min-width: 180px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.selectTrigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-radius: 16px;
+    border: 1px solid #eef2f6;
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s;
+}
+
+.selectTrigger:hover {
+    border-color: #cbd5e1;
+}
+
+.selectTrigger svg {
+    margin-left: 10px;
+    color: #94a3b8;
+    transition: transform 0.2s;
+}
+
+.customSelect.isOpen .selectTrigger svg {
+    transform: rotate(180deg);
+}
+
+.optionsList {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: calc(100% + 8px);
+    width: 140px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef2f6;
+    z-index: 9999;
+    overflow: hidden;
+    padding: 8px 0;
+}
+
+.optionItem {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    transition: all 0.2s;
+    border-radius: 12px;
+}
+
+.optionItem:hover {
+    color: #1a75e8;
+}
+
+.optionItem.selectedOption {
+    background: #eef2f6;
+    color: #1a75e8;
+    font-weight: 600;
+}
+
+
+.card {
+    background: white;
+    height: 100%;
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.01);
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
+    padding: 24px;
+    background: #fcfdfe;
+    border-bottom: 1px solid #f1f5f9;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.tableHeader div {
+    text-align: center;
+}
+
+.orderRow {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
+    padding: 24px;
+    align-items: center;
+    border-bottom: 1px solid #f8fafc;
+    transition: all 0.2s;
+}
+
+.orderRow:last-child {
+    border-bottom: none;
+}
+
+.orderRow div {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colId {
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+.customerEmail {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #f0f7ff;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #1a75e8;
+    font-size: 13px;
+}
+
+.colDate {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.statusBadge {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.badgeShipped {
+    background: #DBEAFE;
+    color: #2563EB;
+}
+
+.badgeConfirmed {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.statusProcessing {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.statusShipped {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.statusDelivered {
+    background: #f9fafb;
+    color: #4b5563;
+}
+
+/* Custom Select for table rows */
+.tableStatusSelect {
+    position: relative;
+    width: 140px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tableSelectTrigger {
+    display: flex;
+    justify-content: grid;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s;
+}
+
+.tableSelectTrigger:hover {
+    border-color: #cbd5e1;
+}
+
+.tableSelectTrigger svg {
+    margin-left: 8px;
+    color: #94a3b8;
+    transition: transform 0.2s;
+}
+
+.tableStatusSelect.isOpen .tableSelectTrigger svg {
+    transform: rotate(180deg);
+}
+
+.tableOptionsList {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 12px -4px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eef2f6;
+    z-index: 9999;
+    overflow: hidden;
+    padding: 6px 0;
+}
+
+.tableOptionItem {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+    transition: background 0.2s;
+}
+
+.tableOptionItem:hover {
+    background: #f8fafc;
+    color: #1a75e8;
+}
+
+.tableOptionItem.selectedOption {
+    background: #eef2f6;
+    color: #1a75e8;
+    font-weight: 600;
+}
