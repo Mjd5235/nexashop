@@ -48,6 +48,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
+    margin-left: 115px;
 }
 
 .linkItem {
@@ -57,6 +58,7 @@
     margin-top: 50px;
     padding: 10px 30px;
     border-radius: 8px;
+    padding-left: 30px;
 }
 
 .linkItemActive {
@@ -76,7 +78,14 @@
     display: flex;
 }
 
+@media (min-width: 1024px) {
+    .sidebarContainer {
+        width: 75px;
+    }
+}
+
 @media (max-width: 1200px) {
+
     .sidebarContainer {
         width: 75px;
     }
@@ -89,14 +98,45 @@
         display: none;
     }
 
-    .linkItemActive {
-        background-color: #2a2a2a;
-        width: 80px;
-        border-radius: 0;
-        margin-top: 150px;
+    .linksContainer {
+        margin-top: 50px;
+        display: grid;
+        position: relative;
+        justify-content: center;
+        margin-left: 0;
     }
 
-    .linkIcon {
-        margin-left: 0px;
+    .linkItemActive {
+        background-color: #2a2a2a;
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    .linkItem {
+        padding-left: 45px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebarContainer {
+        background-color: #1a1a1a;
+        padding-top: 32px;
+        width: 250px;
+    }
+
+    .linksContainer {
+        margin-top: 0px;
+    }
+
+    .profileSection {
+        display: grid;
+    }
+
+    .linkText {
+        display: grid;
+    }
+
+    .linkItem {
+        padding-left: 30px;
     }
 }

@@ -24,7 +24,7 @@ export default function Dashboard() {
             <div className={styles.mainFlexContainer}>
 
                 <div className={sided ? styles.sidebarHidden : styles.sidebarWrapper} style={{ display: sided ? "flex" : "none" }}>
-                    <Sidebar height="3500px" font="Dashboard" />
+                    <Sidebar height="100%" font="Dashboard" />
                 </div>
 
                 <Image

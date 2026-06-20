@@ -24,7 +24,7 @@ export default function Sidebar({ height, font }) {
   }, [])
 
   return (
-    <div className={styles.sidebarContainer} style={{ height: height, }}>
+    <div className={styles.sidebarContainer} style={{ height: height }}>
       <div className={styles.profileSection}>
         <h3 className={styles.welcomeText}>
           Welcome
@@ -64,6 +64,6 @@ export default function Sidebar({ height, font }) {
           </Link>
         ))}
       </div>
-    </div >
+    </ div >
   )
 }

@@ -16,13 +16,9 @@ const InterSans = Inter({
 export default function Products() {
 
     const [sided, setSided] = useState(true)
-
     const [LogBut, setLogBut] = useState(false)
-
     const ref = useRef()
-
     const [Sort, setSorted] = useState("latest")
-
     const [reversed, setReversed] = useState(true)
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteConfirmed, setDeleteConfirmed] = useState(false)
@@ -37,9 +33,8 @@ export default function Products() {
     const [data1, setData1] = useState([])
 
     const SideB = () => {
-        { sided === true ? setSided(false) : setSided(true) }
+        setSided(prev => !prev)
     }
-
 
     useEffect(() => {
         const getData = async () => {
@@ -58,7 +53,6 @@ export default function Products() {
         getData()
     }, [Sort, reversed])
 
-
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {
@@ -71,7 +65,6 @@ export default function Products() {
 
     const DeleteFromData = async () => {
         if (deleteConfirmed === true) {
-
             const { error } = await supabase
                 .from("products")
                 .delete()
@@ -83,125 +76,191 @@ export default function Products() {
                 setData1(prev => prev.filter(product => product.id !== productToDelete))
             }
             setShowConfirm(false)
-        } else {
-            return;
         }
+    }
+
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+    const toggleMobileSidebar = () => {
+        setIsMobileSidebarOpen(!isMobileSidebarOpen)
+        setSided(!sided)
     }
 
     return (
         <div className={styles.dashboardGrid}>
+            <div className={styles.sidebarWrapper}>
+                <Sidebar height="100%" font="Products" />
+            </div>
+
+            <div className={`${styles.sidebarMobileDrawer} ${isMobileSidebarOpen ? styles.open : ''}`}>
+                <Sidebar height="100%" font="Products" />
+            </div>
+
+            <div className={`${styles.sidebarOverlay} ${isMobileSidebarOpen ? styles.active : ''}`} onClick={() => { toggleMobileSidebar() }}></div>
+
             <div className={styles.mainFlexContainer}>
-
-                <div className={sided ? styles.sidebarHidden : styles.sidebarWrapper} style={{ display: sided ? "flex" : "none" }}>
-                    <Sidebar height="3500px" font="Products" />
-                </div>
-
                 <Image
                     className={styles.menuIcon}
                     src={'/Admin/Icons/menu.svg'}
                     width={35}
                     height={35}
                     alt='menu'
-                    onClick={SideB}
+                    onClick={() => { toggleMobileSidebar() }}
                 />
 
                 <div className={styles.contentContainer}>
                     <Header />
                     <div>
+                        <div className={styles.topActionsSection}>
+                            <div className={styles.pageTitle}>Products Inventory</div>
 
-                        <div style={{ display: "flex", marginTop: "30px", justifyContent: "space-between", }}>
+                            <div className={styles.controlsWrapper}>
+                                <div className={styles.sortContainer}>
+                                    <button
+                                        onClick={() => setReversed(prev => !prev)}
+                                        className={styles.reverseBtn}
+                                        style={{ height: !LogBut ? "45px" : "100px", }}
+                                    >
+                                        <Image src={"/Admin/Icons/reverse.svg"} width={25} height={25} alt='reverse' />
+                                    </button>
 
-                            <div style={{ fontWeight: "bold", background: "linear-gradient(to right, #1a75e8, #1a90e8)", fontWeight: "700", fontSize: "32px", letterSpacing: "0.5px", color: "transparent", whiteSpace: 'nowrap', backgroundClip: "text", width: "350px", marginLeft: "30px" }}>Products Inventory</div>
-                            <div style={{ display: 'flex', gap: "50px" }}>
-                                <div style={{ display: "flex", }}>
-                                    <button onClick={() => setReversed(prev => !prev)} style={{ backgroundColor: "#1a75e8", height: !LogBut ? "45px" : "100px", width: "30px", borderRadius: "8px 0 0 8px", marginTop: "20px", border: "none", cursor: "pointer" }}><Image src={"/Admin/Icons/reverse.svg"} width={25} height={25} alt='reverse' /></button>
-                                    <div ref={ref} style={{ marginTop: "17px" }}>
-
-                                        <div style={{ display: "grid" }}>
-                                            <button onClick={() => LogBut === false ? setLogBut(true) : setLogBut(false)} style={{ backgroundColor: "#3a3a3a", marginTop: "3px", height: "45px", borderRadius: "0 8px 8px 0", display: 'flex', justifyContent: "center", alignItems: "center", alignContent: 'center', fontWeight: "bold", border: "none", color: "white", fontSize: "15px", cursor: "pointer" }}>
-
+                                    <div ref={ref} onClick={() => setLogBut(prev => !prev)} className={styles.dropdownWrapper}>
+                                        <div className={styles.dropdownGrid}>
+                                            <button
+                                                className={styles.sortTriggerBtn}
+                                            >
                                                 {!LogBut ?
-                                                    <Image onClick={() => setLogBut(true)} style={{ cursor: 'pointer' }} src={'/Admin/Icons/dropdown.svg'} width={30} height={30} alt='user' />
+                                                    <Image className={styles.dropdownIcon} src={'/Admin/Icons/dropdown.svg'} width={30} height={30} alt='dropdown' />
                                                     :
-                                                    <Image style={{ cursor: 'pointer' }} onClick={() => setLogBut(false)} src={'/Admin/Icons/dropup.svg'} width={30} height={30} alt='user' />}
-                                                <span style={{ marginRight: "8px", }}>Sort By</span>
+                                                    <Image className={styles.dropdownIcon} src={'/Admin/Icons/dropup.svg'} width={30} height={30} alt='dropup' />
+                                                }
+                                                <span className={styles.sortText}>Sort By</span>
                                             </button>
 
                                             {LogBut &&
-                                                <ul style={{ backgroundColor: "#3a3a3a", borderRadius: "0 0 8px 0", paddingLeft: "11px", marginTop: "-7px", paddingTop: "2px", paddingBottom: "8px", display: 'grid', justifyContent: "center", alignItems: "center", alignContent: 'center', fontWeight: "bold", border: "none", color: "white", fontSize: "15px", height: "62px" }}>
+                                                <ul className={styles.sortList}>
                                                     {sortData.map(sort => (
-                                                        <li key={sort.id}><button style={{ background: "none", border: "none", fontWeight: "bold", fontSize: Sort === sort.name ? "16px" : "15px", color: Sort === sort.name ? "#1a90e8" : "white", cursor: "pointer" }} onClick={() => { setSorted(sort.name); setReversed(sort.name === "latest" ? true : false) }}> {sort.name}</button></li>
+                                                        <li key={sort.id}>
+                                                            <button
+                                                                className={styles.sortItemBtn}
+                                                                style={{
+                                                                    fontSize: Sort === sort.name ? "16px" : "15px",
+                                                                    color: Sort === sort.name ? "#1a90e8" : "white"
+                                                                }}
+                                                                onClick={() => { setSorted(sort.name); setReversed(sort.name === "latest" ? true : false) }}
+                                                            >
+                                                                {sort.name}
+                                                            </button>
+                                                        </li>
                                                     ))}
                                                 </ul>
-                                            }</div>
-                                    </div>
-                                </div>
-
-                                <Link href='/Admin/Products/Add' className={styles.newpro} style={{ width: "145px", height: "45px", justifyContent: "center", alignItems: 'center', alignContent: "center", textAlign: "center", marginTop: "20px", marginRight: "150px", border: "none", fontSize: "16px", fontWeight: "bold", color: "white", cursor: "pointer", display: 'flex', paddingRight: "5px", }}><Image src='/Admin/Icons/Add.svg' width={30} height={30} alt='add' /><span>Add product</span></Link>
-                            </div>
-                        </div>
-
-                        <div style={{ marginTop: "50px" }}>
-                            <table className={styles.table} style={{ justifyContent: "space-between", paddingBottom: "15px", marginLeft: "0px", marginRight: "90px", paddingTop: "25px", textAlign: 'left', width: "1375px" }}>
-                                <thead className={styles.thead} style={{ padding: "30px" }}>
-                                    <tr style={{ justifyContent: "space-between", }}>
-                                        <th style={{ paddingLeft: "30px" }}>Product</th>
-                                        <th>Product Name</th>
-                                        <th>Description</th>
-                                        <th style={{ paddingLeft: "15px" }}>Price</th>
-                                        <th style={{ paddingLeft: "2px" }}>Old Price</th>
-                                        <th style={{ paddingRight: "20px" }}>Stock</th>
-                                        <th style={{ paddingLeft: "25px" }}>Status</th>
-                                        <th style={{ paddingLeft: "20px" }}>Edit</th>
-                                        <th style={{ paddingLeft: "20px" }}>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data1.map(product => (
-                                        <tr className={styles.pro} key={product.id} style={{ justifyContent: "space-between", width: "1350px", }}>
-                                            <td><div style={{ position: "relative", width: "150px", height: "120px", marginBottom: "28px", marginLeft: "-10px" }}><Image style={{ marginTop: product.stock === 0 ? "25px" : "15px", objectFit: "contain" }} src={product.image} fill key={product.title - product.id} alt={product.title} /></div></td>
-                                            <td style={{ fontWeight: 'bold' }}>{product.title}</td>
-                                            <td className={styles.desc}>{product.description}</td>
-                                            <td style={{ fontWeight: 'bold', paddingRight: "30px" }}>{product.price} SAR</td>
-                                            <td>{product.oldPrice ? `${product.oldPrice} SAR` : "__________"}</td>
-                                            <td style={{ paddingLeft: "19px" }}>{product.stock}</td>
-                                            <td>{<div style={{ backgroundColor: product.stock === 0 && "#ef4444" || product.stock < 10 && "#f59e0b" || product.stock >= 10 && "#22c55e", display: 'flex', justifyContent: 'center', alignItems: "center", alignContent: "center", padding: "10px 0px 10px 0px", color: "white", borderRadius: "8px", width: "110px", fontWeight: "bold" }}>{product.stock === 0 && "Out of stock" || product.stock < 10 && "Low stock" || product.stock >= 10 && "In stock"}</div>}</td>
-                                            <td><Link href={`/Admin/Products/Edit/${product.id}`}><Image style={{ backgroundColor: "#1a75e8", padding: "10px", marginLeft: "15px", borderRadius: "8px", marginTop: "3px" }} src={'/Admin/Icons/edit.svg'} width={45} height={45} alt='edit' /></Link></td>
-                                            <td><Image onClick={() => { setProductToDelete(product.id); setShowConfirm(true) }} style={{ backgroundColor: "#ef4444", padding: "10px", borderRadius: "8px", marginTop: "3px", cursor: "pointer", marginLeft: "25px" }} src={'/Admin/Icons/delete.svg'} width={45} height={45} alt='edit' /></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            {showConfirm === true && (
-                                <div className={styles.modalOverlay} onClick={() => setShowConfirm(false)}>
-                                    <div className={InterSans.className}>
-                                        <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
-                                            <h3>Are you sure?</h3>
-                                            <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-
-                                            <div className={styles.modalButtons}>
-                                                <button
-                                                    onClick={() => setShowConfirm(false)}
-                                                    className={`${styles.modalBtn} ${styles.btnCancel}`}
-                                                >
-                                                    Cancel
-                                                </button>
-
-                                                <button
-                                                    onClick={() => { setDeleteConfirmed(true); DeleteFromData(); }}
-                                                    className={`${styles.modalBtn} ${styles.btnDelete}`}
-                                                >
-                                                    Yes, Delete
-                                                </button>
-                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            )}
+
+                                <Link href='/Admin/Products/Add' className={`${styles.newpro} ${styles.addProductLink}`}>
+                                    <Image src='/Admin/Icons/Add.svg' width={30} height={30} alt='add' />
+                                    <span>Add product</span>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={styles.TableCon}>
+                            <div className={styles.tableGridWrapper}>
+                                <table className={styles.table}>
+                                    <thead className={styles.thead}>
+                                        <tr className={styles.tableTheadRow}>
+                                            <th className={styles.thProduct}>Product</th>
+                                            <th>Product Name</th>
+                                            <th>Description</th>
+                                            <th className={styles.thPrice}>Price</th>
+                                            <th className={styles.thOldPrice}>Old Price</th>
+                                            <th className={styles.thStock}>Stock</th>
+                                            <th className={styles.thStatus}>Status</th>
+                                            <th className={styles.thEdit}>Edit</th>
+                                            <th className={styles.thDelete}>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data1.map(product => (
+                                            <tr className={styles.pro} key={product.id}>
+                                                <td>
+                                                    <div className={styles.imageContainer}>
+                                                        <Image
+                                                            className={styles.productImage}
+                                                            style={{ marginTop: product.stock === 0 ? "25px" : "15px" }}
+                                                            src={product.image}
+                                                            fill
+                                                            key={product.title - product.id}
+                                                            alt={product.title}
+                                                        />
+                                                    </div>
+                                                </td>
+                                                <td className={styles.productTitleCell}>{product.title}</td>
+                                                <td className={styles.desc}>{product.description}</td>
+                                                <td className={styles.priceCell}>{product.price} SAR</td>
+                                                <td>{product.oldPrice ? `${product.oldPrice} SAR` : "__________"}</td>
+                                                <td className={styles.stockCell}>{product.stock}</td>
+                                                <td>
+                                                    <div className={`${styles.statusBadge} ${product.stock === 0 ? styles.statusOut :
+                                                        product.stock < 10 ? styles.statusLow : styles.statusIn
+                                                        }`}>
+                                                        {product.stock === 0 && "Out of stock"}
+                                                        {product.stock < 10 && product.stock > 0 && "Low stock"}
+                                                        {product.stock >= 10 && "In stock"}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <Link href={`/Admin/Products/Edit/${product.id}`}>
+                                                        <Image className={styles.editIconBtn} src={'/Admin/Icons/edit.svg'} width={45} height={45} alt='edit' />
+                                                    </Link>
+                                                </td>
+                                                <td>
+                                                    <Image
+                                                        onClick={() => { setProductToDelete(product.id); setShowConfirm(true) }}
+                                                        className={styles.deleteIconBtn}
+                                                        src={'/Admin/Icons/delete.svg'}
+                                                        width={45}
+                                                        height={45}
+                                                        alt='delete'
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                {showConfirm === true && (
+                                    <div className={styles.modalOverlay} onClick={() => setShowConfirm(false)}>
+                                        <div className={InterSans.className}>
+                                            <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+                                                <h3>Are you sure?</h3>
+                                                <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+
+                                                <div className={styles.modalButtons}>
+                                                    <button
+                                                        onClick={() => setShowConfirm(false)}
+                                                        className={`${styles.modalBtn} ${styles.btnCancel}`}
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => { setDeleteConfirmed(true); DeleteFromData(); }}
+                                                        className={`${styles.modalBtn} ${styles.btnDelete}`}
+                                                    >
+                                                        Yes, Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div >
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 }

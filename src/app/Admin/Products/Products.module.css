@@ -1,26 +1,62 @@
 .dashboardGrid {
     display: grid;
-    height: 3400px;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
     width: 100%;
 }
 
 .mainFlexContainer {
     display: flex;
+    flex-direction: column;
     overflow-x: hidden;
-    overflow-y: hidden;
-    width: 100%;
+    flex: 1;
 }
 
 .sidebarWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    height: 100%;
+}
+
+.sidebarMobileDrawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 102;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    flex-direction: column;
+}
+
+.sidebarMobileDrawer.open {
+    transform: translateX(0);
+}
+
+.sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
     display: none;
 }
 
-.sidebarHidden {
-    display: flex;
+.sidebarOverlay.active {
+    display: block;
 }
 
+
 .menuIcon {
-    display: flex;
+    display: none;
     margin-top: 20px;
     position: absolute;
     cursor: pointer;
@@ -29,6 +65,7 @@
 
 .contentContainer {
     width: 100%;
+    display: grid;
 }
 
 .thead tr {
@@ -46,7 +83,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 100px;
+    justify-content: center;
+    padding: 0 50px;
 }
 
 .pro {
@@ -190,6 +228,224 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+
+.topActionsSection {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.pageTitle {
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.5px;
+    color: transparent;
+    white-space: nowrap;
+    background: linear-gradient(to right, #1a75e8, #1a90e8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    margin-left: 30px;
+}
+
+.controlsWrapper {
+    display: flex;
+    gap: 50px;
+}
+
+.sortContainer {
+    display: flex;
+}
+
+.reverseBtn {
+    background-color: #1a75e8;
+    width: 30px;
+    border-radius: 8px 0 0 8px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdownWrapper {
+    margin-top: 17px;
+}
+
+.dropdownGrid {
+    display: grid;
+    align-items: start;
+}
+
+.sortTriggerBtn {
+    background-color: #3a3a3a;
+    margin-top: 3px;
+    height: 45px;
+    border-radius: 0 8px 8px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-weight: bold;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.dropdownIcon {
+    cursor: pointer;
+}
+
+.sortText {
+    margin-right: 8px;
+}
+
+.sortList {
+    background-color: #3a3a3a;
+    border-radius: 0 0 8px 0;
+    padding-left: 11px;
+    margin-top: -7px;
+    padding-top: 2px;
+    padding-bottom: 8px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-weight: bold;
+    border: none;
+    color: white;
+    font-size: 15px;
+    height: 62px;
+    list-style: none;
+}
+
+.sortItemBtn {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.addProductLink {
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 20px;
+    margin-right: 150px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    padding-right: 5px
+}
+
+.tableGridWrapper {
+    display: grid;
+    justify-content: center;
+}
+
+.tableTheadRow {
+    justify-content: space-between;
+}
+
+.thProduct {
+    padding-left: 30px;
+}
+
+.thPrice {
+    padding-left: 15px;
+}
+
+.thOldPrice {
+    padding-left: 2px;
+}
+
+.thStock {
+    padding-right: 20px;
+}
+
+.thStatus {
+    padding-left: 25px;
+}
+
+.thEdit {
+    padding-left: 20px;
+}
+
+.thDelete {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.imageContainer {
+    position: relative;
+    width: 150px;
+    height: 120px;
+    margin-bottom: 28px;
+    margin-left: -10px;
+}
+
+.productImage {
+    object-fit: contain;
+}
+
+.productTitleCell {
+    font-weight: bold;
+}
+
+.priceCell {
+    font-weight: bold;
+    padding-right: 30px;
+}
+
+.stockCell {
+    padding-left: 19px;
+}
+
+.editIconBtn {
+    background-color: #1a75e8;
+    padding: 10px;
+    margin-left: 15px;
+    border-radius: 8px;
+    margin-top: 3px;
+}
+
+.deleteIconBtn {
+    background-color: #ef4444;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 3px;
+    cursor: pointer;
+    margin-left: 25px;
+}
+
+.statusBadge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 10px 0px;
+    color: white;
+    border-radius: 8px;
+    width: 110px;
+    font-weight: bold;
+}
+
+.statusOut {
+    background-color: #ef4444;
+}
+
+.statusLow {
+    background-color: #f59e0b;
+}
+
+.statusIn {
+    background-color: #22c55e;
+}
+
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -199,6 +455,79 @@
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 1200px) {
+    .sidebarWrapper {
+        width: 90px;
+    }
+
+    .dashboardGrid {
+        grid-template-columns: 90px 1fr;
+    }
+}
+
+@media (max-width: 1685px) {
+    .addProductLink {
+        margin-right: 50px;
+    }
+}
+
+@media (max-width: 1024px) {
+
+    .sidebarWrapper {
+        display: none;
+    }
+
+    .menuIcon {
+        display: flex;
+    }
+
+    .pageTitle {
+        font-size: 26px;
+        margin-left: -50px;
+    }
+
+    .topActionsSection {
+        margin: 50px auto;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .dropdownWrapper {
+        width: 100%;
+    }
+
+    .addProductLink {
+        margin: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .controlsWrapper {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        width: 85%;
+        gap: 20px;
+    }
+
+    .tableGridWrapper {
+        overflow-x: scroll;
+        display: grid;
+        justify-content: left;
+        margin: 0 auto;
+        width: 85%;
+        margin-left: auto;
+    }
+
+    .TableCon {
+        margin: 0 auto;
+        display: grid;
     }
 }
 
@@ -216,4 +545,38 @@
         margin-left: 50px;
     }
 
+}
+
+@media (max-width: 1024px) {
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebarWrapper {
+        display: none;
+    }
+
+    .menuIcon {
+        display: flex;
+    }
+
+    .sidebarMobileDrawer {
+        display: flex;
+    }
+
+    .sidebarOverlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .dashboardTitle {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 70px;
+    }
+
+    .chartsSection,
+    .bottomSection {
+        flex-direction: column;
+        grid-template-columns: 1fr;
+    }
 }
