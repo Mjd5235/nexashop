@@ -1,21 +1,17 @@
 "use client"
 import React, { useState, useEffect, use } from 'react'
 import { supabase } from '@/lib/SubaBaseClient'
-import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import Header from '@/app/Admin/components/Header/Header'
 import Sidebar from '@/app/Admin/components/Sidebar/Sidebar'
 import Image from 'next/image'
-import styles from '../Products.module.css'
+import styles from './Add.module.css'
 import Link from 'next/link'
 
 export default function Add() {
 
     const [data1, setData1] = useState([])
-    const path = usePathname()
     const router = useRouter()
-
-    const [Idata, setIdata] = useState([])
 
     const [file, setFile] = useState(null)
     const [name, setName] = useState(null)
@@ -44,8 +40,11 @@ export default function Add() {
         { id: 5, name: "Headphones and smart wathces", },
     ]
 
-    const SideB = () => {
-        { sided === true ? setSided(false) : setSided(true) }
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+    const toggleMobileSidebar = () => {
+        setIsMobileSidebarOpen(!isMobileSidebarOpen)
+        setSided(!sided)
     }
 
     useEffect(() => {
@@ -77,7 +76,7 @@ export default function Add() {
         }
     }
 
-    const FormsReset = () => { setFile(null); setPreview(null); setName(null); setCategory(null); setDescription(null); setFeatures(null); setStock(null); setTime(null); setPrice(null); setOldPrice(null); }
+    const FormsReset = () => { setFile(null); setPreview(null); setName(""); setCategory(""); setDescription(""); setFeatures(""); setStock(""); setTime(""); setPrice(""); setOldPrice(""); }
 
 
     const handleSave = async () => {
@@ -149,77 +148,149 @@ export default function Add() {
         getData()
     })
     return (
-        <div>
-            <div style={{ display: "flex", }}>
-                {sided ?
-                    <div style={{ width: "250px", }}>
-                        <Sidebar height="1200px" font="Products" />
-                    </div>
-                    : null}
-                <Image style={{ display: 'grid', marginTop: "20px", position: "absolute", marginLeft: sided ? "300px" : "100px", cursor: "pointer", }} src={'/Admin/Icons/menu.svg'} width={35} height={35} alt='menu' onClick={SideB} />
-                <div style={{ display: "grid" }}>
-                    <div style={{ width: sided ? "1655px" : "1920px", marginLeft: sided ? "250px" : "0", marginLeft: sided ? "0px" : "", }}>
-                        <Header />
-                        <div style={{ display: "grid", marginLeft: "150px", }}>
-                            <div style={{ display: "flex", marginTop: "30px", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold", background: "linear-gradient(to right, #1a75e8, #92d0ff)", fontWeight: "700", fontSize: "32px", letterSpacing: "0.5px", color: "transparent", whiteSpace: 'nowrap', backgroundClip: "text", width: "350px", marginLeft: "30px" }}>Edit product details</div>
-                            </div>
-                            <div style={{ marginTop: "50px", marginLeft: "30px", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)", width: "1050px", padding: "45px", borderRadius: "12px", height: "900px" }}>
-                                <div style={{ display: "flex" }}>
+        <div className={styles.OrdersBg}>
+            <div className={styles.dashboardGrid}>
+                <div className={styles.sidebarWrapper}>
+                    <Sidebar height="100%" font="Orders" />
+                </div>
 
-                                    <div style={{ display: "grid", marginLeft: "-60px", }} ><span style={{ color: "#4a4a4a", marginLeft: "84px", }}>Product Image</span><div style={{ position: "relative", width: "270px", height: "170px" }}>{preview !== null && preview !== "" && <Image style={{ objectFit: "contain" }} src={preview} fill alt={'new Image'} />}</div></div>
+                <div className={`${styles.sidebarMobileDrawer} ${isMobileSidebarOpen ? styles.open : ''}`}>
+                    <Sidebar height="100%" font="Orders" />
+                </div>
+
+                <div className={`${styles.sidebarOverlay} ${isMobileSidebarOpen ? styles.active : ''}`} onClick={() => { toggleMobileSidebar() }}></div>
+
+                <div className={styles.mainFlexContainer}>
+                    <Image
+                        className={styles.menuIcon}
+                        src={'/Admin/Icons/menu.svg'}
+                        width={35}
+                        height={35}
+                        alt='menu'
+                        onClick={() => { toggleMobileSidebar() }}
+                    />
+
+                    <div className={styles.contentContainer}>
+                        <Header />
+                        <div className={styles.mainContent}>
+                            <div className={styles.pageHeader}>
+                                <div className={styles.pageTitle}>Add new Product</div>
+                            </div>
+
+                            <div className={styles.formContainerWrapper}>
+                                <div className={styles.imageUploadSection}>
+                                    <div className={styles.imagePreviewContainer}>
+                                        <span className={styles.fieldLabelSpecial}>Product Image</span>
+                                        <div className={styles.previewBox}>
+                                            {preview !== null && preview !== "" && (
+                                                <Image className={styles.imageContain} src={preview} fill alt={'new Image'} />
+                                            )}
+                                        </div>
+                                    </div>
+
                                     <label
                                         onDrop={(e) => {
-                                            e.preventDefault()
-                                            handleFile(e.dataTransfer.files[0])
+                                            e.preventDefault();
+                                            handleFile(e.dataTransfer.files[0]);
                                         }}
-
                                         onDragOver={(e) => {
-                                            e.preventDefault()
+                                            e.preventDefault();
                                         }}
-                                        style={{ border: file !== null ? "2px dashed #1a75e8" : "1px dashed #9a9a9a", width: "750px", height: "215px", marginLeft: "0px", justifyContent: "center", alignContent: 'center', alignItems: "center", display: "grid", justifyItems: "center", color: "#4a4a4a", }}>
-
+                                        className={`${styles.dropZone} ${file !== null ? styles.dropZoneActive : styles.dropZoneInactive}`}
+                                    >
                                         <input onChange={(e) => { handleFile(e.target.files[0]) }} type='file' accept='image/*' hidden />
                                         <Image src={'/Admin/Icons/uploadn.svg'} width={30} height={30} alt='upload' />
 
-                                        <span style={{ display: "grid", color: "#4a4a4a", marginTop: "10px" }}>Click or drag image to upload<span style={{ marginTop: "7px", marginLeft: "6px", marginBottom: "7px" }}>PNG, JPG, SVG up to 5MP</span></span>
-                                        {file !== null && <span>{file.name}<span onClick={(e) => { e.preventDefault(); e.stopPropagation(); setFile(null); setPreview(null) }} style={{ cursor: " pointer", }}> <svg style={{ marginBottom: "-7px" }} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#4a4a4a"><path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" /></svg></span></span>}
+                                        <span className={styles.uploadTextContainer}>
+                                            Click or drag image to upload
+                                            <span className={styles.uploadFormats}>PNG, JPG, SVG up to 5MP</span>
+                                        </span>
 
+                                        {file !== null && (
+                                            <span className={styles.fileNameRow}>
+                                                {file.name}
+                                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); setFile(null); setPreview(null) }} className={styles.deleteFileBtn}>
+                                                    <svg className={styles.svgAlign} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#4a4a4a">
+                                                        <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
+                                                    </svg>
+                                                </span>
+                                            </span>
+                                        )}
                                     </label>
                                 </div>
 
-                                <div style={{ display: "flex", marginTop: "50px", }}>
-                                    <div style={{ display: "grid", marginRight: "50px", flex: "1", marginTop: "1px" }}><span style={{ color: "#4a4a4a" }}>Product name</span><input maxLength={35} value={name ?? ""} onChange={(e) => { setName(e.target.value); setNameLength(e.target.value.length) }} style={{ padding: "8px", marginTop: "6px", }} type="text" /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{nameLength} / 35</span></div>
-                                    <div style={{ display: "grid", flex: "1", height: "60px" }}><span style={{ color: "#4a4a4a", }}>Product Category</span><select style={{ padding: "5px" }} value={category} onChange={(e) => { setCategory(e.target.value); }}>{categories.map(cat => (<option key={cat.id}>{cat.name}</option>))}</select></div>
-                                </div>
-                                <div style={{ display: "flex" }}>
-                                    <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Description</span><textarea maxLength={330} value={description !== null ? description : ""} onChange={(e) => { setDescription(e.target.value); setDescriptionLength(e.target.value.length) }} type="text" style={{ width: "455px", marginRight: "50px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{DescriptionLength} / 330</span></div>
-                                    <div style={{ display: "grid", marginTop: "50px" }}><span style={{ color: "#4a4a4a" }}>Features</span><textarea maxLength={330} value={features ?? ""} onChange={(e) => { setFeatures(e.target.value); setFeaturesLength(e.target.value.length) }} type="text" style={{ width: "455px", height: "75px", padding: "6px", whiteSpace: "pre-wrap", marginTop: "6px" }} /><span style={{ marginTop: "5px", marginLeft: "5px", color: "#888", fontSize: "14px" }}>{FeaturesLength} / 330</span></div>
-                                </div>
-
-                                <div style={{ display: "flex", marginTop: "50px" }}>
-                                    <div style={{ display: "grid", flex: "1", marginRight: "50px" }}><span style={{ color: "#4a4a4a" }}>Stock quantity</span><input value={stock !== null ? stock : ""} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : alert("Stock cannot be negative") & "0") }} style={{ padding: "8px", marginTop: "6px", width: "450px" }} type="number" /></div>
-                                    <div style={{ display: "grid", flex: "1", marginRight: "50px" }}><span style={{ color: "#4a4a4a" }}>Delivery time</span><div style={{ display: "flex" }}><input value={time !== null ? time : ""} onChange={(e) => { setTime(e.target.value >= 0 && e.target.value <= 28 ? e.target.value : alert("Days cannot be negative or more than 4 weeks") & "0") }} style={{ padding: "8px", marginTop: "6px", width: "450px" }} type="number" /><span style={{ fontSize: "14px", marginTop: "15px", marginLeft: "3px" }}>Days</span></div></div>
-                                </div>
-
-                                <div style={{ display: "flex", marginTop: "50px" }}>
-                                    <div style={{ display: "grid", width: "500px", color: "#4a4a4a" }}><span style={{ color: "#4a4a4a" }}>Price</span><div style={{ display: "flex", }}><input value={price !== null ? price : ""} onChange={(e) => { setPrice(e.target.value >= 0 ? e.target.value : alert("Price cannot be negative") & "0") }} style={{ padding: "8px", marginTop: "6px", width: "450px", }} type="number" /><span style={{ fontSize: "14px", marginTop: "15px", marginLeft: "3px", }}>SAR</span></div></div>
-                                    <div style={{ display: "grid", width: "500px", color: "#4a4a4a", marginLeft: "30px" }}><span style={{ color: "#4a4a4a" }}>Old price</span><div style={{ display: "flex", }}><input value={oldPrice !== null ? oldPrice : ""} onChange={(e) => { setOldPrice(e.target.value >= 0 ? e.target.value : alert("Old price cannot be negative") & "00") }} style={{ padding: "8px", marginTop: "6px", width: "450px" }} type="number" /> <span style={{ fontSize: "14px", marginTop: "15px", marginLeft: "3px" }}>SAR</span></div></div>
+                                <div className={styles.formRow}>
+                                    <div className={`${styles.fieldGrid} ${styles.marginRight50} ${styles.flex1} ${styles.marginTop1}`}>
+                                        <span className={styles.fieldLabel}>Product name</span>
+                                        <input className={styles.textInput} maxLength={35} value={name ?? ""} onChange={(e) => { setName(e.target.value); setNameLength(e.target.value.length) }} type="text" />
+                                        <span className={styles.charCounter}>{nameLength} / 35</span>
+                                    </div>
+                                    <div className={styles.marignTopNegat}>
+                                        <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.selectHeight} ${styles.marginTop1}`}>
+                                            <span className={styles.fieldLabel}>Product Category</span>
+                                            <select className={styles.selectInput} value={category} onChange={(e) => { setCategory(e.target.value); }}>
+                                                {categories.map(cat => (<option key={cat.id}>{cat.name}</option>))}
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div style={{ display: "flex", direction: "rtl", }}>
-                                    <div style={{ display: "flex", justifyContent: "right", marginTop: "50px", }}><button className={styles.saveChan} style={{ padding: "8px 16px", alignItems: 'center', color: "white", alignContent: "center", textAlign: "center", border: "none", fontSize: "16px", cursor: "pointer", fontSize: "15px" }} onClick={() => handleSave()}>Save changes</button></div>
-                                    <div style={{ display: "flex", justifyContent: "right", marginTop: "50px", marginRight: "10px" }}><Link href='/Admin/Products' className={styles.cancel} style={{ padding: "8px 16px", alignItems: 'center', alignContent: "center", textAlign: "center", border: "none", fontSize: "16px", fontWeight: "normal", cursor: "pointer", fontSize: "15px", }}>Cancel</Link></div>
+                                <div className={styles.formRow}>
+                                    <div className={`${styles.fieldGrid} ${styles.marginTop50}`}>
+                                        <span className={styles.fieldLabel}>Description</span>
+                                        <textarea maxLength={330} value={description !== null ? description : ""} onChange={(e) => { setDescription(e.target.value); setDescriptionLength(e.target.value.length) }} className={`${styles.textareaInput} ${styles.marginRight50}`} />
+                                        <span className={styles.charCounter}>{DescriptionLength} / 330</span>
+                                    </div>
+                                    <div className={`${styles.fieldGrid} ${styles.marginTop50}`}>
+                                        <span className={styles.fieldLabel}>Features</span>
+                                        <textarea maxLength={330} value={features ?? ""} onChange={(e) => { setFeatures(e.target.value); setFeaturesLength(e.target.value.length) }} className={styles.textareaInput} />
+                                        <span className={styles.charCounter}>{FeaturesLength} / 330</span>
+                                    </div>
                                 </div>
-                                <div style={{ display: "flex", justifyContent: "left", marginTop: "-33px" }}><button className={styles.reset} style={{ padding: "8px 16px", alignItems: 'center', alignContent: "center", textAlign: "center", border: "none", fontSize: "16px", fontWeight: "normal", cursor: "pointer", fontSize: "15px", }} onClick={() => FormsReset()}>Empty all</button></div>
 
+                                <div className={`${styles.formRow} ${styles.marginTop50}`}>
+                                    <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
+                                        <span className={styles.fieldLabel}>Stock quantity</span>
+                                        <input value={stock !== null ? stock : ""} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : alert("Stock cannot be negative") & "0") }} className={styles.numberInputFull} type="number" />
+                                    </div>
+                                    <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
+                                        <span className={styles.fieldLabel}>Delivery time</span>
+                                        <div className={styles.flexRow}>
+                                            <input value={time !== null ? time : ""} onChange={(e) => { setTime(e.target.value >= 0 && e.target.value <= 28 ? e.target.value : alert("Days cannot be negative or more than 4 weeks") & "0") }} className={styles.numberInputFull} type="number" />
+                                            <span className={styles.unitText}>Days</span>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div className={`${styles.formRow} ${styles.marginTop50}`}>
+                                    <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey}`}>
+                                        <span className={styles.fieldLabel}>Price</span>
+                                        <div className={styles.flexRow}>
+                                            <input value={price !== null ? price : ""} onChange={(e) => { setPrice(e.target.value >= 0 ? e.target.value : alert("Price cannot be negative") & "0") }} className={styles.numberInputFull} type="number" />
+                                            <span className={styles.unitText}>SAR</span>
+                                        </div>
+                                    </div>
+                                    <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey} ${styles.marginLeft30}`}>
+                                        <span className={styles.fieldLabel}>Old price</span>
+                                        <div className={styles.flexRow}>
+                                            <input value={oldPrice !== null ? oldPrice : ""} onChange={(e) => { setOldPrice(e.target.value >= 0 ? e.target.value : alert("Old price cannot be negative") & "00") }} className={styles.numberInputFull} type="number" />
+                                            <span className={styles.unitText}>SAR</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.actionsFooterRow}>
+                                    <div className={styles.mainActionsContainer}>
+                                        <button className={styles.saveChan} onClick={() => handleSave()}>Save changes</button>
+                                        <Link href='/Admin/Products' className={styles.cancel}>Cancel</Link>
+                                    </div>
+                                    <button className={styles.reset} onClick={() => FormsReset()}>Empty all</button>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div >
-        </div >
-    )
+            </div>
+        </div>
+    );
 }

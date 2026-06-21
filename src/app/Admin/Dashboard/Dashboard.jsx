@@ -15,30 +15,38 @@ export default function Dashboard() {
 
     const [sided, setSided] = useState(true)
 
-    const SideB = () => {
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+    const toggleMobileSidebar = () => {
+        setIsMobileSidebarOpen(!isMobileSidebarOpen)
         setSided(!sided)
     }
 
     return (
         <div className={styles.dashboardGrid}>
+            <div className={styles.sidebarWrapper}>
+                <Sidebar height="100%" font="Dashboard" />
+            </div>
+
+            <div className={`${styles.sidebarMobileDrawer} ${isMobileSidebarOpen ? styles.open : ''}`}>
+                <Sidebar height="100%" font="Dashboard" />
+            </div>
+
+            <div className={`${styles.sidebarOverlay} ${isMobileSidebarOpen ? styles.active : ''}`} onClick={() => { toggleMobileSidebar() }}></div>
+
             <div className={styles.mainFlexContainer}>
-
-                <div className={sided ? styles.sidebarHidden : styles.sidebarWrapper} style={{ display: sided ? "flex" : "none" }}>
-                    <Sidebar height="100%" font="Dashboard" />
-                </div>
-
                 <Image
                     className={styles.menuIcon}
                     src={'/Admin/Icons/menu.svg'}
                     width={35}
                     height={35}
                     alt='menu'
-                    onClick={SideB}
+                    onClick={() => { toggleMobileSidebar() }}
                 />
 
                 <div className={styles.contentContainer}>
                     <Header />
-                    <div>
+                    <div className={styles.mainContent}>
                         <div className={styles.dashboardTitle}>Dashboard</div>
 
                         <Statistics />

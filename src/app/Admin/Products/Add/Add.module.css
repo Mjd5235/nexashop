@@ -1,0 +1,470 @@
+.saveChan {
+    background-color: #22c55e;
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+}
+
+.saveChan:hover {
+    background-color: #16a34a;
+}
+
+.cancel {
+    background-color: rgb(243, 244, 246);
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+    color: #2a2a2a;
+    text-decoration: none;
+}
+
+.cancel:hover {
+    background-color: #bbb;
+}
+
+.reset {
+    background-color: #1a99e8;
+    border-radius: 8px;
+    transition: background-color, border-radius .1s ease-in-out;
+    color: white;
+}
+
+.reset:hover {
+    background-color: #1a75e8;
+}
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.mainContent {
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+.mainFlexContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+.sidebarWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    height: 100%;
+}
+
+.sidebarMobileDrawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 102;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    flex-direction: column;
+}
+
+.sidebarMobileDrawer.open {
+    transform: translateX(0);
+}
+
+.sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
+    display: none;
+}
+
+.sidebarOverlay.active {
+    display: block;
+}
+
+.menuIcon {
+    display: none;
+    margin-top: 20px;
+    position: absolute;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.contentContainer {
+    width: 100%;
+}
+
+.pageHeader {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.marignTopNegat {
+    margin-top: 0px;
+    width: 47%;
+}
+
+.pageTitle {
+    font-weight: 700;
+    background: linear-gradient(to right, #1a75e8, #92d0ff);
+    font-size: 32px;
+    letter-spacing: 0.5px;
+    color: transparent;
+    white-space: nowrap;
+    background-clip: text;
+    -webkit-background-clip: text;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+.formContainerWrapper {
+    margin-top: 50px;
+    margin-left: 30px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 1050px;
+    padding: 45px;
+    border-radius: 12px;
+    height: auto;
+    background-color: #ffffff;
+}
+
+.imageUploadSection {
+    display: flex;
+    gap: 40px;
+}
+
+.imagePreviewContainer {
+    display: grid;
+}
+
+.fieldLabelSpecial {
+    color: #4a4a4a;
+    margin-bottom: 6px;
+}
+
+.previewBox {
+    position: relative;
+    width: 270px;
+    height: 170px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.imageContain {
+    object-fit: contain;
+}
+
+.dropZone {
+    flex: 1;
+    height: 170px;
+    margin-top: 25px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    color: #4a4a4a;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.dropZoneActive {
+    border: 2px dashed #1a75e8;
+}
+
+.dropZoneInactive {
+    border: 1px dashed #9a9a9a;
+}
+
+.uploadTextContainer {
+    display: grid;
+    color: #4a4a4a;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.uploadFormats {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: #777;
+}
+
+.fileNameRow {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.deleteFileBtn {
+    cursor: pointer;
+}
+
+.svgAlign {
+    margin-bottom: -7px;
+}
+
+.formRow {
+    display: flex;
+    gap: 50px;
+}
+
+.fieldGrid {
+    display: grid;
+    flex: 1;
+}
+
+.flexRow {
+    display: flex;
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.marginRight50 {
+    margin-right: 0px;
+}
+
+.marginRight10 {
+    margin-right: 0px;
+}
+
+.marginLeft30 {
+    margin-left: 0px;
+}
+
+.marginTop1 {
+    margin-top: 50px;
+}
+
+.marginTop50 {
+    margin-top: 40px;
+}
+
+.width500 {
+    width: 100%;
+}
+
+.colorGrey {
+    color: #4a4a4a;
+}
+
+.fieldLabel {
+    color: #4a4a4a;
+    margin-bottom: 6px;
+}
+
+.textInput {
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.charCounter {
+    margin-top: 5px;
+    color: #888;
+    font-size: 14px;
+}
+
+.selectHeight {
+    height: auto;
+}
+
+.selectInput {
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+    background-color: white;
+}
+
+.textareaInput {
+    width: 100%;
+    height: 100px;
+    padding: 8px;
+    white-space: pre-wrap;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+    resize: none;
+}
+
+.numberInputFull {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.unitText {
+    font-size: 14px;
+    align-self: center;
+    margin-left: 8px;
+    color: #4a4a4a;
+}
+
+.actionsFooterRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 30px;
+}
+
+.mainActionsContainer {
+    display: flex;
+    gap: 12px;
+}
+
+.saveChan,
+.cancel,
+.reset {
+    padding: 10px 24px;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1300px) {
+    .formContainerWrapper {
+        width: 900px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .sidebarWrapper {
+        width: 90px;
+    }
+
+    .dashboardGrid {
+        grid-template-columns: 90px 1fr;
+    }
+
+    .formContainerWrapper {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 30px;
+    }
+
+    .dropZone {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebarWrapper {
+        display: none;
+    }
+
+    .menuIcon {
+        display: flex;
+    }
+
+    .sidebarMobileDrawer {
+        display: flex;
+    }
+
+    .sidebarOverlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .formContainerWrapper {
+        width: 92%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebarHidden {
+        display: none;
+    }
+
+    .imageUploadSection {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .previewBox {
+        width: 100%;
+        height: 200px;
+    }
+
+    .marignTopNegat {
+        margin-top: 0px;
+        width: 100%;
+    }
+
+    .dropZone {
+        margin-top: 0;
+        height: 150px;
+        padding: 20px;
+    }
+
+    .formRow {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .marginTop1 {
+        margin-top: 25px;
+    }
+
+    .marginTop50 {
+        margin-top: 25px;
+    }
+
+    .formContainerWrapper {
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .actionsFooterRow {
+        flex-direction: column-reverse;
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    .mainActionsContainer {
+        flex-direction: column;
+    }
+
+    .pageTitle {
+        font-size: 28px;
+    }
+
+    .saveChan,
+    .cancel,
+    .reset {
+        width: 100%;
+        padding: 12px;
+    }
+}

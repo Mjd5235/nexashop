@@ -31,24 +31,63 @@
 
 .dashboardGrid {
     display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+    width: 100%;
 }
 
 .mainFlexContainer {
     display: flex;
+    flex-direction: column;
     overflow-x: hidden;
-    overflow-y: hidden;
+    flex: 1;
 }
 
 .sidebarWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    height: 100%;
+}
+
+.sidebarMobileDrawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 102;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    flex-direction: column;
+}
+
+.sidebarMobileDrawer.open {
+    transform: translateX(0);
+}
+
+.sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
     display: none;
 }
 
-.sidebarHidden {
-    display: flex;
+.sidebarOverlay.active {
+    display: block;
 }
 
+
 .menuIcon {
-    display: flex;
+    display: none;
     margin-top: 20px;
     position: absolute;
     cursor: pointer;
@@ -88,21 +127,6 @@
     display: grid;
 }
 
-@media (max-width: 768px) {
-    .sidebarHidden {
-        display: none;
-    }
-
-    .sidebarHidden {
-        display: none;
-    }
-
-    .dashboardTitle {
-        margin-left: 50px;
-    }
-
-}
-
 @media (max-width: 1800px) {
     .chartsSection {
         width: 100%;
@@ -113,5 +137,67 @@
 
     .bottomSection {
         display: grid;
+    }
+}
+
+.mainContent {
+    margin-left: 40px;
+}
+
+@media (max-width: 1200px) {
+    .sidebarWrapper {
+        width: 90px;
+    }
+
+    .dashboardGrid {
+        grid-template-columns: 90px 1fr;
+    }
+
+}
+
+@media (max-width: 1024px) {
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebarWrapper {
+        display: none;
+    }
+
+    .menuIcon {
+        display: flex;
+    }
+
+    .sidebarMobileDrawer {
+        display: flex;
+    }
+
+    .sidebarOverlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .dashboardTitle {
+        text-align: center;
+        margin-top: 70px;
+    }
+
+    .mainContent {
+        margin-left: 40px;
+    }
+
+    .chartsSection,
+    .bottomSection {
+        flex-direction: column;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebarHidden {
+        display: none;
+    }
+
+    .dashboardTitle {
+        margin-left: 50px;
     }
 }
