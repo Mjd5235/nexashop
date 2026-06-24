@@ -1,299 +1,3 @@
-.SkeletonCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.resCenterSk {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.Skeleton {
-  --skeleton-bg: #f0f0f0;
-  --skeleton-shimer: linear-gradient(90deg,
-      #f0f0f0 25%,
-      #e5e5e5 50%,
-      #f0f0f0 75%);
-  width: 900px;
-  height: 305px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  border-bottom: solid 1px var(--skeleton-bg);
-  padding-bottom: 10px;
-}
-
-.SecSkeleton {
-  --skeleton-bg: #f0f0f0;
-  --skeleton-shimer: linear-gradient(90deg,
-      #f0f0f0 25%,
-      #e5e5e5 50%,
-      #f0f0f0 75%);
-  width: 900px;
-  height: 305px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  margin-top: 9px;
-}
-
-.imageSkeleton,
-.SecimageSkeleton,
-.titleSkeleton,
-.timeSkeleton,
-.stockSkeleton,
-.chooseColorSk,
-.chooseColorSecSk,
-.colorSkeleton,
-.colorCircleSk,
-.warrantySkeleton,
-.warrantyTextSk,
-.quanSkeleton,
-.dequanSkeleton,
-.coquanSkeleton,
-.inquanSkeleton,
-.decreaseSkeleton,
-.counterSkeleton,
-.increaseSkeleton,
-.propriSkeleton,
-.shipSkeleton,
-.totalSkeleton,
-.deleteSkeleton,
-.SecdeleteSkeleton,
-.deleteIconSk {
-  background-color: var(--skeleton-bg);
-  background-image: var(--skeleton-shimer);
-  background-size: 200% 100%;
-  animation: shimer 1.5s infinite linear;
-}
-
-.imageSkeleton {
-  width: 150px;
-  height: 150px;
-  border-radius: 20px;
-}
-
-.SecimageSkeleton {
-  width: 150px;
-  height: 150px;
-  border-radius: 20px;
-}
-
-@keyframes shimer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-.detailsSkeleton {
-  height: 100%;
-  width: 440px;
-  margin-top: 30px;
-}
-
-.titleSkeleton {
-  width: 150px;
-  height: 30px;
-  border-radius: 4px;
-}
-
-.timeSkeleton {
-  margin-top: 10px;
-  width: 125px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-.stockSkeleton {
-  width: 88px;
-  height: 20px;
-  margin-top: 16px;
-  border-radius: 4px;
-}
-
-.colorsSkeletons {
-  display: flex;
-}
-
-.chooseColorSk {
-  margin-top: 15px;
-  width: 87px;
-  height: 16px;
-  border-radius: 4px;
-}
-
-.chooseColorSecSk {
-  margin-top: 11px;
-  width: 87px;
-  height: 16px;
-  border-radius: 4px;
-}
-
-.colorSkeleton {
-  margin-right: 8px;
-  margin-top: 5px;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.colorCircleSk {
-  width: 26px;
-  height: 26px;
-  border-radius: 100%;
-}
-
-.warrantySkeleton {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  width: 500px;
-  height: 38px;
-  border-radius: 10px;
-}
-
-.warrantyTextSk {
-  margin-left: 12px;
-  width: 245px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-.quantitySkeleton {
-  display: flex;
-  width: 120px;
-}
-
-.quanSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  width: 120px;
-  height: 32px;
-  border-radius: 8px;
-}
-
-.dequanSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35px;
-  height: 32px;
-  border-radius: 8px 0 0 8px;
-}
-
-.coquanSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 32px;
-}
-
-.inquanSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35px;
-  height: 32px;
-  border-radius: 0 8px 8px 0;
-}
-
-.decreaseSkeleton {
-  width: 15px;
-  height: 5px;
-  border-radius: 4px;
-}
-
-.counterSkeleton {
-  width: 10px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-.increaseSkeleton {
-  width: 15px;
-  height: 15px;
-  border-radius: 4px;
-}
-
-.pricesSkeleton {
-  width: 150px;
-  height: 220px;
-  margin-top: 5px;
-}
-
-.SecpricesSkeleton {
-  width: 150px;
-  height: 220px;
-  margin-top: -17px;
-}
-
-.propriSkeleton {
-  width: 178px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-.shipSkeleton {
-  margin-top: 15px;
-  width: 178px;
-  height: 26px;
-  border-radius: 8px;
-}
-
-.totalSkeleton {
-  margin-top: 18px;
-  width: 178px;
-  height: 24px;
-  border-radius: 4px;
-}
-
-.deleteSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 106px;
-  width: 58px;
-  height: 35px;
-  border-radius: 10px;
-  margin-left: 92px;
-}
-
-.SecdeleteSkeleton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 110px;
-  width: 58px;
-  height: 35px;
-  border-radius: 10px;
-  margin-left: 92px;
-}
-
-.deleteIconSk {
-  width: 16px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-
-
-
-
 .cart {
   display: grid;
   justify-content: center;
@@ -307,7 +11,6 @@
   grid-template-columns: 100px 1fr auto;
   align-items: center;
 }
-
 
 .product {
   display: flex;
@@ -389,153 +92,315 @@
   margin-top: 106px;
 }
 
+.cartTitle {
+  text-align: center;
+  font-size: 52px;
+  margin-bottom: 65px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #111;
+  background: linear-gradient(90deg, #111, #444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease;
+}
+
+.cartList {
+  list-style: none;
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 0px;
+}
+
+.cartItem {
+  display: grid;
+  grid-template-columns: 150px 1fr 150px;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.imageBox {
+  position: relative;
+  width: 270px;
+  height: 170px;
+}
+
+.cartImage {
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.cartDetails {
+  display: flex;
+  flex-direction: column;
+  margin-left: 60px;
+}
+
+.productTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.selectedColor {
+  font-size: 16px;
+  color: #171717;
+}
+
+.deliveryText {
+  margin: 8px 0;
+  color: #555;
+}
+
+.deliverySpan {
+  text-align: left;
+  left: 0;
+  float: left;
+  display: flex;
+  font-size: 16px;
+}
+
+.deliveryTime {
+  font-weight: bold;
+  padding-left: 4px;
+}
+
+.colorSection {
+  margin-top: 15px;
+}
+
+.chooseColor {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.colorList {
+  display: flex;
+  gap: 8px;
+}
+
+.colorOption {
+  width: 32px;
+  height: 32px;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
+  object-fit: cover;
+  background: white;
+}
+
+.warrantyBox {
+  margin-top: 15px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.warrantyText {
+  margin: 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.quantityBox {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  width: 120px;
+  height: 32px;
+  border: 1px solid #999;
+}
+
+.quantityButton {
+  width: 35px;
+  height: 100%;
+  background: white;
+  border: 0;
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.quantityButtonRight {
+  width: 35px;
+  height: 100%;
+  background: white;
+  border: 0;
+  border-left: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.quantityLoading {
+  width: 43.33px;
+  margin-right: 3px;
+  height: 20px;
+  stroke: #000;
+}
+
+.quantityValue {
+  width: 50px;
+  text-align: center;
+  line-height: 32px;
+}
+
+.cartPrices {
+  text-align: right;
+  white-space: nowrap;
+  margin-top: 8px;
+}
+
+.productPrice {
+  margin: 0;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.priceBold {
+  white-space: nowrap;
+}
+
+.shipPrice {
+  margin: 15px 30px 10px 0px;
+  background-color: #22c55e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 3px 6px;
+  width: 196px;
+}
+
+.totalPrice {
+  margin-top: 18px;
+  color: #171717;
+  font-size: 24px;
+  white-space: nowrap;
+}
+
+.deleteButton {
+  background-color: white;
+  border: solid 1px #1a1a1a;
+  width: 58px;
+  height: 35px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.deleteLoading {
+  width: 43.33px;
+  height: 20px;
+  stroke: #000;
+}
+
+.emptyCart {
+  text-align: center;
+  height: 167px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.emptyCartText {
+  font-size: 20px;
+}
+
+.cartActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 40px auto 60px auto;
+}
+
+.totalBox {
+  text-align: right;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.deleteAllButton {
+  background: #d32f2f;
+  color: white;
+  padding: 14px 26px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: 0.25s;
+}
+
+.footerWrapper {
+  margin-top: 135px;
+}
 
 
 @media(max-width: 920px) {
-
-  .Skeleton {
-    width: 100%;
-    height: 740px;
-    display: grid;
-    padding-bottom: 0;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
+  body {
+    overflow-y: hidden;
   }
 
-
-  .SecSkeleton {
-    display: none;
+  .cartItem {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
-  .imageSkeleton {
-    width: 175px;
-    height: 175px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    margin: 0 auto;
+  .cartImage {
+    position: relative;
+    width: 100% !important;
+    max-width: 260px !important;
+    height: 210px !important;
+    border-radius: 12px !important;
   }
 
-  .detailsSkeleton {
-    height: 100%;
-    width: 440px;
-    display: grid;
-    justify-content: center;
-  }
-
-  .TiPrSkeleton {
+  .cartDetails {
+    position: relative;
     margin-top: 30px;
+    margin-left: 0 !important;
+    align-items: center !important;
   }
 
-  .titleSkeleton {
-    margin-left: 46px;
-    width: 195px;
-    height: 22px;
-    border-radius: 4px;
+  .cartPrices {
+    text-align: center !important;
   }
 
-  .timeSkeleton {
-    width: 155px;
-    height: 20px;
-    margin-left: 66px;
-    margin-top: 10px;
+  .cartActions {
+    flex-direction: column !important;
+    gap: 20px !important;
   }
 
-  .stockSkeleton {
-    margin-top: 7px;
-    margin-left: 100px;
+  .cartActions button {
+    width: 90% !important;
   }
 
-  .chooseColorSk {
-    margin-top: 12px;
-    width: 87px;
-    margin-left: 100px;
+  .shipPrice {
+    margin-left: 30px !important;
   }
 
-  .chooseColorSecSk {
-    margin-top: 20px;
-    width: 87px;
-    margin-left: 53px;
-  }
-
-  .colorsSkeletons {
-    display: flex;
-    margin-top: -5px;
-    margin-left: 88px;
-  }
-
-  .warrantySkeleton {
-    margin-left: 38px;
-    margin-top: 10px;
-    width: 290px;
-    height: 38px;
-  }
-
-  .warrentContainer {
-    margin-left: -39px;
-  }
-
-  .warrantyTextSk {
-    margin-left: 12px;
-    width: 245px;
-    height: 20px;
-    border-radius: 4px;
-  }
-
-  .quantitySkeleton {
-    display: flex;
-    width: 120px;
-    margin-left: 50px;
-  }
-
-  .quanSkeleton {
-    margin-left: 84px;
-    margin-top: 15px;
-  }
-
-  .pricesSkeleton {
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    margin: 0 auto;
-  }
-
-  .propriSkeleton {
-    width: 188px;
-    height: 20px;
-    border-radius: 4px;
-    margin-top: 50px;
-    margin-left: -20px;
-  }
-
-  .shipSkeleton {
-    margin-top: 15px;
-    width: 195px;
-    height: 26px;
-    border-radius: 8px;
-    margin-left: -22px;
-  }
-
-  .totalSkeleton {
-    margin-top: 18px;
-    width: 230px;
-    height: 24px;
-    border-radius: 4px;
-    margin-left: -40px;
-  }
-
-  .deleteSkeleton {
-    margin-top: 35px;
-    margin-left: 46px;
-  }
-
-  .deleteIconSk {
-    width: 16px;
-    height: 20px;
-    border-radius: 4px;
+  .cartTitle {
+    font-size: 32px !important;
   }
 
   .del {
@@ -554,8 +419,6 @@
     align-items: center;
     cursor: default;
   }
-
-
 }
 
 .animateSpin {

@@ -6,6 +6,7 @@ import { supabase } from '@/lib/SubaBaseClient';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 
 const Icons = {
@@ -77,7 +78,8 @@ const Orders = () => {
                     .order("created_at", { ascending: false });
 
                 if (error) {
-                    alert(error.message);
+                    toast.error("Failed to load your orders.")
+                    console.error(error);
                 } else {
                     setData6(orders);
                 }
@@ -107,7 +109,7 @@ const Orders = () => {
                         <p>Detailed view of your purchase status and items</p>
                     </div>
                     <Link href={'/'} className={styles.continueBtn}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className={styles.iconShrink} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                         </svg>
@@ -131,7 +133,9 @@ const Orders = () => {
 
                 <div className={styles.ordersList}>
                     {isLoading ? (
-                        <div style={{ textAlign: 'center', padding: '60px', color: '#6B7280' }}>Loading your orders...</div>
+                        <div className={styles.ordersLoading}>
+                            Loading your orders...
+                        </div>
                     ) : filteredOrders.length > 0 ? (
                         filteredOrders.map((order) => (
                             <div key={order.id} className={styles.orderCard}>
@@ -171,7 +175,7 @@ const Orders = () => {
                                     {order.cart_items?.map((item, idx) => (
                                         <div key={idx} className={styles.productItem}>
                                             <div className={styles.imageContainer}>
-                                                <Image src={item.image} fill className={styles.productImgBox} alt={item.title} style={{ objectFit: 'contain' }} />
+                                                <Image src={item.image} fill className={styles.productImgBox} alt={item.title} />
                                             </div>
                                             <div className={styles.productDetails}>
                                                 <div className={styles.productName}>{item.title}</div>
@@ -192,7 +196,7 @@ const Orders = () => {
                             </div>
                         ))
                     ) : (
-                        <div style={{ textAlign: 'center', padding: '60px', color: '#6B7280' }}>
+                        <div className={styles.ordersLoading}>
                             No orders found.
                         </div>
                     )}

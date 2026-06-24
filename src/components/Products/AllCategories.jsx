@@ -21,6 +21,7 @@ export default function AllCategories({ title, data1, loading }) {
     const addToCart = async (item, e) => {
         if (isAdding) return;
 
+        setIsAdding(true)
         setpId(item.id)
 
         const { data } = await supabase.auth.getUser()
@@ -78,7 +79,8 @@ export default function AllCategories({ title, data1, loading }) {
                             quantity: existingItem.quantity + 1,
                         }).eq('id', existingItem.id)
                         if (error) {
-                            console.log(error.message)
+                            toast.error("Failed to add the product to your cart.", { id: "faddcart" })
+                            console.error(error)
                         }
                         window.dispatchEvent(new Event("cartUpdated"));
                     }
@@ -102,7 +104,8 @@ export default function AllCategories({ title, data1, loading }) {
                     quantity: 1,
                 }, { onConflict: "product_id, user_id" })
                 if (error) {
-                    console.log(error.message)
+                    toast.error("Failed to add the product to your cart.", { id: "faddcart" })
+                    console.error(error)
                 }
             }
         }
@@ -159,54 +162,154 @@ export default function AllCategories({ title, data1, loading }) {
     }
 
     return (
-        <div style={{ position: "relative", margin: "0 auto", display: "grid", }}>
-            <h2 style={{ marginTop: "100px", textAlign: 'center', justifyContent: 'center', alignItems: "center", display: "flex", marginBottom: "50px" }}>{title}</h2>
-            <ul className={loading === true ? styles.skeletons : styles.products} style={{ justifyContent: "flex-start", alignItems: "center", overflowX: data1.length > 4 && "scroll", display: "flex", gap: "10px", }}>
-                {loading === true ? data.map(img => (
-                    <div key={img.id} className={styles.skeletonCard}>
-                        <div className={styles.skeleton} style={{ width: "175px", height: "175px", flexShrink: 0, margin: "0 auto 15px auto", marginBottom: "28px" }}></div>
+        <div className={styles.productsWrapper}>
+            <h2 className={styles.productsTitle}>{title}</h2>
 
-                        <div className={styles.skeleton} style={{ width: "80%", height: "22px", flexShrink: 0, marginLeft: "20px", marginBottom: "15px" }}></div>
+            <ul
+                className={`${loading === true ? styles.skeletons : styles.products} ${styles.productsList}`}
+                style={{ overflowX: data1.length > 4 && "scroll" }}
+            >
+                {loading === true
+                    ? data.map(img => (
+                        <div key={img.id} className={styles.skeletonCard}>
+                            <div className={`${styles.skeleton} ${styles.skeletonImage}`}></div>
 
-                        <div style={{ marginBottom: "65px", marginTop: "25px", flexShrink: 0, }}>
-                            <div className={styles.skeleton} style={{ width: "100%", height: "12px", marginBottom: "6px" }}></div>
-                            <div className={styles.skeleton} style={{ width: "90%", height: "12px", marginBottom: "6px" }}></div>
-                            <div className={styles.skeleton} style={{ width: "85%", height: "12px", marginBottom: "6px" }}></div>
-                            <div className={styles.skeleton} style={{ width: "80%", height: "12px", marginBottom: "6px" }}></div>
-                            <div className={styles.skeleton} style={{ width: "75%", height: "12px", marginBottom: "6px" }}></div>
+                            <div className={`${styles.skeleton} ${styles.skeletonName}`}></div>
+
+                            <div className={styles.skeletonDescription}>
+                                <div className={`${styles.skeleton} ${styles.skeletonLine100}`}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonLine90}`}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonLine85}`}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonLine80}`}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonLine75}`}></div>
+                            </div>
+
+                            <div className={styles.skeletonPriceArea}>
+                                <div className={`${styles.skeleton} ${styles.skeletonPrice1}`}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonPrice2}`}></div>
+                            </div>
+
+                            <div className={`${styles.skeleton} ${styles.skeletonStock}`}></div>
+
+                            <div className={`${styles.skeleton} ${styles.skeletonDelivery}`}></div>
+
+                            <div className={`${styles.skeleton} ${styles.skeletonButton}`}></div>
                         </div>
-
-                        <div style={{ height: "51px", display: "grid", alignContent: "center", marginBottom: "20px", flexShrink: 0, }}>
-                            <div className={styles.skeleton} style={{ width: "50%", height: "16px", }}></div>
-                            <div className={styles.skeleton} style={{ width: "50%", height: "25px", marginTop: "5px" }}></div>
-                        </div>
-
-                        <div className={styles.skeleton} style={{ width: "44%", height: "16px", flexShrink: 0, marginTop: "-9px" }}></div>
-
-                        <div className={styles.skeleton} style={{ width: "44%", height: "16px", flexShrink: 0, marginTop: "19px" }}></div>
-
-                        <div className={styles.skeleton} style={{ width: "95.42px", height: "37px", marginTop: "14px", marginRight: "-9px", alignSelf: "flex-end", borderRadius: "8px", flexShrink: 0, }}></div>
-                    </div>
-                ))
+                    ))
                     :
                     data1.map((img) => (
                         <div key={img.id} className={styles.product}>
                             <div className="product-card">
                                 <Link href={`/product/${img.id}`}>
                                     <li>
-                                        {img.oldPrice !== null && <div style={{ backgroundColor: "#1a75e8", color: "#fff", padding: "3px", position: "absolute", borderRadius: "4px", right: "-13px", top: "-8px", }}>sale</div>}
-                                        <div style={{ width: "240px", height: "200px", position: "relative", marginLeft: "-14px", marginBottom: "15px" }}><Image style={{ marginBottom: "25px", objectFit: "contain" }} src={img.image} alt={img.title} fill /></div>
-                                        <h3 className={styles.protitle}>{img.title}</h3>
-                                        <p style={{ marginBottom: "19px" }} className={styles.prodes}>{img.description}</p>
-                                        <div style={{ display: "grid", height: "51px", }}>
-                                            {img.oldPrice !== null ? <div style={{ display: "flex", fontWeight: "bold", fontSize: "13px", marginTop: "7px" }}>was:&nbsp;<h6 style={{ textDecoration: "line-through", fontSize: "13px", }}>{img.oldPrice}</h6><h5 style={{ marginTop: "6px", marginLeft: "2px", fontSize: "9px" }}>SAR</h5></div> : null}
-                                            <div style={{ display: "flex", marginTop: "5px", }}><h4 className={styles.price} style={{ fontSize: "20px" }}>{img.price}</h4><h5 style={{ marginTop: "6px", marginLeft: "2px", fontSize: "12px" }}>SAR</h5></div>
+
+                                        {img.oldPrice !== null &&
+                                            <div className={styles.saleBadge}>
+                                                sale
+                                            </div>
+                                        }
+
+                                        <div className={styles.productImageWrapper}>
+                                            <Image
+                                                className={styles.productImage}
+                                                src={img.image}
+                                                alt={img.title}
+                                                fill
+                                            />
                                         </div>
-                                        <span className={styles.StockText} style={{ color: img.stock <= 5 && img.stock !== 0 ? "#d97706" : img.stock !== 0 ? "#16a34a" : "#94a3b8" }}>{img.stock <= 5 && img.stock !== 0 ? `only ${img.stock} ${img.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.stock !== 0 ? "In Stock ✓" : "Sold Out ✕"}</span>
-                                        <span style={{ textAlign: "left", left: 0, fontSize: "13px", float: "left", display: "flex", marginTop: "19px" }}>get it<span style={{ fontWeight: "bold", paddingLeft: "3px" }}>{img.time === 1 && "tomorrow" || img.time % 7 !== 0 && `after ${img.time} days` || img.time % 7 === 0 && `after ${img.time / 7} ${img.time / 7 === 1 ? `week` : `weeks`}`}</span></span>
+
+                                        <h3 className={styles.protitle}>
+                                            {img.title}
+                                        </h3>
+
+                                        <p className={`${styles.prodes} ${styles.productDescriptionMargin}`}>
+                                            {img.description}
+                                        </p>
+
+                                        <div className={styles.priceContainer}>
+
+                                            {img.oldPrice !== null ?
+                                                <div className={styles.oldPriceRow}>
+                                                    was:&nbsp;
+                                                    <h6 className={styles.oldPriceValue}>
+                                                        {img.oldPrice}
+                                                    </h6>
+
+                                                    <h5 className={styles.oldPriceSar}>
+                                                        SAR
+                                                    </h5>
+                                                </div>
+                                                : null}
+
+                                            <div className={styles.currentPriceRow}>
+                                                <h4 className={`${styles.price} ${styles.currentPrice}`}>
+                                                    {img.price}
+                                                </h4>
+
+                                                <h5 className={styles.currentPriceSar}>
+                                                    SAR
+                                                </h5>
+                                            </div>
+
+                                        </div>
+
+                                        <span
+                                            className={styles.StockText}
+                                            style={{
+                                                color:
+                                                    img.stock <= 5 && img.stock !== 0
+                                                        ? "#d97706"
+                                                        : img.stock !== 0
+                                                            ? "#16a34a"
+                                                            : "#94a3b8"
+                                            }}
+                                        >
+                                            {img.stock <= 5 && img.stock !== 0
+                                                ? `only ${img.stock} ${img.stock > 1
+                                                    ? `products left in stock ( ! )`
+                                                    : `product left in stock ( ! )`
+                                                }`
+                                                : img.stock !== 0
+                                                    ? "In Stock ✓"
+                                                    : "Sold Out ✕"}
+                                        </span>
+
+                                        <span className={styles.deliveryText}>
+                                            get it
+                                            <span className={styles.deliveryTime}>
+                                                {img.time === 1 && "tomorrow" ||
+                                                    img.time % 7 !== 0 && `after ${img.time} days` ||
+                                                    img.time % 7 === 0 && `after ${img.time / 7} ${img.time / 7 === 1 ? `week` : `weeks`}`}
+                                            </span>
+                                        </span>
+
                                     </li>
                                 </Link>
-                                {img.stock === 0 ? <button style={{ border: "none", cursor: "not-allowed", marginTop: "50px", pointerEvents: "none", }} className={styles.outStock}>Out of Stock</button> : <button onClick={(e) => addToCart(img, e)} disabled={isAdding} style={{ border: "none", cursor: pId !== img.primary_key ? "pointer" : "not-allowed", marginTop: "50px", pointerEvents: pId !== img.primary_key ? "auto" : "none", }} className={styles.cartbut}>{pId !== img.primary_key ? "Add To Cart" : "Adding ..."}</button>}
+
+                                {img.stock === 0 ?
+
+                                    <button
+                                        className={`${styles.outStock} ${styles.outStockButton}`}
+                                    >
+                                        Out of Stock
+                                    </button>
+
+                                    :
+
+                                    <button
+                                        onClick={(e) => addToCart(img, e)}
+                                        disabled={isAdding}
+                                        className={`${styles.cartbut} ${styles.addCartButton}`}
+                                        style={{
+                                            cursor: isAdding === false ? "pointer" : "not-allowed",
+                                            pointerEvents: isAdding === false ? "auto" : "none",
+                                            opacity: isAdding === true && pId !== img.primary_key ? "0.5" : "1",
+                                        }}
+                                    >
+                                        {pId !== img.primary_key ? "Add To Cart" : "Adding ..."}
+                                    </button>
+
+                                }
                             </div>
                         </div>
                     ))

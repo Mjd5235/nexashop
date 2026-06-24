@@ -7,6 +7,7 @@ import { supabase } from "@/lib/SubaBaseClient";
 import styles from './Products.module.css'
 import Link from 'next/link';
 import { Inter } from 'next/font/google';
+import toast from 'react-hot-toast';
 
 const InterSans = Inter({
     subsets: ["latin"],
@@ -17,12 +18,13 @@ export default function Products() {
 
     const [sided, setSided] = useState(true)
     const [LogBut, setLogBut] = useState(false)
-    const ref = useRef()
     const [Sort, setSorted] = useState("latest")
     const [reversed, setReversed] = useState(true)
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteConfirmed, setDeleteConfirmed] = useState(false)
     const [productToDelete, setProductToDelete] = useState(null)
+
+    const ref = useRef()
 
     const sortData = [
         { id: 1, name: "latest", },
@@ -44,7 +46,8 @@ export default function Products() {
                 .order(Sort === "stock" && "stock" || Sort === "main" && "id" || Sort === "price" && "price" || Sort === "latest" && "created_at", { ascending: reversed !== true ? true : false })
 
             if (error) {
-                console.log(error.message)
+                toast.error("Failed to load the product.", { id: "fload" })
+                console.error(error)
             } else {
                 setData1(data)
             }
@@ -71,7 +74,8 @@ export default function Products() {
                 .eq("id", productToDelete)
 
             if (error) {
-                console.log(error.message)
+                toast.error("Failed to delete the product.", { id: "fdelete" })
+                console.error(error)
             } else {
                 setData1(prev => prev.filter(product => product.id !== productToDelete))
             }
@@ -124,16 +128,12 @@ export default function Products() {
                                         <Image src={"/Admin/Icons/reverse.svg"} width={25} height={25} alt='reverse' />
                                     </button>
 
-                                    <div ref={ref} onClick={() => setLogBut(prev => !prev)} className={styles.dropdownWrapper}>
+                                    <div ref={ref} onClick={() => setLogBut(prev => !prev)} className={`${styles.dropdownWrapper} ${LogBut === false ? styles.DropIcon : styles.DropIcOpen}`}>
                                         <div className={styles.dropdownGrid}>
                                             <button
                                                 className={styles.sortTriggerBtn}
                                             >
-                                                {!LogBut ?
-                                                    <Image className={styles.dropdownIcon} src={'/Admin/Icons/dropdown.svg'} width={30} height={30} alt='dropdown' />
-                                                    :
-                                                    <Image className={styles.dropdownIcon} src={'/Admin/Icons/dropup.svg'} width={30} height={30} alt='dropup' />
-                                                }
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                                 <span className={styles.sortText}>Sort By</span>
                                             </button>
 
@@ -236,6 +236,7 @@ export default function Products() {
                                             <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
                                                 <h3>Are you sure?</h3>
                                                 <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                                                <p>(double click to confirm delete)</p>
 
                                                 <div className={styles.modalButtons}>
                                                     <button

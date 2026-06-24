@@ -12,7 +12,6 @@
     gap: 24px;
     width: 100%;
     max-width: 1400px;
-    /* Adjusted for better look on large screens */
     margin-top: 30px;
     box-sizing: border-box;
 }
@@ -63,13 +62,11 @@
     height: 40px;
 }
 
-/* Adjust icon colors if needed */
 .iconWrapper img,
 .activeUsersIconWrapper img,
 .totalOrdersIconWrapper img,
 .pageViewsIconWrapper img {
     filter: brightness(0) invert(1);
-    /* Makes icons white if they are SVGs */
 }
 
 .valueHeading,
@@ -120,9 +117,6 @@
     font-weight: 600;
 }
 
-/* Responsive Breakpoints */
-
-/* Desktop & Large Screens */
 @media (max-width: 1400px) {
     .statisticsContainer {
         grid-template-columns: repeat(4, 1fr);
@@ -131,7 +125,6 @@
     }
 }
 
-/* Tablets & Small Laptops */
 @media (max-width: 1100px) {
     .statisticsContainer {
         grid-template-columns: repeat(2, 1fr);
@@ -139,7 +132,6 @@
     }
 }
 
-/* Mobile Screens */
 @media (max-width: 640px) {
     .statisticsContainer {
         grid-template-columns: 1fr;

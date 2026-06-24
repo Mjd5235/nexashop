@@ -4,7 +4,6 @@ import { createServerClient } from '@supabase/ssr'
 
 export async function middleware(request: NextRequest) {
 
-
   const { pathname } = request.nextUrl;
 
   const response = NextResponse.next()

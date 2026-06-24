@@ -6,12 +6,12 @@ import Image from 'next/image';
 import styles from './Orders.module.css';
 import CustomSelect from './customSelect';
 import { supabase } from '@/lib/SubaBaseClient';
+import toast from 'react-hot-toast';
 
 const Orders = () => {
 
     const [sided, setSided] = useState(true)
     const [data1, setData1] = useState(null)
-    const [OrderStatus, setOrderStatus] = useState(null);
     const [filterStatus, setFilterStatus] = useState('All Statuses');
     const [ordersCounter, setOrdersCounter] = useState(null)
     const [pendingCounter, setPendingCounter] = useState(null)
@@ -32,9 +32,9 @@ const Orders = () => {
         getData()
     }, [filterStatus])
 
+
     const handleSearch = async (value) => {
         const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false })
-        console.log(value)
         if (value === "") {
             setData1(data)
         } else {
@@ -45,7 +45,7 @@ const Orders = () => {
 
     const handleStatusUpdate = async (value, ID) => {
         const { error } = await supabase.from("orders").update({ status: value }).eq("id", ID)
-        if (error) { console.log(error.message) } else {
+        if (error) { console.error(error); toast.error("Failed to change the order status."), { id: "fchange" } } else {
             const { data: orders } = await supabase.from("orders").select("*").order("created_at", { ascending: false })
             setData1(filterStatus !== "All Statuses" ? orders.filter(item => item.status === filterStatus) : orders)
             setOrdersCounter(orders.length)
@@ -160,7 +160,7 @@ const Orders = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                            )) : <div style={{ textAlign: 'center', padding: '60px', color: '#6B7280' }}>
+                                            )) : <div className={styles.emptyState}>
                                                 {Loading === false ? "No orders found." : "Loading the orders..."}
                                             </div>}
                                         </div>

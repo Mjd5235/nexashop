@@ -8,6 +8,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/SubaBaseClient";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Skeletons from "./Skeletons";
 
 export default function Page() {
 
@@ -45,7 +46,7 @@ export default function Page() {
         const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
         if (cartItems.length === 0) {
           const { data: cart, error: bug } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
-          if (bug) { console.log(bug.message) } else {
+          if (bug) { console.error(bug); toast.error("Failed to load your cart.", { id: "floading" }) } else {
             if (cart && cart.length > 0) {
               setData6(cart)
             } else {
@@ -120,7 +121,7 @@ export default function Page() {
         localStorage.setItem("cart", JSON.stringify(cart));
         setData6([...cart]);
       } else {
-        if (img.stock !== 3) {
+        if (img.quantity !== 3) {
           toast.error(`Oops! Only ${img.stock} ${img.stock === 1 ? "item" : "items"} left in stock.`, { id: "stock-limit-toast" })
         } else {
           toast.error('You have added maximum count of this product: 3', {
@@ -223,7 +224,7 @@ export default function Page() {
         window.dispatchEvent(new Event("cartUpdated"));
       } else {
         const { data: CartItems, error: upl } = await supabase.from("cart").select("product_id, quantity, products: product_id (primary_key, title, image, price, category)").eq("user_id", data.user.id)
-        if (upl) { alert(upl.message) } else {
+        if (upl) { console.error(upl); toast.error("Failed to checkout.", { id: "fSecCheck" }) } else {
           const mappedCartItems = CartItems.map(item => ({
             product_id: item.product_id,
             image: item.products.image,
@@ -233,7 +234,7 @@ export default function Page() {
             quantity: item.quantity,
           }))
           const { error } = await supabase.from("orders").upsert({ total_price: finalPrice, status: "Confirmed", user_id: data.user.id, cart_items: mappedCartItems, user_email: data.user.email, user_avatar: data.user.user_metadata.name.charAt(0).toUpperCase() }).single()
-          if (error) { console.log(error.message) } else {
+          if (error) { console.error(error); toast.error("Failed to checkout.", { id: "fSecCheck" }) } else {
             document.cookie = "allowed_to_success=true; path=/; max-age=10"
             router.push("/checkout/success")
             toast.success("Checked Out Successfully.", { id: "Thank-you" })
@@ -244,7 +245,7 @@ export default function Page() {
         for (let img of cartDetails) {
           const newStock = img.products.stock - img.quantity
           const { error } = await supabase.from("products").update({ stock: newStock }).eq("primary_key", img.products.primary_key)
-          if (error) { console.log(error.message) }
+          if (error) { console.error(error); toast.error("Failed to checkout.", { id: "fSecCheck" }) }
         }
 
         const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
@@ -306,7 +307,6 @@ export default function Page() {
     }
   }
 
-
   const totalPrice = data6 && data6.reduce((acc, item) => {
     const price = Number(logged === false || localCart === true ? item.price : item.products.price);
     const quantity = Number(item.quantity);
@@ -315,7 +315,6 @@ export default function Page() {
   }, 0);
 
   const finalPrice = Number(totalPrice && totalPrice.toFixed(2))
-
 
 
   useEffect(() => {
@@ -329,171 +328,69 @@ export default function Page() {
   }, [])
 
 
-
-  const responsiveStyles = `
-@media (max-width: 920px) {
-body{
-overflow-y: hidden;
-}
-  /* جعل عنصر المنتج يتحول لعمودي */
-  .cart-item {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  /* الصورة تصير أكبر */
-.cart-image {
-  position: relative;
-  width: 100% !important;
-  max-width: 260px !important;
-  height:  210px!important;
-  border-radius: 12px !important;
-}
-
-
-  /* تفاصيل المنتج */
-  .cart-details {
-    position: relative;
-    margin-top: 30px;
-    margin-left: 0 !important;
-    align-items: center !important;
-  }
-
-  /* الأسعار تصير تحت */
-  .cart-prices {
-    text-align: center !important;
-  }
-
-  /* أزرار Delete All + Checkout تتكدس فوق بعض */
-  .cart-actions {
-    flex-direction: column !important;
-    gap: 20px !important;
-  }
-
-  /* الزرين يصيرون أعرض */
-  .cart-actions button {
-    width: 90% !important;
-  }
-
-  .ship-price {
-    margin-left: 30px !important;
-  }
-
-  h1 {
-    font-size: 32px !important;
-  }
-}
-`;
-
-
-
   return (
     <div>
       <Header />
       <div onClick={() => { router.back() }} style={{}}><img className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" /></div>
-      <style>{responsiveStyles}</style>
 
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: "52px",
-          marginBottom: "65px",
-          fontWeight: "700",
-          letterSpacing: "1px",
-          color: "#111",
-          background: "linear-gradient(90deg, #111, #444)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          textShadow: "0px 2px 6px rgba(0,0,0,0.1)",
-          animation: "fadeIn 0.8s ease",
-        }}
-      >
+      <h1 className={styles.cartTitle}>
         Cart
       </h1>
 
       {Array.isArray(data6) && data6.length > 0 ? (
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            maxWidth: "900px",
-            margin: "0 auto",
-            marginTop: "0px"
-          }}
-        >
+        <ul className={styles.cartList}>
           {data6.map((img, index) => (
 
             <li
               key={logged === false || localCart === true ? img.primary_key : img.products.primary_key}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "150px 1fr 150px",
-                gap: "20px",
-                padding: "20px 0",
-                borderBottom: "1px solid #ccc",
-                alignItems: "center",
-
-              }} className="cart-item"
+              className={`cart-item ${styles.cartItem}`}
             >
-              <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}>
+              <div className={styles.imageWrapper}>
                 <Link href={`/product/${logged === false || localCart === true ? img.primary_key : img.products.primary_key}`}>
-                  <div style={{ position: "relative", width: "270px", height: "170px" }}>
+                  <div className={styles.imageBox}>
                     <Image
                       src={logged === false || localCart === true ? img.image : img.products.image}
                       alt={logged === false || localCart === true ? img.title : img.products.title}
                       fill
-                      className="cart-image"
-                      style={{
-                        borderRadius: "12px",
-                        objectFit: "contain",
-                      }}
+                      className={`cart-image ${styles.cartImage}`}
                     />
                   </div>
                 </Link>
               </div>
 
-              <div className="cart-details" style={{ display: "flex", flexDirection: "column", marginLeft: "60px" }}>
-                <h2
-                  style={{
-                    margin: 0,
-                    fontSize: "22px",
-                    fontWeight: "600",
-                    whiteSpace: "nowrap"
-                  }}
-                >
+              <div className={`cart-details ${styles.cartDetails}`}>
+                <h2 className={styles.productTitle}>
 
                   <Link href={`/product/${logged === false || localCart === true ? img.primary_key : img.products.primary_key}`}>
                     {logged === false || localCart === true ? img.title : img.products.title}{" "}
                   </Link>
 
                   {selectedColor[index] && (
-                    <span style={{ fontSize: "16px", color: "#171717" }}>
+                    <span className={styles.selectedColor}>
                       ({selectedColor[index]})
                     </span>
                   )}
                 </h2>
 
-                <p style={{ margin: "8px 0", color: "#555" }}>
-                  <span style={{ textAlign: "left", left: 0, fontSize: "13px", float: "left", display: "flex", fontSize: "16px" }}>{logged === false || localCart === true ? img.time === 1 ? "Delivery by" : "Arrives in" : img.products.time === 1 ? "Delivery by" : "Arrives in"}<span style={{ fontWeight: "bold", paddingLeft: "4px" }}>{logged === false || localCart === true ? img.time === 1 && "tomorrow" || img.time % 7 !== 0 && ` ${img.time} days` || img.time % 7 === 0 && ` ${img.time / 7} ${img.time / 7 === 1 ? `week` : `weeks`}` : img.products.time === 1 && "tomorrow" || img.products.time % 7 !== 0 && ` ${img.products.time} days` || img.products.time % 7 === 0 && ` ${img.products.time / 7} ${img.products.time / 7 === 1 ? `week` : `weeks`}`}</span></span>
+                <p className={styles.deliveryText}>
+                  <span className={styles.deliverySpan}>
+                    {logged === false || localCart === true ? img.time === 1 ? "Delivery by" : "Arrives in" : img.products.time === 1 ? "Delivery by" : "Arrives in"}
+                    <span className={styles.deliveryTime}>
+                      {logged === false || localCart === true ? img.time === 1 && "tomorrow" || img.time % 7 !== 0 && ` ${img.time} days` || img.time % 7 === 0 && ` ${img.time / 7} ${img.time / 7 === 1 ? `week` : `weeks`}` : img.products.time === 1 && "tomorrow" || img.products.time % 7 !== 0 && ` ${img.products.time} days` || img.products.time % 7 === 0 && ` ${img.products.time / 7} ${img.products.time / 7 === 1 ? `week` : `weeks`}`}
+                    </span>
+                  </span>
                 </p>
 
-                <span className={styles.StockText} style={{ color: logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? "#d97706" : img.stock !== 0 ? "#16a34a" : "#94a3b8" : img.products.stock <= 5 && img.products.stock !== 0 ? "#d97706" : img.products.stock !== 0 ? "#16a34a" : "#94a3b8" }}>{logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? `only ${img.stock} ${img.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.stock !== 0 ? "In Stock ✓" : "Sold Out ✕" : img.products.stock <= 5 && img.products.stock !== 0 ? `only ${img.products.stock} ${img.products.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.products.stock !== 0 ? "In Stock ✓" : "Sold Out ✕"}</span>
+                <span className={styles.StockText} style={{ color: logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? "#d97706" : img.stock !== 0 ? "#16a34a" : "#94a3b8" : img.products.stock <= 5 && img.products.stock !== 0 ? "#d97706" : img.products.stock !== 0 ? "#16a34a" : "#94a3b8" }}>
+                  {logged === false || localCart === true ? img.stock <= 5 && img.stock !== 0 ? `only ${img.stock} ${img.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.stock !== 0 ? "In Stock ✓" : "Sold Out ✕" : img.products.stock <= 5 && img.products.stock !== 0 ? `only ${img.products.stock} ${img.products.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : img.products.stock !== 0 ? "In Stock ✓" : "Sold Out ✕"}
+                </span>
 
-                <div style={{ marginTop: "15px" }}>
-                  <p
-                    style={{
-                      margin: "0 0 6px 0",
-                      fontSize: "14px",
-                      color: "#555",
-                    }}
-                  >
+                <div className={styles.colorSection}>
+                  <p className={styles.chooseColor}>
                     Choose Color:
                   </p>
 
-                  <div style={{ display: "flex", gap: "8px" }}>
+                  <div className={styles.colorList}>
                     {[
                       { id: "black", src: "/colors/00.png" },
                       { id: "white", src: "/colors/01.jfif" },
@@ -509,13 +406,8 @@ overflow-y: hidden;
                             [index]: color.id,
                           })
                         }
+                        className={styles.colorOption}
                         style={{
-                          width: "32px",
-                          height: "32px",
-                          padding: "3px",
-                          cursor: "pointer",
-                          borderRadius: "8px",
-                          transition: "0.2s",
                           transform:
                             selectedColor[index] === color.id ? "scale(1.07)" : "scale(1)",
                           border:
@@ -526,50 +418,24 @@ overflow-y: hidden;
                             selectedColor[index] === color.id
                               ? "0px 0px 6px rgba(0,0,0,0.2)"
                               : "none",
-                          objectFit: "cover",
-                          background: "white",
                         }}
                       />
                     ))}
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    marginTop: "15px",
-                    padding: "10px 12px",
-                    borderRadius: "10px",
-                    background: "#f7f7f7",
-                    border: "1px solid #ddd",
-                  }}
-                >
-                  <p style={{ margin: 0, fontSize: "14px", color: "#444" }}>
+                <div className={styles.warrantyBox}>
+                  <p className={styles.warrantyText}>
                     <b>Warranty:</b> 12 months warranty included
                   </p>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "20px",
-                    borderRadius: "10px",
-                    width: "120px",
-                    height: "32px",
-                    border: "1px solid #999",
-                  }}
-                >
+                <div className={styles.quantityBox}>
                   <button
                     disabled={increasingId === img.id || decreasingId === img.id}
                     onClick={() => decreaseQty(index, img)}
+                    className={styles.quantityButton}
                     style={{
-                      width: "35px",
-                      height: "100%",
-                      background: "white",
-                      border: "0",
-                      borderRight: "1px solid #ccc",
-                      cursor: "pointer",
-                      fontSize: "18px",
                       pointerEvents: (increasingId === img.id || decreasingId === img.id) ? "none" : "auto",
                     }}
                   >
@@ -577,30 +443,31 @@ overflow-y: hidden;
                   </button>
                   {increasingId === img.id || decreasingId === img.id
                     ?
-                    <svg className={styles.animateSpin} style={{ width: "43.33px", marginRight: "3px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg>
-                    :
-                    <div
-                      style={{
-                        width: "50px",
-                        textAlign: "center",
-                        lineHeight: "32px",
-                      }}
+                    <svg
+                      className={`${styles.animateSpin} ${styles.quantityLoading}`}
+                      viewBox="0 0 50 50"
                     >
+                      <circle
+                        cx="25"
+                        cy="25"
+                        r="20"
+                        fill="none"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray="31.4 31.4"
+                      ></circle>
+                    </svg>
+                    :
+                    <div className={styles.quantityValue}>
                       {img.quantity}
                     </div>}
 
                   <button
                     disabled={increasingId === img.id || decreasingId === img.id}
                     onClick={() => increaseQty(index, img)}
+                    className={styles.quantityButtonRight}
                     style={{
-                      width: "35px",
                       marginLeft: increasingId === img.id || decreasingId === img.id ? "3px" : "",
-                      height: "100%",
-                      background: "white",
-                      border: "0",
-                      borderLeft: "1px solid #ccc",
-                      cursor: "pointer",
-                      fontSize: "18px",
                       pointerEvents: (increasingId === img.id || decreasingId === img.id) ? "none" : "auto"
                     }}
                   >
@@ -609,111 +476,56 @@ overflow-y: hidden;
                 </div>
               </div>
 
-              <div className="cart-prices" style={{ textAlign: "right", whiteSpace: "nowrap", marginTop: "8px", }}>
-                <p style={{ margin: 0, fontSize: "18px", marginTop: "10px" }}>
-                  Product: <b style={{ whiteSpace: "nowrap" }}>{Number(logged === false || localCart === true ? img.price : img.products.price).toFixed(2)} SAR</b>
+              <div className={`cart - prices ${styles.cartPrices}`}>
+                <p className={styles.productPrice}>
+                  Product: <b className={styles.priceBold}>{Number(logged === false || localCart === true ? img.price : img.products.price).toFixed(2)} SAR</b>
                 </p>
 
-                <p className="ship-price" style={{ margin: "15px 30px 10px 0px", backgroundColor: "#22c55e", display: "flex", justifyContent: 'center', alignItems: 'center', borderRadius: "8px", padding: "3px 6px", width: "196px" }}>
+                <p className={`ship - price ${styles.shipPrice}`}>
                   <b>Free Shipping</b>
                 </p>
-                <h3
-                  style={{
-                    marginTop: "18px",
-                    color: "#171717",
-                    fontSize: "24px",
-                    whiteSpace: "nowrap",
 
-                  }}
-                >
+                <h3 className={styles.totalPrice}>
                   Total: {Number(logged === false || localCart === true ? img.price * img.quantity : img.products.price * img.quantity).toFixed(2)} SAR
                 </h3>
 
                 <div className={styles.del}>
-                  <button className='deletePro' style={{ backgroundColor: "white", border: "solid 1px #1a1a1a", width: "58px", height: "35px", borderRadius: "10px", cursor: "pointer", }} onClick={() => removeFromCart(index, img)}>{isRemoving === img.id ? <svg className={styles.animateSpin} style={{ width: "43.33px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg> : <img src="https://cdn-icons-png.flaticon.com/512/484/484662.png" alt="Bin" width="16" height="17" />}</button>
+                  <button
+                    className={`deletePro ${styles.deleteButton}`}
+                    onClick={() => removeFromCart(index, img)}
+                  >
+                    {isRemoving === img.id
+                      ? <svg
+                        className={`${styles.animateSpin} ${styles.deleteLoading}`}
+                        viewBox="0 0 50 50"
+                      >
+                        <circle
+                          cx="25"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                          strokeDasharray="31.4 31.4"
+                        ></circle>
+                      </svg>
+                      : <img src="https://cdn-icons-png.flaticon.com/512/484/484662.png" alt="Bin" width="16" height="17" />}
+                  </button>
                 </div>
               </div>
             </li>
+
           ))
           }
         </ul >
       ) : (
         Loading === true ?
           <div>
-            <div className={styles.SkeletonCenter}>
-              <div className={styles.Skeleton}>
-                <div className={styles.imageSkeleton}></div>
-                <div className={styles.detailsSkeleton}>
-                  <div className={styles.TiPrSkeleton}>
-                    <div className={styles.titleSkeleton}></div>
-                    <div className={styles.timeSkeleton}></div>
-                  </div>
-                  <div className={styles.stockSkeleton}></div>
-                  <div className={styles.chooseColorSk}></div>
-                  <div className={styles.colorsSkeletons}>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                  </div>
-                  <div className={styles.warrentContainer}><div className={styles.warrantySkeleton}><div className={styles.warrantyTextSk}></div></div></div>
-                  <div className={styles.quanSkeleton}>
-                    <div className={styles.dequanSkeleton}>
-                      <div className={styles.decreaseSkeleton}></div>
-                    </div>
-                    <div className={styles.coquanSkeleton}>
-                      <div className={styles.counterSkeleton}></div>
-                    </div>
-                    <div className={styles.inquanSkeleton}>
-                      <div className={styles.increaseSkeleton}></div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.pricesSkeleton}>
-                  <div className={styles.propriSkeleton}></div>
-                  <div className={styles.shipSkeleton}></div>
-                  <div className={styles.totalSkeleton}></div>
-                  <div className={styles.deleteSkeleton}><div className={styles.deleteIconSk}></div></div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.SkeletonCenter}>
-              <div className={styles.SecSkeleton}>
-                <div className={styles.SecimageSkeleton}></div>
-                <div className={styles.detailsSkeleton}>
-                  <div className={styles.titleSkeleton}></div>
-                  <div className={styles.timeSkeleton}></div>
-                  <div className={styles.stockSkeleton}></div>
-                  <div className={styles.chooseColorSecSk}></div>
-                  <div className={styles.colorsSkeletons}>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                    <div className={styles.colorSkeleton}><div className={styles.colorCircleSk}></div></div>
-                  </div>
-                  <div className={styles.warrantySkeleton}><div className={styles.warrantyTextSk}></div></div>
-                  <div className={styles.quanSkeleton}>
-                    <div className={styles.dequanSkeleton}>
-                      <div className={styles.decreaseSkeleton}></div>
-                    </div>
-                    <div className={styles.coquanSkeleton}>
-                      <div className={styles.counterSkeleton}></div>
-                    </div>
-                    <div className={styles.inquanSkeleton}>
-                      <div className={styles.increaseSkeleton}></div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.SecpricesSkeleton}>
-                  <div className={styles.propriSkeleton}></div>
-                  <div className={styles.shipSkeleton}></div>
-                  <div className={styles.totalSkeleton}></div>
-                  <div className={styles.SecdeleteSkeleton}><div className={styles.deleteIconSk}></div></div>
-                </div>
-              </div>
-            </div>
+            <Skeletons />
           </div>
           :
-          <div style={{ textAlign: "center", height: "167px", justifyContent: "center", alignItems: "center", display: "flex" }}>
-            <p style={{ fontSize: "20px" }}>
+          <div className={styles.emptyCart}>
+            <p className={styles.emptyCartText}>
               Your cart is empty… add some items!
             </p>
           </div>
@@ -724,39 +536,22 @@ overflow-y: hidden;
 
       {
         data6 && data6.length > 0 && (
-          <div className="cart-actions"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              maxWidth: "900px",
-              margin: "40px auto 60px auto",
-            }}
-          >
+          <div className={styles.cartActions}>
 
-            <div style={{ textAlign: "right", fontSize: "23px", fontWeight: "600" }}>
+            <div className={styles.totalBox}>
               Total: {data6.length > 0 && finalPrice} SAR
             </div>
 
-
-            <button onClick={() => CheckedOut(finalPrice)} className={styles.cartbut}>Checkout</button>
-
+            <button
+              onClick={() => CheckedOut(finalPrice)}
+              className={styles.cartbut}
+            >
+              Checkout
+            </button>
 
             <button
               onClick={() => removeCart()}
-              style={{
-                background: "#d32f2f",
-                color: "white",
-                padding: "14px 26px",
-                fontSize: "16px",
-                borderRadius: "10px",
-                cursor: "pointer",
-                border: "none",
-                fontWeight: "600",
-                letterSpacing: "0.5px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-                transition: "0.25s",
-              }}
+              className={styles.deleteAllButton}
               onMouseOver={(e) => {
                 e.currentTarget.style.background = "#b71c1c";
                 e.currentTarget.style.transform = "scale(1.05)";
@@ -772,10 +567,9 @@ overflow-y: hidden;
           </div>
         )
       }
-      <div style={{ marginTop: "135px" }}>
+      <div className={styles.footerWrapper}>
         <Footer />
       </div>
     </div >
   );
-
 }

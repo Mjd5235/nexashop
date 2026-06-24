@@ -2,6 +2,7 @@
     background-color: #22c55e;
     border-radius: 8px;
     transition: background-color, border-radius .1s ease-in-out;
+    color: #fff;
 }
 
 .saveChan:hover {

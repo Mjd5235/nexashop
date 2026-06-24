@@ -2,9 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './Orders.module.css';
 
 const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }) => {
+
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(defaultValue || options[0]);
+
     const selectRef = useRef(null);
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -35,7 +38,7 @@ const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }) => 
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
             {isOpen && (
-                <div className={styles.optionsList} style={{ top: !isLastOrder ? "calc(100% + 8px)" : "-250%" }}>
+                <div className={styles.optionsList} style={{ top: !isLastOrder ? "calc(100% + 8px)" : "-230%" }}>
                     {options.map((option) => (
                         <div
                             key={option}

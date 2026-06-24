@@ -34,7 +34,8 @@ function HomePage() {
             items_to_merge: cartToSync,
           })
           if (error) {
-            alert(error.message)
+            toast.error("Failed to load your old cart. Please add your products again.", { id: "floadold" })
+            console.error(error)
           } else {
             window.dispatchEvent(new Event("cartUpdated"));
           }
@@ -60,6 +61,7 @@ function HomePage() {
     </div>
   );
 }
+
 export default function Home() {
   return (
     <Suspense fallback={<div></div>}>

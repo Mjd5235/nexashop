@@ -16,7 +16,7 @@ export default function Sidebar({ height, font }) {
       if (data.user) {
         setName(data.user.user_metadata.name)
         if (error) {
-          console.log(error.message)
+          console.error(error)
         }
       }
     }

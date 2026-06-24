@@ -12,12 +12,13 @@
 .skeletons {
   margin: 32px;
   display: flex;
-  gap: 20px;
+  gap: 12px !important;
   width: 1120px;
   margin: 0 auto;
   overflow-x: hidden;
   padding: 14px;
-  padding-left: 22px;
+  padding-left: 21px;
+  border: solid 1px white;
   overflow-y: hidden;
 }
 
@@ -109,6 +110,213 @@
 .arrow2 {
   top: 202.5px;
   right: 350px;
+}
+
+.productsWrapper {
+  position: relative;
+  margin: 0 auto;
+  display: grid;
+}
+
+.productsTitle {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.productsList {
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.skeletonImage {
+  width: 175px;
+  height: 175px;
+  flex-shrink: 0;
+  margin: 0 auto 28px auto;
+}
+
+.skeletonName {
+  width: 80%;
+  height: 22px;
+  flex-shrink: 0;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.skeletonDescription {
+  margin-top: 25px;
+  margin-bottom: 65px;
+  flex-shrink: 0;
+}
+
+.skeletonLine100 {
+  width: 100%;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeletonLine90 {
+  width: 90%;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeletonLine85 {
+  width: 85%;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeletonLine80 {
+  width: 80%;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeletonLine75 {
+  width: 75%;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeletonPriceArea {
+  height: 51px;
+  display: grid;
+  align-content: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.skeletonPrice1 {
+  width: 50%;
+  height: 16px;
+}
+
+.skeletonPrice2 {
+  width: 50%;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.skeletonStock {
+  width: 44%;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: -9px;
+}
+
+.skeletonDelivery {
+  width: 44%;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 19px;
+}
+
+.skeletonButton {
+  width: 95.42px;
+  height: 37px;
+  margin-top: 14px;
+  margin-right: -9px;
+  align-self: flex-end;
+  border-radius: 8px !important;
+  flex-shrink: 0;
+}
+
+.saleBadge {
+  background-color: #1a75e8;
+  color: #fff;
+  padding: 3px;
+  position: absolute;
+  border-radius: 4px;
+  right: -13px;
+  top: -8px;
+}
+
+.productImageWrapper {
+  width: 240px;
+  height: 200px;
+  position: relative;
+  margin-left: -14px;
+  margin-bottom: 15px;
+}
+
+.productImage {
+  object-fit: contain;
+  margin-bottom: 25px;
+}
+
+.productDescriptionMargin {
+  margin-bottom: 19px;
+}
+
+.priceContainer {
+  display: grid;
+  height: 51px;
+}
+
+.oldPriceRow {
+  display: flex;
+  font-weight: bold;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+.oldPriceValue {
+  text-decoration: line-through;
+  font-size: 13px;
+}
+
+.oldPriceSar {
+  margin-top: 6px;
+  margin-left: 2px;
+  font-size: 9px;
+}
+
+.currentPriceRow {
+  display: flex;
+  margin-top: 5px;
+}
+
+.currentPrice {
+  font-size: 20px;
+}
+
+.currentPriceSar {
+  margin-top: 6px;
+  margin-left: 2px;
+  font-size: 12px;
+}
+
+.deliveryText {
+  text-align: left;
+  left: 0;
+  font-size: 13px;
+  float: left;
+  display: flex;
+  margin-top: 19px;
+}
+
+.deliveryTime {
+  font-weight: bold;
+  padding-left: 3px;
+}
+
+.outStockButton {
+  border: none;
+  cursor: not-allowed;
+  margin-top: 50px;
+  pointer-events: none;
+}
+
+.addCartButton {
+  border: none;
+  margin-top: 50px;
 }
 
 

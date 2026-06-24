@@ -1,0 +1,15 @@
+.logout {
+    background-color: #1a75e8;
+    margin-top: 40px;
+    white-space: nowrap;
+    padding: 20px;
+    border-radius: 32px;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+}
+
+.logout:hover {
+    background-color: #1a90e8;
+}

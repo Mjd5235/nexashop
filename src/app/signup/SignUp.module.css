@@ -96,6 +96,52 @@
   top: 140px;
 }
 
+.backWrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.backIcon {
+  cursor: pointer;
+  display: flex;
+  margin-left: -180px;
+  position: relative;
+}
+
+.errorTextSmall {
+  color: red;
+  font-size: 13px;
+  margin-left: 5px;
+  margin-top: 3px;
+}
+
+.visibleIconPassword {
+  cursor: pointer;
+  margin-right: 15px;
+  margin-top: -32px;
+  margin-left: 290px;
+}
+
+.visibleIconConfirm {
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: -32px;
+  margin-left: 290px;
+}
+
+.passwordErrorText {
+  color: red;
+  font-size: 13px;
+  margin-left: 5px;
+  margin-top: 15px;
+}
+
+.signUpButton {
+  margin-top: 32px;
+}
+
 @media (max-height: 850px) {
   .arrow {
     top: 128px;

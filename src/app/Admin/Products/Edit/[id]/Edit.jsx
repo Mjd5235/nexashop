@@ -8,6 +8,7 @@ import Sidebar from '@/app/Admin/components/Sidebar/Sidebar'
 import Image from 'next/image'
 import styles from './Edit.module.css'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 export default function Edit() {
 
@@ -55,7 +56,8 @@ export default function Edit() {
                 .select("*")
 
             if (error) {
-                console.log(error.message)
+                toast.error("Failed to load the product.", { id: "fload" })
+                console.error(error)
             } else {
                 setData1(data)
             }
@@ -73,7 +75,7 @@ export default function Edit() {
             setPreview(URL.createObjectURL(file))
         }
         if (!onlyImages && selectedFile) {
-            alert("Only images allowed")
+            toast.error("Only images allowed", { id: "only-img" })
         }
     }
 
@@ -96,6 +98,11 @@ export default function Edit() {
 
     const handleSave = async () => {
 
+        if (preview === "" || name === "" || description === "" || features === "" || price === "" || stock === "" || time === "") {
+            toast.error("All fields must be completed.", { id: "blank-field" })
+            return;
+        }
+
         let image = find.image
         let filePath = find.image_path
 
@@ -109,7 +116,8 @@ export default function Edit() {
                 .from("products images")
                 .remove([find.image_path])
             if (removeError) {
-                console.log(removeError.message)
+                toast.error("Failed to update.", { id: "fsave" })
+                console.error(removeError)
             }
 
             const { error: uploadError } = supabase
@@ -117,7 +125,8 @@ export default function Edit() {
                 .from("products images")
                 .upload(filePath, file)
             if (uploadError) {
-                console.log(uploadError.message)
+                toast.error("Failed to update.", { id: "fsave" })
+                console.error(uploadError)
             }
 
             const { data } = supabase
@@ -127,7 +136,7 @@ export default function Edit() {
             image = data.publicUrl
         }
 
-        if (name !== "" && description !== "" && features !== "") {
+        if (name !== "" && description !== "" && features !== "" && price !== "" && stock !== "" && time !== "") {
             const { error } = await supabase
                 .from("products")
                 .update({
@@ -145,13 +154,14 @@ export default function Edit() {
                 .eq("id", idFromUrl)
 
             if (error) {
-                console.log(error.message)
+                toast.error("Failed to update.", { id: "fsave" })
+                console.error(error)
             } else {
-                alert("Updated successfully")
+                toast.success("Updated successfully!!", { id: "updated-success" })
                 router.push("/Admin/Products")
             }
         } else {
-            alert("All fields must be completed.")
+            toast.error("All fields must be completed.", { id: "blank-field" })
         }
     }
 
@@ -167,11 +177,11 @@ export default function Edit() {
         <div className={styles.OrdersBg}>
             <div className={styles.dashboardGrid}>
                 <div className={styles.sidebarWrapper}>
-                    <Sidebar height="100%" font="Orders" />
+                    <Sidebar height="100%" font="Products" />
                 </div>
 
                 <div className={`${styles.sidebarMobileDrawer} ${isMobileSidebarOpen ? styles.open : ''}`}>
-                    <Sidebar height="100%" font="Orders" />
+                    <Sidebar height="100%" font="Products" />
                 </div>
 
                 <div className={`${styles.sidebarOverlay} ${isMobileSidebarOpen ? styles.active : ''}`} onClick={() => { toggleMobileSidebar() }}></div>
@@ -271,12 +281,12 @@ export default function Edit() {
                                     <div className={`${styles.formRow} ${styles.marginTop50}`}>
                                         <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                             <span className={styles.fieldLabel}>Stock quantity</span>
-                                            <input value={stock !== null ? stock : find.stock} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : alert("Stock cannot be negative") & "0") }} className={styles.numberInputFull} type="number" />
+                                            <input value={stock !== null ? stock : find.stock} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : toast.error("Stock cannot be negative", { id: "stock-negative" }) & "0") }} className={styles.numberInputFull} type="number" />
                                         </div>
                                         <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                             <span className={styles.fieldLabel}>Delivery time</span>
                                             <div className={styles.flexRow}>
-                                                <input value={time !== null ? time : find.time} onChange={(e) => { setTime(e.target.value >= 0 && e.target.value <= 28 ? e.target.value : alert("Days cannot be negative or more than 4 weeks") & "0") }} className={styles.numberInputFull} type="number" />
+                                                <input value={time !== null ? time : find.time} onChange={(e) => { setTime(e.target.value === "" ? ("") : e.target.value > 0 && e.target.value <= 28 ? e.target.value : toast.error("Days cannot be negative or more than 4 weeks", { id: "time-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>Days</span>
                                             </div>
                                         </div>
@@ -286,14 +296,14 @@ export default function Edit() {
                                         <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey}`}>
                                             <span className={styles.fieldLabel}>Price</span>
                                             <div className={styles.flexRow}>
-                                                <input value={price !== null ? price : find.price} onChange={(e) => { setPrice(e.target.value >= 0 ? e.target.value : alert("Price cannot be negative") & "0") }} className={styles.numberInputFull} type="number" />
+                                                <input value={price !== null ? price : find.price} onChange={(e) => { setPrice(e.target.value === "" ? ("") : e.target.value > 0 ? e.target.value : toast.error("Price cannot be negative or equals zero.", { id: "price-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>SAR</span>
                                             </div>
                                         </div>
                                         <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey} ${styles.marginLeft30}`}>
                                             <span className={styles.fieldLabel}>Old price</span>
                                             <div className={styles.flexRow}>
-                                                <input value={oldPrice !== null ? oldPrice : find.oldPrice} onChange={(e) => { setOldPrice(e.target.value >= 0 ? e.target.value : alert("Old price cannot be negative") & "00") }} className={styles.numberInputFull} type="number" />
+                                                <input value={oldPrice !== null ? oldPrice : find.oldPrice ?? ""} onChange={(e) => setOldPrice(e.target.value === "" ? ("") : (Number(e.target.value) <= 0 && Number(e.target.value) !== "" && Number(e.target.value) !== null ? (toast.error("Old price cannot be negative or equals zero.", { id: "oldPrice-negative" }) && "") : e.target.value))} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>SAR</span>
                                             </div>
                                         </div>

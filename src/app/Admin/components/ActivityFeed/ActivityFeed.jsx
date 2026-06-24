@@ -18,7 +18,6 @@ const ActivityFeed = () => {
   ]
 
   return (
-    // استبدلنا الـ inline style بكلاس من الموديل لقابلية التجاوب
     <div className={styles.feedCard}>
       <span className={styles.feedHeader}>
         Activity Feed:
@@ -28,13 +27,13 @@ const ActivityFeed = () => {
       <ul className={styles.feedsList}>
         {feeds.map(feed => (
           <li
-            onMouseEnter={() => setEnter(feed.key)} // استخدمنا الـ key هنا أفضل وأدق للـ Hover
+            onMouseEnter={() => setEnter(feed.key)}
             onMouseLeave={() => setEnter(null)}
             className={styles.feedItem}
             key={feed.key}
             style={{
               backgroundColor: enter === feed.key ? feed.color : "transparent",
-              color: enter === feed.key ? "#ffffff" : "#1a1a1a" // يقلب الخط أبيض لو الخلفية تغمقت عشان التباين
+              color: enter === feed.key ? "#ffffff" : "#1a1a1a"
             }}
           >
             <div className={styles.imgmes}>

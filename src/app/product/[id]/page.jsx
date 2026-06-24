@@ -29,7 +29,7 @@ export default function Page() {
   ]
 
 
-  const delpro = async (index) => {
+  const delpro = async () => {
     if (isDecreasing) return;
     setDecreasing(true)
     const { data } = await supabase.auth.getUser()
@@ -37,19 +37,15 @@ export default function Page() {
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const exists = cart.find(p => p.id === product.id);
 
-      if (exists && exists.quantity > -1) {
+      if (exists && exists.quantity > 1) {
         exists.quantity -= 1;
         setQuantity(exists.quantity);
-        if (exists && exists.quantity == 0) {
-          cart.splice(index, 1);
-        }
-
-        if (exists && exists.quantity === 0) {
-          setClicked(false)
-        }
-
         localStorage.setItem("cart", JSON.stringify(cart));
-
+      }
+      else {
+        let newCart = cart.filter(item => item.id !== product.id)
+        setClicked(false)
+        localStorage.setItem("cart", JSON.stringify(newCart));
       }
     }
     if (data.user) {
@@ -87,7 +83,6 @@ export default function Page() {
 
 
   const product = data1.find((item) => item.id.toString() === idFromUrl)
-
 
 
   const AddToCart = async (item, e, inner = false) => {
@@ -148,7 +143,8 @@ export default function Page() {
               quantity: existingItem.quantity + 1,
             }).eq('id', existingItem.id)
             if (error) {
-              console.log(error.message)
+              toast.error("Failed to add the product to your cart.", { id: "fadd" })
+              console.error(error)
             }
             window.dispatchEvent(new Event("cartUpdated"));
             setQuantity(prev => prev + 1)
@@ -175,7 +171,8 @@ export default function Page() {
           quantity: 1,
         }, { onConflict: "product_id, user_id" })
         if (error) {
-          console.log(error.message)
+          toast.error("Failed to add the product to your cart.", { id: "fadd" })
+          console.error(error)
         }
         setClicked(true)
         setQuantity(1)
@@ -270,7 +267,8 @@ export default function Page() {
         .select("*")
 
       if (error) {
-        console.log(error.message)
+        toast.error("Failed to load the product details.")
+        console.error(error)
       } else {
         setData1(data)
       }
@@ -282,7 +280,14 @@ export default function Page() {
   return (
     <div onLoad={Check}>
       <Header />
-      <div style={{ marginBottom: "100px", }}><img onClick={() => { router.back() }} className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" />
+      <div className={styles.pageWrapper}>
+        <img
+          onClick={() => { router.back() }}
+          className={styles.arrow}
+          src={'/help_icons/backarrow.png'}
+          alt="HelpIcon"
+        />
+
         {product ? (
           <div className="product-card">
             <div className={styles.productinfo}>
@@ -294,45 +299,174 @@ export default function Page() {
                 />
               )}
 
-              <div className={styles.detail} style={{ display: "grid", }}>
-                <h1 className={styles.TitleT} style={{ padding: "16px", display: "flex", }}><div style={{ color: "#1a75e8" }}>Buy&nbsp;</div> {`${product.title} ${ChoosedColor}`}</h1>
-                <div className={styles.prices}>
-                  <div style={{ display: "flex", marginTop: "5px", marginBottom: "15px" }}><h2 className={styles.price}>{product.price}</h2><h3 style={{ marginTop: "6px", marginLeft: "2px", fontSize: "12px" }}>SAR</h3></div>
-                  {product.sale === true ? <div style={{ display: "flex", fontWeight: "bold", marginTop: "7px", marginBottom: "15px" }}>was:&nbsp;<h5 style={{ textDecoration: "line-through", }}>{product.oldPrice}</h5><h4 style={{ marginTop: "6px", marginLeft: "2px", fontSize: "9px" }}>SAR</h4></div> : null}
+              <div className={`${styles.detail} ${styles.detailGrid}`}>
+                <h1 className={`${styles.TitleT} ${styles.titlePadding}`}>
+                  {`${product.title} ${ChoosedColor}`}
+                </h1>
 
-                  <p style={{ fontSize: "16px", }}>{product.description}</p>
-                  <div style={{ display: "flex", marginTop: "16px" }}>
-                    <div style={{ display: "flex", }}>
-                      {colors.map((img) => <button key={img.id} style={{ backgroundColor: "white", boxShadow: ChoosedColor === img.title ? "rgba(0, 0, 0, 0.2) " : 'none', border: ChoosedColor === img.title ? "2px solid rgb(26, 117, 232)" : "2px solid rgb(221, 221, 221)", transform: ChoosedColor === img.title ? "scale(1.07)" : 'scale(1)', transition: "0.3s", borderRadius: "8px", width: "35px", height: "35px", marginRight: "7px", objectFit: "cover" }} onClick={() => setChoosedColor(img.title)}><img src={img.url} style={{ width: "31px", height: "31px", padding: "3px", cursor: "pointer" }} alt={img.title} /></button>)}
+                <div className={styles.prices}>
+                  <div className={styles.priceRow}>
+                    <h2 className={styles.price}>{product.price}</h2>
+                    <h3 className={styles.currency}>SAR</h3>
+                  </div>
+
+                  {product.sale === true ? (
+                    <div className={styles.wasRow}>
+                      was:&nbsp;
+                      <h5 className={styles.oldPrice}>{product.oldPrice}</h5>
+                      <h4 className={styles.oldCurrency}>SAR</h4>
+                    </div>
+                  ) : null}
+
+                  <p className={styles.description}>
+                    {product.description}
+                  </p>
+
+                  <div className={styles.colorsWrapper}>
+                    <div className={styles.colorsInner}>
+                      {colors.map((img) => (
+                        <button
+                          key={img.id}
+                          style={{
+                            boxShadow: ChoosedColor === img.title ? "rgba(0, 0, 0, 0.2)" : "none",
+                            border: ChoosedColor === img.title
+                              ? "2px solid rgb(26, 117, 232)"
+                              : "2px solid rgb(221, 221, 221)",
+                            transform: ChoosedColor === img.title
+                              ? "scale(1.07)"
+                              : "scale(1)"
+                          }}
+                          className={styles.colorButton}
+                          onClick={() => setChoosedColor(img.title)}
+                        >
+                          <img
+                            src={img.url}
+                            className={styles.colorImage}
+                            alt={img.title}
+                          />
+                        </button>
+                      ))}
                     </div>
                   </div>
-                  <span className={styles.StockText} style={{ width: product.stock <= 5 && product.stock !== 0 ? "245px" : "130px", color: product.stock <= 5 && product.stock !== 0 ? "#d97706" : product.stock !== 0 ? "#16a34a" : "#94a3b8" }}>{product.stock <= 5 && product.stock !== 0 ? `only ${product.stock} ${product.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}` : product.stock !== 0 ? "In Stock ✓" : "Sold Out ✕"}</span>
+
+                  <span
+                    className={`${styles.StockText} ${styles.productStock}`}
+                    style={{
+                      width: product.stock <= 5 && product.stock !== 0 ? "245px" : "130px",
+                      color:
+                        product.stock <= 5 && product.stock !== 0
+                          ? "#d97706"
+                          : product.stock !== 0
+                            ? "#16a34a"
+                            : "#94a3b8"
+                    }}
+                  >
+                    {product.stock <= 5 && product.stock !== 0
+                      ? `only ${product.stock} ${product.stock > 1 ? `products left in stock ( ! )` : `product left in stock ( ! )`}`
+                      : product.stock !== 0
+                        ? "In Stock ✓"
+                        : "Sold Out ✕"}
+                  </span>
 
                   {Clicked === false &&
-                    <div style={{ display: "flex", marginTop: "0px", }}>
-                      <div style={{ display: "grid" }}>
-                        {product.stock === 0 ? <button style={{ border: "none", cursor: "not-allowed", marginTop: "26px", pointerEvents: "none", height: "49.2px" }} className={styles.outStock}>Out of Stock</button> : <button disabled={isAdding} onClick={(e) => AddToCart(product, e)} className={styles.cartbut1} style={{ width: "130px", height: "49.2px", display: "flex", cursor: "pointer", border: "none", marginTop: "25px", pointerEvents: (isAdding) ? "none" : "auto", }}>
-                          <span>{isAdding ? "Adding ..." : "Add To Cart"}</span></button>}
+                    <div className={styles.cartSection}>
+                      <div className={styles.cartGrid}>
+                        {product.stock === 0
+                          ? <button
+                            className={styles.outStock}
+                            style={{
+                              pointerEvents: "none"
+                            }}
+                          >
+                            Out of Stock
+                          </button>
+                          : <button
+                            disabled={isAdding}
+                            onClick={(e) => AddToCart(product, e)}
+                            className={`${styles.cartbut1} ${styles.addCartButton}`}
+                            style={{
+                              pointerEvents: (isAdding) ? "none" : "auto"
+                            }}
+                          >
+                            <span>{isAdding ? "Adding ..." : "Add To Cart"}</span>
+                          </button>}
                       </div>
-                    </div>
-                  }
-                  {Clicked === true &&
-                    <div className={styles.cartbut1} style={{ display: "flex", width: "130px", borderRadius: "8px", height: "49.2px", marginTop: "25px" }}>
-                      <button disabled={isDecreasing || isAdding} className={styles.cartbut} style={{ width: "43.33px", padding: "5px", fontSize: "10px", backgroundColor: "#1a75e8", color: isAdding || isDecreasing ? "#94a3b8" : "#fff", opacity: isAdding || isDecreasing ? "0.6" : "1", border: "#1a75e8", borderRadius: "13px 0 0 13px", fontSize: "23px", cursor: isAdding || isDecreasing ? "not-allowed" : "pointer", pointerEvents: (isAdding || isDecreasing) ? "none" : "auto", }} onClick={delpro}>{Quantity === 1 ? <svg style={{ marginTop: "6px", marginRight: "4px" }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path style={{ opacity: isAdding || isDecreasing ? "0.6" : "1" }} fill={isAdding === true || isDecreasing === true ? "#94a3b8" : "#ffffff"} d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z" /></svg> : <span>-</span>}</button>
-                      {isAdding || isDecreasing ? <svg className={styles.animateSpin} style={{ width: "43.33px", marginRight: "3px", height: "20px", stroke: "#ffffff" }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg> : <div className={styles.cartbut} style={{ fontSize: "23px", backgroundColor: "#1a75e8", width: "43.33px", height: "27px", color: "#fff", padding: "0px 0px 0px 9px", }}>{Quantity}</div>}
-                      <button disabled={isDecreasing || isAdding} className={styles.cartbut} style={{ width: "43.33px", padding: "5px", fontSize: "10px", backgroundColor: "#1a75e8", color: isAdding || isDecreasing ? "#94a3b8" : "#fff", opacity: isAdding || isDecreasing ? "0.6" : "1", border: "#1a75e8", borderRadius: "0 13px 13px 0", fontSize: "23px", cursor: isAdding || isDecreasing ? "not-allowed" : "pointer", pointerEvents: (isAdding || isDecreasing) ? "none" : "auto", }} onClick={(e) => AddToCart(product, e, true)}>+</button>
-                    </div>
-                  }
-                  {Clicked === null &&
-                    <div className={styles.cartbut1} style={{ display: "flex", width: "130px", borderRadius: "8px", height: "49.2px", marginTop: "25px" }}>
-                      <svg className={styles.animateSpin} style={{ width: "43.33px", marginRight: "3px", height: "20px", stroke: "#000", }} viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle></svg>
-                    </div>
-                  }
-                  <span style={{ textAlign: "left", left: 0, fontSize: "13px", float: "left", display: "flex", marginTop: "19px" }}>get it<span style={{ fontWeight: "bold", paddingLeft: "3px" }}>{product.time === 1 && "tomorrow" || product.time % 7 !== 0 && `after ${product.time} days` || product.time % 7 === 0 && `after ${product.time / 7} ${product.time / 7 === 1 ? `week` : `weeks`}`}</span></span>
+                    </div>}
 
-                  <ul style={{ marginTop: "60px", display: 'grid', marginLeft: "5px" }}><h3>Product Features:</h3>
+                  {Clicked === true &&
+                    <div className={`${styles.cartbut1} ${styles.quantityWrapper}`}>
+                      <button
+                        disabled={isDecreasing || isAdding}
+                        className={styles.quantityButtonLeft}
+                        style={{
+                          color: isAdding || isDecreasing ? "#94a3b8" : "#fff",
+                          opacity: isAdding || isDecreasing ? "0.6" : "1",
+                          cursor: isAdding || isDecreasing ? "not-allowed" : "pointer",
+                          pointerEvents: (isAdding || isDecreasing) ? "none" : "auto",
+                        }}
+                        onClick={delpro}
+                      >
+                        {Quantity === 1
+                          ? <svg className={styles.deleteSvg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                            <path
+                              style={{ opacity: isAdding || isDecreasing ? "0.6" : "1" }}
+                              fill={isAdding === true || isDecreasing === true ? "#94a3b8" : "#ffffff"}
+                              d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z"
+                            />
+                          </svg>
+                          : <span>-</span>}
+                      </button>
+
+                      {isAdding || isDecreasing
+                        ? <svg
+                          className={`${styles.animateSpin} ${styles.quantityLoaderWhite}`}
+                          viewBox="0 0 50 50"
+                        >
+                          <circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle>
+                        </svg>
+                        : <div className={styles.quantityValue}>
+                          {Quantity}
+                        </div>}
+
+                      <button
+                        disabled={isDecreasing || isAdding}
+                        className={styles.quantityButtonRight}
+                        style={{
+                          color: isAdding || isDecreasing ? "#94a3b8" : "#fff",
+                          opacity: isAdding || isDecreasing ? "0.6" : "1",
+                          cursor: isAdding || isDecreasing ? "not-allowed" : "pointer",
+                          pointerEvents: (isAdding || isDecreasing) ? "none" : "auto",
+                        }}
+                        onClick={(e) => AddToCart(product, e, true)}
+                      >
+                        +
+                      </button>
+                    </div>}
+
+                  {Clicked === null &&
+                    <div className={`${styles.cartbut1} ${styles.quantityWrapper}`}>
+                      <svg
+                        className={`${styles.animateSpin} ${styles.quantityLoaderBlack}`}
+                        viewBox="0 0 50 50"
+                      >
+                        <circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" strokeDasharray="31.4 31.4"></circle>
+                      </svg>
+                    </div>}
+
+                  <span className={styles.deliveryText}>
+                    get it
+                    <span className={styles.deliveryTime}>
+                      {product.time === 1 && "tomorrow" || product.time % 7 !== 0 && `after ${product.time} days` || product.time % 7 === 0 && `after ${product.time / 7} ${product.time / 7 === 1 ? `week` : `weeks`}`}
+                    </span>
+                  </span>
+
+                  <ul className={styles.featuresList}>
+                    <h3>Product Features:</h3>
+
                     {product.features.split("\n").map((f, i) => (
-                      <li key={i} style={{ display: "grid", paddingTop: "25px", marginLeft: "32px" }}>{f}</li>
+                      <li key={i} className={styles.featureItem}>
+                        {f}
+                      </li>
                     ))}
                   </ul>
 

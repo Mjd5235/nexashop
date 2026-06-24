@@ -50,6 +50,19 @@
     display: none;
 }
 
+.DropIcon svg {
+    margin-right: 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(360deg);
+}
+
+.DropIcOpen svg {
+    margin-right: 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(180deg);
+}
+
+
 .sidebarOverlay.active {
     display: block;
 }
@@ -268,6 +281,7 @@
 
 .dropdownWrapper {
     margin-top: 17px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dropdownGrid {

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
-import styles from '../signup/SignUp.module.css'
+import styles from './page.module.css'
 import LoginLogo from "../../elements/LoginLogo/LoginLogo"
 import { supabase } from "@/lib/SubaBaseClient";
 
@@ -55,11 +55,15 @@ function LoginContents() {
           password: password,
         })
 
-        if (error && error.message === "Invalid login credentials") { setWrongLog(true) }
-
         if (error) {
-          console.log(error.message)
+          if (error.message === "Invalid login credentials") {
+            setWrongLog(true)
+          } else {
+            toast.error("Failed to login.", { id: "flogin" })
+            console.error(error)
+          }
         }
+
         else {
           router.push("/?login=success")
         }
@@ -75,13 +79,30 @@ function LoginContents() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center" }}><Link href="/"><Image className={styles.arrow} src={'/help_icons/backarrow.png'} width={50} height={50} style={{ cursor: "pointer", left: "350px", position: "absolute" }} alt="BackIcon" /></Link></div>
+      <div className={styles.backWrapper}>
+        <Link href="/">
+          <Image
+            className={`${styles.arrow} ${styles.backIcon}`}
+            src={'/help_icons/backarrow.png'}
+            width={50}
+            height={50}
+            alt="BackIcon"
+          />
+        </Link>
+      </div>
+
       <div className={styles.container}>
         <div className={styles.card}>
           <LoginLogo />
           <h2 className={styles.title}>Welcome back</h2>
 
-          {wrongLog ? <div style={{ display: 'flex', justifyContent: 'center' }}><p style={{ color: "#C53030", backgroundColor: "#FFF5F5", border: "solid 1px #FEB2B2", width: "330px", padding: "5px", fontSize: "13px", display: 'flex', justifyContent: "center", marginTop: "3px", marginBottom: "16px", }}>{LoginError}</p></div> : null}
+          {wrongLog ? (
+            <div className={styles.errorWrapper}>
+              <p className={styles.loginError}>
+                {LoginError}
+              </p>
+            </div>
+          ) : null}
 
           <form className={styles.form}>
             <div className={styles.formGroup}>
@@ -91,29 +112,71 @@ function LoginContents() {
                 name="email"
                 placeholder="you@example.com"
                 value={email}
-                onChange={u => { setEmail(u.target.value); setWrongEmail(false); setWrEmptyEmail(false); setWrongLog(false) }}
+                onChange={u => {
+                  setEmail(u.target.value);
+                  setWrongEmail(false);
+                  setWrEmptyEmail(false);
+                  setWrongLog(false);
+                }}
                 required
-                style={{ border: wrongEmail || wrEmptyEmail || wrongLog ? "solid 1px red" : null, backgroundColor: "white" }}
+                style={{
+                  border: wrongEmail || wrEmptyEmail || wrongLog ? "solid 1px red" : null,
+                  backgroundColor: "white"
+                }}
               />
-              {wrongEmail || wrEmptyEmail ? <p style={{ color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "3px" }}>{wrongEmail === true ? emailError : emptyEmail}</p> : null}
+
+              {wrongEmail || wrEmptyEmail ? (
+                <p className={styles.inputError}>
+                  {wrongEmail === true ? emailError : emptyEmail}
+                </p>
+              ) : null}
             </div>
 
             <div className={styles.formGroup}>
-              <div style={{ display: "flex" }}>
-                <label>Password</label></div>
+              <div className={styles.passwordLabelWrapper}>
+                <label>Password</label>
+              </div>
+
               <input
                 type={Viewed ? "text" : "password"}
                 name="password"
                 placeholder=""
                 value={password}
-                onChange={u => { setPassword(u.target.value); setWrongPass(false); setWrongLog(false) }}
+                onChange={u => {
+                  setPassword(u.target.value);
+                  setWrongPass(false);
+                  setWrongLog(false);
+                }}
                 required
-                style={{ border: wrongPass || wrongLog ? "solid 1px red" : null, backgroundColor: "white" }}
-              /><Image src={'/help_icons/visible.png'} width={20} height={20} style={{ cursor: "pointer", marginRight: "5px", marginTop: "-32px", marginLeft: "290px" }} onClick={() => { setViewed(prev => !prev) }} alt="HelpIcon" />
-              {wrongPass === true ? <p style={{ color: "red", fontSize: "13px", marginLeft: "5px", marginTop: "15px" }}>{emptyPassword}</p> : null}
+                style={{
+                  border: wrongPass || wrongLog ? "solid 1px red" : null,
+                  backgroundColor: "white"
+                }}
+              />
+
+              <Image
+                src={'/help_icons/visible.png'}
+                width={20}
+                height={20}
+                className={styles.visibleIcon}
+                onClick={() => {
+                  setViewed(prev => !prev);
+                }}
+                alt="HelpIcon"
+              />
+
+              {wrongPass === true ? (
+                <p className={styles.passwordError}>
+                  {emptyPassword}
+                </p>
+              ) : null}
             </div>
 
-            <button style={{ marginTop: "32px" }} type="submit" onClick={SubButton} className={styles.button}>
+            <button
+              className={`${styles.button} ${styles.loginButton}`}
+              type="submit"
+              onClick={SubButton}
+            >
               Log In
             </button>
           </form>
@@ -127,6 +190,7 @@ function LoginContents() {
         </div>
       </div>
     </div>
+
   );
 }
 

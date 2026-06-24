@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from './Statistics.module.css';
 
 const Statistics = () => {
+
   const statsData = [
     {
       title: 'Total Revenue',

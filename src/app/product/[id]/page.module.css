@@ -33,7 +33,6 @@
   width: 400px;
   margin-right: 30px;
   margin-top: 150px;
-
 }
 
 .cartbut {
@@ -90,52 +89,185 @@
 .prices {
   margin-left: 18px;
   display: grid;
-
 }
 
-@media(max-width: 1050px) {
-  .productinfo {
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    width: 500px;
-    margin: 0 auto;
-    padding: 0 auto;
-    display: grid;
-    margin-top: 0px;
-  }
-
-  .infoproduct {
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    padding: 20px;
-    list-style-type: none;
-    overflow: visible;
-    width: 350px;
-    margin-right: 30px;
-    margin-top: 0px;
-  }
-
-  .TitleT {
-    font-size: 30px;
-    margin-top: -500px;
-    text-align: center;
-  }
-
-  .detail {
-    width: 400px;
-    padding-right: 25px;
-  }
-
-  .arrow {
-    margin-bottom: 50px;
-  }
-
-  .prices {
-    margin-top: -30px;
-  }
+.pageWrapper {
+  margin-bottom: 100px;
 }
+
+.detailGrid {
+  display: grid;
+}
+
+.titlePadding {
+  padding: 16px;
+  display: flex;
+}
+
+.priceRow {
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.currency {
+  margin-top: 6px;
+  margin-left: 2px;
+  font-size: 12px;
+}
+
+.wasRow {
+  display: flex;
+  font-weight: bold;
+  margin-top: 7px;
+  margin-bottom: 15px;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+}
+
+.oldCurrency {
+  margin-top: 6px;
+  margin-left: 2px;
+  font-size: 9px;
+}
+
+.description {
+  font-size: 16px;
+}
+
+.colorsWrapper {
+  display: flex;
+  margin-top: 16px;
+}
+
+.colorsInner {
+  display: flex;
+}
+
+.colorButton {
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 8px;
+  width: 35px;
+  height: 35px;
+  margin-right: 7px;
+  object-fit: cover;
+}
+
+.colorImage {
+  width: 31px;
+  height: 31px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.cartSection {
+  display: flex;
+  margin-top: 0px;
+}
+
+.cartGrid {
+  display: grid;
+}
+
+.deliveryText {
+  text-align: left;
+  left: 0;
+  font-size: 13px;
+  float: left;
+  display: flex;
+  margin-top: 19px;
+}
+
+.deliveryTime {
+  font-weight: bold;
+  padding-left: 3px;
+}
+
+.featuresList {
+  margin-top: 60px;
+  display: grid;
+  margin-left: 5px;
+}
+
+.featureItem {
+  display: grid;
+  padding-top: 25px;
+  margin-left: 32px;
+}
+
+.outStock {
+  border: none;
+  cursor: not-allowed;
+  margin-top: 26px;
+  height: 49.2px;
+}
+
+.addCartButton {
+  width: 130px;
+  height: 49.2px;
+  display: flex;
+  cursor: pointer;
+  border: none;
+  margin-top: 25px;
+}
+
+.quantityWrapper {
+  display: flex;
+  width: 130px;
+  border-radius: 8px;
+  height: 49.2px;
+  margin-top: 25px;
+}
+
+.quantityButtonLeft {
+  width: 43.33px;
+  padding: 5px;
+  font-size: 23px;
+  background-color: #1a75e8;
+  border: #1a75e8;
+  border-radius: 13px 0 0 13px;
+}
+
+.quantityButtonRight {
+  width: 43.33px;
+  padding: 5px;
+  font-size: 23px;
+  background-color: #1a75e8;
+  border: #1a75e8;
+  border-radius: 0 13px 13px 0;
+}
+
+.deleteSvg {
+  margin-top: 6px;
+  margin-right: 4px;
+}
+
+.quantityLoaderWhite {
+  width: 43.33px;
+  margin-right: 3px;
+  height: 20px;
+  stroke: #ffffff;
+}
+
+.quantityLoaderBlack {
+  width: 43.33px;
+  margin-right: 3px;
+  height: 20px;
+  stroke: #000;
+}
+
+.quantityValue {
+  font-size: 23px;
+  background-color: #1a75e8;
+  width: 43.33px;
+  height: 27px;
+  color: #fff;
+  padding: 0px 0px 0px 9px;
+}
+
 
 .animateSpin {
   animation: spin 1s infinite linear;
@@ -151,9 +283,48 @@
   }
 }
 
-@media(max-width: 460px) {
+
+@media(max-width: 1050px) {
   .productinfo {
-    padding-right: 110px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding-left: 30px;
+    display: grid;
+    margin-top: 0px;
+  }
+
+  .infoproduct {
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 20px;
+    list-style-type: none;
+    overflow: visible;
+    width: 350px;
+    margin-right: 30px;
+    margin-top: 50px;
+  }
+
+  .TitleT {
+    font-size: 30px;
+    margin-top: -500px;
+    text-align: center;
+  }
+
+  .detail {
+    width: 375px;
+    padding-right: 25px;
+  }
+
+  .arrow {
+    margin-bottom: 50px;
+  }
+
+  .prices {
+    margin-top: -30px;
   }
 }
 

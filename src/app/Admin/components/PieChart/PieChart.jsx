@@ -21,7 +21,7 @@ export default function CategoryChart() {
       </h3>
 
       <div className={styles.chartWrapper}>
-        <ResponsiveContainer width="80%" height="80%">
+        <ResponsiveContainer width="90%" height="90%">
           <PieChart>
             <Pie
               data={data}

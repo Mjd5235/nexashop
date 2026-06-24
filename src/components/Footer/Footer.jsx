@@ -30,7 +30,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.follow}>
-          <h4 style={{ justifyContent: "center", display: "flex" }}>follow us on</h4>
+          <h4>follow us on</h4>
           <div className={styles.contacts}>
             <Image className={styles.contact} src={'/contact/you.webp'} width={28} height={23} alt='contact1' />
             <Image className={styles.contact} src={'/contact/face.webp'} width={23} height={23} alt='contact2' />

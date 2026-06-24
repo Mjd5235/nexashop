@@ -28,18 +28,20 @@
 }
 
 .card {
-    width: 512px;
+    width: 100%;
+    max-width: 512px;
     height: auto;
     background-color: #fff;
     display: grid;
     justify-content: center;
     margin: 0 auto;
-    padding-bottom: 40px;
+    padding: 0 40px 40px 40px;
     border-radius: 24px;
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
     animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     opacity: 0;
     -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
 }
 
 .checkMarkCon {
@@ -131,7 +133,8 @@
 .orderDetails {
     margin-top: 32px;
     border-top: solid 1px #f3f4f6;
-    width: 432px;
+    width: 100%;
+    max-width: 432px;
 }
 
 .detailsContainer {
@@ -146,7 +149,8 @@
     font-weight: 500;
     font-size: 12px;
     color: #6b7280;
-    width: 432px;
+    width: 100%;
+    max-width: 432px;
     line-height: 1.5;
 }
 
@@ -160,6 +164,7 @@
     justify-content: right;
     text-align: right;
     margin-top: -2px;
+    word-break: break-word;
 }
 
 .successDetailFill {
@@ -185,7 +190,8 @@
     margin-top: 16px;
     border-top: solid 1px #f9fafb;
     border-bottom: solid 1px #f3f4f6;
-    width: 432px;
+    width: 100%;
+    max-width: 432px;
 }
 
 .totalPrice {
@@ -193,7 +199,7 @@
     justify-content: space-between;
     padding-top: 16px;
     padding-bottom: 32px;
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
 }
 
 .totalText {
@@ -215,21 +221,26 @@
     border-radius: 16px;
     padding: 16px;
     margin-top: 8px;
+    width: 100%;
+    max-width: 432px;
+    box-sizing: border-box;
 }
 
 .emailSentCon {
     display: flex;
+    align-items: center;
 }
 
 .iconCon {
     padding-right: 12px;
+    display: flex;
+    align-items: center;
 }
 
 .emailSentText {
     color: #4b5563;
-    line-height: 1.6px;
+    line-height: 1.4;
     font-size: 14px;
-    padding-top: 8px;
 }
 
 .userEmail {
@@ -237,12 +248,15 @@
     color: #1a1a1a;
     font-weight: 600;
     padding-bottom: 8px;
+    word-break: break-all;
 }
 
 .actionButtons {
     margin-top: 32px;
     display: flex;
-    width: 430px;
+    width: 100%;
+    max-width: 432px;
+    gap: 16px;
 }
 
 .trackingButton {
@@ -256,7 +270,7 @@
     height: 56px;
     border-radius: 16px;
     box-shadow: 0 10px 15px -3px rgba(26, 117, 232, 0.2);
-    width: 250px;
+    width: 100%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -285,14 +299,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 16px;
     color: #fff;
     font-size: 16px;
     font-weight: 700;
     height: 56px;
     border-radius: 16px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    width: 250px;
+    width: 100%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -309,4 +322,51 @@
 
 .trackOrderText {
     margin-right: 8px;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 20px 12px;
+    }
+
+    .card {
+        padding: 0 20px 24px 20px;
+        border-radius: 16px;
+    }
+
+    .logo {
+        position: relative;
+        margin: 24px 0 0 0;
+        justify-content: center;
+    }
+
+    .thankYou {
+        font-size: 28px;
+    }
+
+    .detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        border-bottom: solid 1px #f9fafb;
+        padding-bottom: 8px;
+    }
+
+    .detailFill,
+    .successCon {
+        justify-content: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+
+    .actionButtons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .trackingButton,
+    .shoppingButton {
+        width: 100%;
+        margin-left: 0;
+    }
 }

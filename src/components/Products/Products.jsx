@@ -26,11 +26,10 @@ export default function Products() {
         .order('created_at', { ascending: false, })
 
       if (error) {
-        console.log(error.message)
+        toast.error("Failed to load shop products. Please refresh the page or try again later.", { id: "floadshop" })
+        console.error(error)
       } else {
         setData1(data)
-        console.log(data)
-        console.log(supabase)
       }
       setLoading(false)
     }

@@ -162,4 +162,8 @@
         max-width: 100px;
         max-height: 33.33px;
     }
+
+    .copyrights {
+        text-align: center;
+    }
 }

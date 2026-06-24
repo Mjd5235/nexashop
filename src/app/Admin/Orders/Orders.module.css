@@ -441,6 +441,12 @@
     font-weight: 600;
 }
 
+.emptyState {
+    text-align: center;
+    padding: 60px;
+    color: #6B7280;
+}
+
 @media (max-width: 1200px) {
     .sidebarWrapper {
         width: 90px;
@@ -494,7 +500,7 @@
     }
 
     .summaryCard {
-        width: 55%;
+        width: 60%;
         display: grid;
         justify-content: center;
         align-items: center;
@@ -513,12 +519,12 @@
 
     .searchWrapper {
         position: relative;
-        width: 55%;
+        width: 60%;
     }
 
     .customSelect {
         position: relative;
-        width: 55%;
+        width: 60%;
         cursor: pointer;
         user-select: none;
     }
@@ -529,7 +535,7 @@
 
     .cardCon {
         overflow-x: scroll;
-        width: 55%;
+        width: 60%;
         display: flex;
         justify-content: left;
         margin: 0 auto;
@@ -558,5 +564,24 @@
 
     .colDate {
         padding-right: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .summaryCard {
+        width: 45%;
+    }
+
+    .searchWrapper {
+        width: 45%;
+    }
+
+    .customSelect {
+        width: 45%;
+    }
+
+    .cardCon {
+        width: 45%;
     }
 }

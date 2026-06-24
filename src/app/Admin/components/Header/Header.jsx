@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { supabase } from '@/lib/SubaBaseClient'
 import styles from './Header.module.css'
+import toast from 'react-hot-toast'
 
 const InterSans = Inter({
   subsets: ['latin'],
@@ -13,7 +14,6 @@ const InterSans = Inter({
 
 export default function Header() {
 
-  const [LogBut, setLogBut] = useState(false)
   const [Name, setName] = useState(null)
   const [email, setEmail] = useState(null)
   const [avatar, setAvatar] = useState(null)
@@ -41,7 +41,7 @@ export default function Header() {
         setEmail(data.user.email)
         setAvatar(data.user.user_metadata.name.charAt(0).toUpperCase())
         if (error) {
-          console.log(error.message)
+          console.error(error)
         }
       }
     }
@@ -53,7 +53,8 @@ export default function Header() {
     if (data.user) {
       const { error } = await supabase.auth.signOut()
       if (error) {
-        alert(error)
+        toast.error("Failed to logout.", { id: "flogout" })
+        console.error(error)
       }
       else {
         setName(null)

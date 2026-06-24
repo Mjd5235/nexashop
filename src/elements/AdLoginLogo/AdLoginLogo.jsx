@@ -9,12 +9,12 @@ const MontserratSans = Montserrat({
 
 export default function AdLoginLogo() {
   return (
-<div className={styles.logo}>
-          <Link href='/'>
-          <div className={MontserratSans.className}>
-            NexaShop
-           </div>
-        </Link>
+    <div className={styles.logo}>
+      <Link href='/'>
+        <div className={MontserratSans.className}>
+          NexaShop
+        </div>
+      </Link>
     </div>
   )
 }

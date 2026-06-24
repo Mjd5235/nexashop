@@ -4,6 +4,7 @@ import styles from './page.module.css'
 import { Inter } from 'next/font/google'
 import { supabase } from '@/lib/SubaBaseClient'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 const InterSans = Inter({
     subsets: ["latin"],
@@ -24,7 +25,7 @@ export default function Success() {
             const { data: user } = await supabase.auth.getUser()
             setUserEmail(user.user.email)
             const { data: order, error } = await supabase.from("orders").select("*").eq("user_id", user.user.id).order("created_at", { ascending: false }).limit(1).single()
-            if (error) { console.log(error.message) } else {
+            if (error) { console.error(error); toast.error("Failed to load the invoice.", { id: "finvoice" }) } else {
                 setId(order.id.slice(0, 6).toUpperCase())
                 setStatus(order.status)
                 setTotal(order.total_price)
