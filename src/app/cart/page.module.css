@@ -355,9 +355,6 @@
 
 
 @media(max-width: 920px) {
-  body {
-    overflow-y: hidden;
-  }
 
   .cartItem {
     display: flex !important;
