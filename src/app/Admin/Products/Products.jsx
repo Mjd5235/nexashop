@@ -160,7 +160,7 @@ export default function Products() {
                                 </div>
 
                                 <Link href='/Admin/Products/Add' className={`${styles.newpro} ${styles.addProductLink}`}>
-                                    <Image src='/Admin/Icons/Add.svg' width={30} height={30} alt='add' />
+                                    <Image src='/Admin/Icons/add.svg' width={30} height={30} alt='add' />
                                     <span>Add product</span>
                                 </Link>
                             </div>

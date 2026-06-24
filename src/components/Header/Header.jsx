@@ -148,7 +148,7 @@ export default function Header({ router }) {
                                             <div className={styles.dashboardWrapper}>
                                                 <Link href='/Admin/Dashboard' className={styles.orders}>
                                                     <span className={styles.dashboardText}>
-                                                        <Image className={styles.menuIcon} src='/help_icons/Dashboard.svg' width={25} height={25} alt="Dashboard" />
+                                                        <Image className={styles.menuIcon} src='/help_icons/dashboard.svg' width={25} height={25} alt="Dashboard" />
                                                         Dashboard
                                                     </span>
                                                 </Link>
