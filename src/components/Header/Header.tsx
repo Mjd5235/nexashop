@@ -1,26 +1,33 @@
 "use client";
 import Link from "next/link";
-import Logo from '@/elements/Logo/Logo';
+import Logo from "../../elements/Logo/Logo";
 import styles from './Header.module.css';
 import { useEffect, useState, useRef } from "react";
-import { supabase } from "@/lib/SubaBaseClient";
+import { supabase } from "../../lib/SubaBaseClient";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
+interface HeaderProps {
+    router: string,
+}
 
-export default function Header({ router }) {
+interface CartQuantity {
+    quantity: number
+}
 
-    const [cartCount, setCartCount] = useState(0);
-    const [Name, setName] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [avatar, setAvatar] = useState(null)
-    const [role, setRole] = useState()
+export default function Header({ router }: HeaderProps) {
 
-    const ref = useRef()
+    const [cartCount, setCartCount] = useState<number | null>(0);
+    const [Name, setName] = useState<string | null>(null)
+    const [email, setEmail] = useState<string | null>(null)
+    const [avatar, setAvatar] = useState<string | null>(null)
+    const [role, setRole] = useState<string | null | undefined>(null)
+
+    const ref = useRef<HTMLDivElement>(null)
 
 
-    const [ProfB, SetProB] = useState(false)
-    const [localCart, setLocalCart] = useState(null)
+    const [ProfB, SetProB] = useState<boolean>(false)
+    const [localCart, setLocalCart] = useState<boolean | null>(null)
 
     const updateCartCount = async () => {
         const { data } = await supabase.auth.getUser()
@@ -28,13 +35,14 @@ export default function Header({ router }) {
             const { data: cart, error } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time)").eq("user_id", data.user.id).order("created_at", { ascending: false })
             if (cart && cart.length === 0) {
                 setLocalCart(true)
-                const locart = JSON.parse(localStorage.getItem("cart")) || [];
+                const locart: CartQuantity[] = JSON.parse(localStorage.getItem("cart") || "[]");
                 setCartCount(locart.reduce((acc, item) => acc + (item.quantity || 1), 0));
             } else {
 
                 setLocalCart(false)
                 const { data: quan, } = await supabase.from("cart").select("*").eq("user_id", data.user.id)
-                setCartCount(quan.reduce((acc, item) => acc + (item.quantity || 1), 0));
+                const CartQuan = (quan || []) as CartQuantity[]
+                setCartCount(CartQuan.reduce((acc, item) => acc + (item.quantity || 1), 0));
                 if (error) {
                     console.error(error)
                 }
@@ -42,7 +50,7 @@ export default function Header({ router }) {
         }
 
         if (!data.user) {
-            const locart = JSON.parse(localStorage.getItem("cart")) || [];
+            const locart: CartQuantity[] = JSON.parse(localStorage.getItem("cart") || "[]");
             setCartCount(locart.reduce((acc, item) => acc + (item.quantity || 1), 0));
         }
     }
@@ -54,8 +62,8 @@ export default function Header({ router }) {
     }, []);
 
     useEffect(() => {
-        const handleOutClick = (e) => {
-            if (ref.current && !ref.current.contains(e.target)) {
+        const handleOutClick = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
                 SetProB(false)
             }
         }
@@ -68,8 +76,8 @@ export default function Header({ router }) {
         const GetUsers = async () => {
             const { data, error } = await supabase.auth.getUser()
             if (data.user) {
-                setName(data.user.user_metadata.name)
-                setEmail(data.user.email)
+                setName(data.user.user_metadata.name || null)
+                setEmail(data.user.email ?? null)
                 setAvatar(data.user.user_metadata.name.charAt(0).toUpperCase())
                 if (error) {
                     console.error(error)
@@ -134,7 +142,7 @@ export default function Header({ router }) {
 
                                         <div className={styles.profileData}>
                                             <h3 className={styles.profileName}>
-                                                {!role ? `welcome ${Name}` : Name}{role && ` - ${role}`}
+                                                {role ? `${Name} - ${role}` : `welcome ${Name}`}
                                             </h3>
 
                                             <h4 className={styles.profileEmail}>
@@ -144,7 +152,7 @@ export default function Header({ router }) {
                                     </div>
 
                                     <div>
-                                        {role &&
+                                        {role ?
                                             <div className={styles.dashboardWrapper}>
                                                 <Link href='/Admin/Dashboard' className={styles.orders}>
                                                     <span className={styles.dashboardText}>
@@ -153,6 +161,7 @@ export default function Header({ router }) {
                                                     </span>
                                                 </Link>
                                             </div>
+                                            : null
                                         }
 
                                         <div className={styles.ordersWrapper}>
@@ -206,7 +215,7 @@ export default function Header({ router }) {
                                 <path d="m11.3535 16.0283h-1.0205a3.4229 3.4229 0 0 0 -3.333-2.9648 3.4229 3.4229 0 0 0 -3.333 2.9648h-1.02a2.1184 2.1184 0 0 0 -2.117 2.1162v7.7155a2.1186 2.1186 0 0 0 2.1162 2.1167h8.707a2.1186 2.1186 0 0 0 2.1168-2.1167v-7.7155a2.1184 2.1184 0 0 0 -2.1165-2.1162zm-4.3535-1.8652a2.3169 2.3169 0 0 1 2.2222 1.8652h-4.4444a2.3169 2.3169 0 0 1 2.2222-1.8652zm5.37 11.6969a1.0182 1.0182 0 0 1 -1.0166 1.0171h-8.7069a1.0182 1.0182 0 0 1 -1.0165-1.0171v-7.7155a1.0178 1.0178 0 0 1 1.0166-1.0166h8.707a1.0178 1.0178 0 0 1 1.0164 1.0166z"></path>
                             </svg>
 
-                            {cartCount > 0 &&
+                            {cartCount as number > 0 &&
                                 <span className={styles.cartCount}>
                                     {cartCount}
                                 </span>

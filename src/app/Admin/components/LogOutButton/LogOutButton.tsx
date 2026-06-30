@@ -8,7 +8,7 @@ export default function LogOutButton() {
 
   const router = useRouter()
 
-  const handleOut = async (e) => {
+  const handleOut = async (e: React.MouseEvent) => {
     e.preventDefault()
 
     const { error } = await supabase.auth.signOut()

@@ -3,10 +3,18 @@ import { useEffect, useState } from "react";
 import styles from './Products.module.css';
 import { supabase } from "@/lib/SubaBaseClient";
 import AllCategories from './AllCategories';
+import toast from "react-hot-toast";
+import { productTypes } from '@/types/types'
+
+interface categoryTypes {
+  id: number,
+  title: string,
+  category: string,
+}
 
 export default function Products() {
 
-  const categories = [
+  const categories: categoryTypes[] = [
     { id: 1, category: "Phones", title: "Phones" },
     { id: 2, category: "Tablets", title: "Tablets" },
     { id: 3, category: "Computers", title: "Computers" },
@@ -14,8 +22,8 @@ export default function Products() {
     { id: 5, category: "Watches", title: "Smart Watches and Headphones" },
   ]
 
-  const [data1, setData1] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [data1, setData1] = useState<productTypes[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const getData = async () => {
@@ -29,7 +37,8 @@ export default function Products() {
         toast.error("Failed to load shop products. Please refresh the page or try again later.", { id: "floadshop" })
         console.error(error)
       } else {
-        setData1(data)
+        const newData: productTypes[] = data
+        setData1(newData)
       }
       setLoading(false)
     }
@@ -38,7 +47,7 @@ export default function Products() {
 
   return (
     <div id="products" className={styles.proarea}>
-      {categories.map(cat => (<AllCategories key={cat.id} category={cat.category} title={cat.title} loading={loading} data1={data1.filter(p => p.category === cat.category)} />))}
+      {(categories).map((cat: categoryTypes) => (<AllCategories key={cat.id} category={cat.category} title={cat.title} loading={loading} data1={(data1 as productTypes[]).filter((p: productTypes) => p.category === cat.category)} />))}
     </div>
   );
 }

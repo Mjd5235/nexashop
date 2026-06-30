@@ -6,9 +6,14 @@ import Image from 'next/image'
 import styles from './side.module.css'
 import { supabase } from '@/lib/SubaBaseClient'
 
-export default function Sidebar({ height, font }) {
+interface SidebarProps {
+  height: string,
+  font: string,
+}
 
-  const [Name, setName] = useState(null)
+export default function Sidebar({ height, font }: SidebarProps) {
+
+  const [Name, setName] = useState<string | null>(null)
 
   useEffect(() => {
     const GetUsers = async () => {

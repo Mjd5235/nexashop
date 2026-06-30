@@ -7,7 +7,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-
+import { OrderType } from '@/types/types';
 
 const Icons = {
     Confirmed: () => (
@@ -38,7 +38,7 @@ const Icons = {
 
 const Orders = () => {
     const [filterChoosed, setFilterChoosed] = useState(1);
-    const [data6, setData6] = useState([]);
+    const [data6, setData6] = useState<OrderType[] | []>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const filteringTabs = [
@@ -56,7 +56,7 @@ const Orders = () => {
         { key: 'DELIVERED', label: 'Delivered', icon: <Icons.Delivered /> }
     ];
 
-    const getStepStatus = (currentStatus, stepKey) => {
+    const getStepStatus = (currentStatus: string, stepKey: string) => {
         const statusOrder = ['CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
         const currentIndex = statusOrder.indexOf(currentStatus.toUpperCase());
         const stepIndex = statusOrder.indexOf(stepKey);
@@ -81,7 +81,7 @@ const Orders = () => {
                     toast.error("Failed to load your orders.")
                     console.error(error);
                 } else {
-                    setData6(orders);
+                    setData6(orders as OrderType[]);
                 }
             }
             setIsLoading(false);

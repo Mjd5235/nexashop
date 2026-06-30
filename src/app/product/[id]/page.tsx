@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 import { supabase } from "@/lib/SubaBaseClient";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { productTypes } from "@/types/types";
 
 export default function Page() {
 
@@ -14,12 +15,12 @@ export default function Page() {
 
   const router = useRouter()
 
-  const [data1, setData1] = useState([]);
+  const [data1, setData1] = useState<productTypes[] | []>([]);
 
   const [isAdding, setIsAdding] = useState(false)
   const [isDecreasing, setDecreasing] = useState(false)
   const [Quantity, setQuantity] = useState(0)
-  const [Clicked, setClicked] = useState(null)
+  const [Clicked, setClicked] = useState<boolean | null>(null)
   const [ChoosedColor, setChoosedColor] = useState('')
 
   const colors = [
@@ -35,7 +36,7 @@ export default function Page() {
     const { data } = await supabase.auth.getUser()
     if (!data.user) {
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const exists = cart.find(p => p.id === product.id);
+      const exists = cart.find((p: productTypes) => p.id === product.id);
 
       if (exists && exists.quantity > 1) {
         exists.quantity -= 1;
@@ -43,7 +44,7 @@ export default function Page() {
         localStorage.setItem("cart", JSON.stringify(cart));
       }
       else {
-        let newCart = cart.filter(item => item.id !== product.id)
+        let newCart = cart.filter((item: productTypes) => item.id !== product.id)
         setClicked(false)
         localStorage.setItem("cart", JSON.stringify(newCart));
       }
@@ -66,7 +67,7 @@ export default function Page() {
   const Check = () => {
     if (product) {
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const exists = cart.find(p => p.id === product.id);
+      const exists = cart.find((p: productTypes) => p.id === product.id);
 
       if (exists && exists.quantity > 0) {
         setClicked(true)
@@ -82,17 +83,17 @@ export default function Page() {
   const idFromUrl = path.split("/")[2];
 
 
-  const product = data1.find((item) => item.id.toString() === idFromUrl)
+  const product = (data1.find((item) => item.id.toString() === idFromUrl) as productTypes)
 
 
-  const AddToCart = async (item, e, inner = false) => {
+  const AddToCart = async (item: productTypes, e: React.MouseEvent<HTMLElement>, inner = false) => {
     if (isAdding) return;
     setIsAdding(true)
 
     const { data } = await supabase.auth.getUser()
     if (!data.user) {
       let cart = JSON.parse(localStorage.getItem("cart") || "[]")
-      const exists = cart.find(p => p.id === item.id)
+      const exists = cart.find((p: productTypes) => p.id === item.id)
 
       if (exists && exists.quantity === 3) {
         toast.error('You have added maximum count of this product: 3', { id: "local-maximum-quantity" })
@@ -201,7 +202,7 @@ export default function Page() {
       } else {
         if (product) {
           let cart = JSON.parse(localStorage.getItem("cart") || "[]")
-          const exists = cart.find(p => p.id === product.id)
+          const exists = cart.find((p: productTypes) => p.id === product.id)
           if (exists && exists.quantity > 0) {
             setClicked(true)
           } else {
@@ -215,15 +216,15 @@ export default function Page() {
 
 
 
-  const flyImage = (item, e) => {
+  const flyImage = (item: productTypes, e: React.MouseEvent<HTMLElement>) => {
 
-    const card = e.target.closest('.product-card');
+    const card = (e.target as HTMLDivElement).closest('.product-card');
     const productImg = card ? card.querySelector('img') : null;
 
     if (!productImg) return;
 
 
-    const ButRect = e.target.getBoundingClientRect();
+    const ButRect = (e.target as HTMLDivElement).getBoundingClientRect();
     const imgRect = productImg.getBoundingClientRect();
     const flyImg = document.createElement("img");
 
@@ -252,7 +253,7 @@ export default function Page() {
         flyImg.style.top = (cartRect.top + (cartRect.height / 2)) + "px";
         flyImg.style.width = "0px";
         flyImg.style.height = "0px";
-        flyImg.style.opacity = 0;
+        flyImg.style.opacity = "0";
         flyImg.style.transform = "scale(0) rotate(360deg)";
       }, 10);
 
@@ -279,7 +280,7 @@ export default function Page() {
 
   return (
     <div onLoad={Check}>
-      <Header />
+      <Header router="" />
       <div className={styles.pageWrapper}>
         <img
           onClick={() => { router.back() }}
@@ -310,7 +311,7 @@ export default function Page() {
                     <h3 className={styles.currency}>SAR</h3>
                   </div>
 
-                  {product.sale === true ? (
+                  {product.oldPrice !== null ? (
                     <div className={styles.wasRow}>
                       was:&nbsp;
                       <h5 className={styles.oldPrice}>{product.oldPrice}</h5>

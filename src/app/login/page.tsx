@@ -29,7 +29,7 @@ function LoginContents() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const hasShown = useRef(false)
+  const hasShown = useRef<boolean>(false)
 
   useEffect(() => {
     if (hasShown.current === false && searchParams.get('signup') === 'success') {
@@ -42,7 +42,7 @@ function LoginContents() {
   }, [searchParams])
 
 
-  const SubButton = async (e) => {
+  const SubButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
     const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -120,7 +120,7 @@ function LoginContents() {
                 }}
                 required
                 style={{
-                  border: wrongEmail || wrEmptyEmail || wrongLog ? "solid 1px red" : null,
+                  border: wrongEmail || wrEmptyEmail || wrongLog ? "solid 1px red" : "",
                   backgroundColor: "white"
                 }}
               />
@@ -149,7 +149,7 @@ function LoginContents() {
                 }}
                 required
                 style={{
-                  border: wrongPass || wrongLog ? "solid 1px red" : null,
+                  border: wrongPass || wrongLog ? "solid 1px red" : "",
                   backgroundColor: "white"
                 }}
               />
@@ -169,7 +169,7 @@ function LoginContents() {
                 <p className={styles.passwordError}>
                   {emptyPassword}
                 </p>
-              ) : null}
+              ) : ""}
             </div>
 
             <button
@@ -189,7 +189,7 @@ function LoginContents() {
           </p>
         </div>
       </div>
-    </div>
+    </div >
 
   );
 }

@@ -13,9 +13,9 @@ import styles from './page.module.css'
 
 export default function Dashboard() {
 
-    const [sided, setSided] = useState(true)
+    const [sided, setSided] = useState<boolean>(true)
 
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false)
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen)

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect, use, ChangeEvent, useRef } from 'react'
 import { supabase } from '@/lib/SubaBaseClient'
 import { useRouter } from 'next/navigation'
 import Header from '@/app/Admin/components/Header/Header'
@@ -8,30 +8,31 @@ import Image from 'next/image'
 import styles from './Add.module.css'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { productTypes } from '@/types/types'
 
 export default function Add() {
 
-    const [data1, setData1] = useState([])
+    const [data1, setData1] = useState<productTypes[]>([])
     const router = useRouter()
 
-    const [file, setFile] = useState(null)
-    const [name, setName] = useState(null)
+    const [file, setFile] = useState<File | null>(null)
+    const [name, setName] = useState<string | null>(null)
 
-    const [description, setDescription] = useState(null)
-    const [features, setFeatures] = useState(null)
-    const [stock, setStock] = useState(null)
-    const [time, setTime] = useState(null)
-    const [price, setPrice] = useState(null)
-    const [oldPrice, setOldPrice] = useState(null)
+    const [description, setDescription] = useState<string | null>(null)
+    const [features, setFeatures] = useState<string | null>(null)
+    const [stock, setStock] = useState<number | null | string>(null)
+    const [time, setTime] = useState<number | null | string>(null)
+    const [price, setPrice] = useState<number | null | string>(null)
+    const [oldPrice, setOldPrice] = useState<number | null | string>(null)
 
-    const [preview, setPreview] = useState(null)
-    const [category, setCategory] = useState("Phones")
+    const [preview, setPreview] = useState<string | null>(null)
+    const [category, setCategory] = useState<string | null>("Phones")
 
-    const [sided, setSided] = useState(true)
+    const [sided, setSided] = useState<boolean>(true)
 
-    const [nameLength, setNameLength] = useState()
-    const [DescriptionLength, setDescriptionLength] = useState()
-    const [FeaturesLength, setFeaturesLength] = useState()
+    const [nameLength, setNameLength] = useState<number>()
+    const [DescriptionLength, setDescriptionLength] = useState<number>()
+    const [FeaturesLength, setFeaturesLength] = useState<number>()
 
     const categories = [
         { id: 1, name: "Phones", },
@@ -42,6 +43,8 @@ export default function Add() {
     ]
 
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+    const fileRef = useRef<HTMLInputElement | null>(null)
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen)
@@ -64,14 +67,15 @@ export default function Add() {
         getData()
     }, [])
 
-    const handleFile = (file) => {
+    const handleFile = (file: File | undefined) => {
 
         const selectedFile = file
-        const onlyImages = selectedFile && selectedFile.type.startsWith("image/")
+        const onlyImages = selectedFile ? (selectedFile).type.startsWith("image/") : null
 
         if (selectedFile && onlyImages) {
             setFile(selectedFile)
             setPreview(URL.createObjectURL(file))
+            console.log(file)
         }
         if (!onlyImages && selectedFile) {
             toast.error("Only images allowed", { id: "only-img" })
@@ -83,7 +87,7 @@ export default function Add() {
 
     const handleSave = async () => {
 
-        if (file === "" || name === "" || description === "" || features === "" || file === null || name === null || description === null || features === null || price === null || stock === null || time === null || price === "" || stock === "" || time === "") {
+        if (file === null || name === "" || description === "" || features === "" || file === null || name === null || description === null || features === null || price === null || stock === null || time === null || price === "" || stock === "" || time === "") {
             toast.error("All fields must be completed.", { id: "blank-field" })
             return;
         }
@@ -93,7 +97,7 @@ export default function Add() {
 
         if (file) {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            const fileName = `${uniqueSuffix} - ${file.name}`
+            const fileName = `${uniqueSuffix} - ${((file).name)}`
             filePath = `${category}/${fileName}`
 
             const { error: uploadError } = await supabase
@@ -116,7 +120,7 @@ export default function Add() {
             .from("products")
             .select("id")
             .order("id", { ascending: false })
-            .limit("1")
+            .limit(1)
         const lastID = data?.[0]?.id + 1
 
 
@@ -207,7 +211,7 @@ export default function Add() {
                                         }}
                                         className={`${styles.dropZone} ${file !== null ? styles.dropZoneActive : styles.dropZoneInactive}`}
                                     >
-                                        <input onChange={(e) => { handleFile(e.target.files[0]) }} type='file' accept='image/*' hidden />
+                                        <input ref={fileRef} onChange={(e) => { handleFile(e.target.files?.[0]) }} type='file' accept='image/*' hidden />
                                         <Image src={'/Admin/Icons/uploadn.svg'} width={30} height={30} alt='upload' />
 
                                         <span className={styles.uploadTextContainer}>
@@ -218,7 +222,7 @@ export default function Add() {
                                         {file !== null && (
                                             <span className={styles.fileNameRow}>
                                                 {file.name}
-                                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); setFile(null); setPreview(null) }} className={styles.deleteFileBtn}>
+                                                <span onClick={(e) => { e.preventDefault(); e.stopPropagation(); setFile(null); setPreview(null); if (fileRef.current) { fileRef.current.value = "" } }} className={styles.deleteFileBtn}>
                                                     <svg className={styles.svgAlign} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#4a4a4a">
                                                         <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
                                                     </svg>
@@ -237,7 +241,7 @@ export default function Add() {
                                     <div className={styles.marignTopNegat}>
                                         <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.selectHeight} ${styles.marginTop1}`}>
                                             <span className={styles.fieldLabel}>Product Category</span>
-                                            <select className={styles.selectInput} value={category} onChange={(e) => { setCategory(e.target.value); }}>
+                                            <select className={styles.selectInput} value={category as string} onChange={(e) => { setCategory(e.target.value); }}>
                                                 {categories.map(cat => (<option key={cat.id}>{cat.name}</option>))}
                                             </select>
                                         </div>
@@ -260,12 +264,12 @@ export default function Add() {
                                 <div className={`${styles.formRow} ${styles.marginTop50}`}>
                                     <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                         <span className={styles.fieldLabel}>Stock quantity</span>
-                                        <input value={stock !== null ? stock : ""} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : toast.error("Stock cannot be negative", { id: "stock-negative" }) & "0") }} className={styles.numberInputFull} type="number" />
+                                        <input value={stock !== null ? stock : ""} onChange={(e) => { setStock(Number(e.target.value) >= 0 ? e.target.value : toast.error("Stock cannot be negative", { id: "stock-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                     </div>
                                     <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                         <span className={styles.fieldLabel}>Delivery time</span>
                                         <div className={styles.flexRow}>
-                                            <input value={time !== null ? time : ""} onChange={(e) => { setTime(e.target.value === "" ? ("") : e.target.value > 0 && e.target.value <= 28 ? e.target.value : toast.error("Days cannot be negative or more than 4 weeks", { id: "time-negative" }) && "") }} className={styles.numberInputFull} type="number" />
+                                            <input value={time !== null ? time : ""} onChange={(e) => { setTime((e.target as HTMLInputElement).value === "" ? ("") : Number(e.target.value) > 0 && Number(e.target.value) <= 28 ? e.target.value : toast.error("Days cannot be negative or more than 4 weeks", { id: "time-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                             <span className={styles.unitText}>Days</span>
                                         </div>
                                     </div>
@@ -275,14 +279,14 @@ export default function Add() {
                                     <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey}`}>
                                         <span className={styles.fieldLabel}>Price</span>
                                         <div className={styles.flexRow}>
-                                            <input value={price !== null ? price : ""} onChange={(e) => { setPrice(e.target.value === "" ? ("") : e.target.value > 0 ? e.target.value : toast.error("Price cannot be negative or equals zero.", { id: "price-negative" }) && "") }} className={styles.numberInputFull} type="number" />
+                                            <input value={price !== null ? price : ""} onChange={(e) => { setPrice(e.target.value === "" ? ("") : Number(e.target.value) > 0 ? e.target.value : toast.error("Price cannot be negative or equals zero.", { id: "price-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                             <span className={styles.unitText}>SAR</span>
                                         </div>
                                     </div>
                                     <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey} ${styles.marginLeft30}`}>
                                         <span className={styles.fieldLabel}>Old price</span>
                                         <div className={styles.flexRow}>
-                                            <input value={oldPrice !== null ? oldPrice : ""} onChange={(e) => setOldPrice(e.target.value === "" ? ("") : (Number(e.target.value) <= 0 && Number(e.target.value) !== "" && Number(e.target.value) !== null ? (toast.error("Old price cannot be negative or equals zero.", { id: "oldPrice-negative" }) && "") : e.target.value))} className={styles.numberInputFull} type="number" />
+                                            <input value={oldPrice !== null ? oldPrice : ""} onChange={(e) => setOldPrice(e.target.value === "" ? ("") : (Number(e.target.value) <= 0 && (e.target.value) !== "" && Number(e.target.value) !== null ? (toast.error("Old price cannot be negative or equals zero.", { id: "oldPrice-negative" }) && "") : e.target.value))} className={styles.numberInputFull} type="number" />
                                             <span className={styles.unitText}>SAR</span>
                                         </div>
                                     </div>

@@ -6,6 +6,7 @@ import SignLogo from "@/elements/SignLogo/SignLogo";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/SubaBaseClient";
+import toast from "react-hot-toast";
 
 export default function Page() {
 
@@ -37,7 +38,7 @@ export default function Page() {
 
   const router = useRouter()
 
-  const Submit = async (e) => {
+  const Submit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
     const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -124,12 +125,12 @@ export default function Page() {
                 value={name}
                 onChange={u => { setName(u.target.value); WrongName === true && setWrongName(false); }}
                 required
-                style={{ border: WrongName === true ? "solid 1px red" : null, backgroundColor: "white" }}
+                style={{ border: WrongName === true ? "solid 1px red" : "", backgroundColor: "white" }}
               />
 
               {WrongName === true
                 ? <p className={styles.errorTextSmall}>{NameError}</p>
-                : null}
+                : ""}
             </div>
 
             <div className={styles.formGroup}>
@@ -142,7 +143,7 @@ export default function Page() {
                 value={email}
                 onChange={u => { setEmail(u.target.value); WrongEmail === true && setWrongEmail(false); WrongReg === true && setWrongReg(false); emptyEmail && setEmptyEmailError(false) }}
                 required
-                style={{ border: WrongEmail === true || WrongReg === true || emptyEmailError === true ? "solid 1px red" : null, backgroundColor: "white" }}
+                style={{ border: WrongEmail === true || WrongReg === true || emptyEmailError === true ? "solid 1px red" : "", backgroundColor: "white" }}
               />
 
               {WrongEmail === true || WrongReg === true || emptyEmailError === true
@@ -162,7 +163,7 @@ export default function Page() {
                 value={password}
                 onChange={u => { setPassword(u.target.value); WrongPassword === true && setWrongPassword(false); setWrongConPass(false); emptyPasswordError === true && setEmptyPasswordError(false); }}
                 required
-                style={{ border: WrongPassword === true || emptyPasswordError === true ? "solid 1px red" : null, backgroundColor: "white" }}
+                style={{ border: WrongPassword === true || emptyPasswordError === true ? "solid 1px red" : "", backgroundColor: "white" }}
               />
 
               <Image
@@ -178,7 +179,7 @@ export default function Page() {
                 ? <p className={styles.passwordErrorText}>
                   {WrongPassword === true ? PasswordError : emptyPassword}
                 </p>
-                : null}
+                : ""}
             </div>
 
             <div className={styles.formGroup}>
@@ -191,7 +192,7 @@ export default function Page() {
                 value={confirmPassword}
                 onChange={u => { setConfirmPassword(u.target.value); WrongConPass === true && setWrongConPass(false) }}
                 required
-                style={{ border: WrongConPass === true ? "solid 1px red" : null, backgroundColor: "white" }}
+                style={{ border: WrongConPass === true ? "solid 1px red" : "", backgroundColor: "white" }}
               />
 
               <Image

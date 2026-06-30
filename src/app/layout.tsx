@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import '@/styles/globals.css'
+import '@/styles/globals.css';
 import { Toaster } from "react-hot-toast";
 import { Inter } from 'next/font/google';
 
@@ -24,13 +24,17 @@ export const metadata = {
   description: "NexaShop —Where Innovation Meets Shopping Excellence.",
 };
 
-export default function RootLayout({ children }) {
+interface layoutProps {
+  children: React.ReactNode
+}
+
+export default function RootLayout({ children }: layoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" >
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className={InterSans.className}>
           {children}
-          <Toaster position="top-center" />
+          < Toaster position="top-center" />
         </div>
       </body>
     </html>

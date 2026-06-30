@@ -3,13 +3,21 @@ import Image from "next/image";
 import styles from './Products.module.css';
 import Link from "next/link";
 import { supabase } from "@/lib/SubaBaseClient";
-import { useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { productTypes } from "@/types/types";
 
-export default function AllCategories({ title, data1, loading }) {
+interface categoriesProps {
+    title: string,
+    data1: productTypes[],
+    loading: boolean,
+    category: string,
+}
 
-    const [isAdding, setIsAdding] = useState(false)
-    const [pId, setpId] = useState(null)
+export default function AllCategories({ title, data1, loading, category }: categoriesProps) {
+
+    const [isAdding, setIsAdding] = useState<boolean>(false)
+    const [pId, setpId] = useState<number | null>(null)
 
     const data = [
         { id: 1 },
@@ -18,7 +26,7 @@ export default function AllCategories({ title, data1, loading }) {
         { id: 4 },
     ]
 
-    const addToCart = async (item, e) => {
+    const addToCart = async (item: productTypes, e: React.MouseEvent) => {
         if (isAdding) return;
 
         setIsAdding(true)
@@ -26,7 +34,7 @@ export default function AllCategories({ title, data1, loading }) {
 
         const { data } = await supabase.auth.getUser()
         if (!data.user) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cart: productTypes[] = JSON.parse(localStorage.getItem("cart") || "[]");
 
             const existing = cart.find(p => p.id === item.id);
 
@@ -109,22 +117,23 @@ export default function AllCategories({ title, data1, loading }) {
                 }
             }
         }
-        flyImage(item, e);
+        flyImage(item, e as React.MouseEvent<HTMLButtonElement>);
         window.dispatchEvent(new Event("cartUpdated"));
         setIsAdding(false)
         setpId(null)
     };
 
 
-    const flyImage = (item, e) => {
+    const flyImage = (item: productTypes, e: React.MouseEvent<HTMLButtonElement>) => {
 
-        const card = e.target.closest('.product-card');
+        const target = e.target as HTMLElement
+        const card = target.closest('.product-card');
         const productImg = card ? card.querySelector('img') : null;
 
         if (!productImg) return;
 
 
-        const ButRect = e.target.getBoundingClientRect();
+        const ButRect = target.getBoundingClientRect();
         const imgRect = productImg.getBoundingClientRect();
         const flyImg = document.createElement("img");
 
@@ -153,7 +162,7 @@ export default function AllCategories({ title, data1, loading }) {
                 flyImg.style.top = (cartRect.top + (cartRect.height / 2)) + "px";
                 flyImg.style.width = "0px";
                 flyImg.style.height = "0px";
-                flyImg.style.opacity = 0;
+                flyImg.style.opacity = "0";
                 flyImg.style.transform = "scale(0) rotate(360deg)";
             }, 10);
 
@@ -167,7 +176,7 @@ export default function AllCategories({ title, data1, loading }) {
 
             <ul
                 className={`${loading === true ? styles.skeletons : styles.products} ${styles.productsList}`}
-                style={{ overflowX: data1.length > 4 && "scroll" }}
+                style={{ overflowX: data1.length > 4 ? "scroll" : "hidden" }}
             >
                 {loading === true
                     ? data.map(img => (

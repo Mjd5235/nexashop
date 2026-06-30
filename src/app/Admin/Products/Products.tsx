@@ -8,6 +8,7 @@ import styles from './Products.module.css'
 import Link from 'next/link';
 import { Inter } from 'next/font/google';
 import toast from 'react-hot-toast';
+import { productTypes } from '@/types/types';
 
 const InterSans = Inter({
     subsets: ["latin"],
@@ -16,15 +17,15 @@ const InterSans = Inter({
 
 export default function Products() {
 
-    const [sided, setSided] = useState(true)
-    const [LogBut, setLogBut] = useState(false)
-    const [Sort, setSorted] = useState("latest")
-    const [reversed, setReversed] = useState(true)
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [deleteConfirmed, setDeleteConfirmed] = useState(false)
-    const [productToDelete, setProductToDelete] = useState(null)
+    const [sided, setSided] = useState<boolean>(true)
+    const [LogBut, setLogBut] = useState<boolean>(false)
+    const [Sort, setSorted] = useState<string>("latest")
+    const [reversed, setReversed] = useState<boolean>(true)
+    const [showConfirm, setShowConfirm] = useState<boolean>(false);
+    const [deleteConfirmed, setDeleteConfirmed] = useState<boolean>(false)
+    const [productToDelete, setProductToDelete] = useState<string | null | number>(null)
 
-    const ref = useRef()
+    const ref = useRef<HTMLDivElement>(null)
 
     const sortData = [
         { id: 1, name: "latest", },
@@ -32,18 +33,14 @@ export default function Products() {
         { id: 3, name: "price", },
     ]
 
-    const [data1, setData1] = useState([])
-
-    const SideB = () => {
-        setSided(prev => !prev)
-    }
+    const [data1, setData1] = useState<productTypes[]>([])
 
     useEffect(() => {
         const getData = async () => {
             const { data, error } = await supabase
                 .from("products")
                 .select("*")
-                .order(Sort === "stock" && "stock" || Sort === "main" && "id" || Sort === "price" && "price" || Sort === "latest" && "created_at", { ascending: reversed !== true ? true : false })
+                .order(Sort === "stock" ? "stock" : Sort === "main" ? "id" : Sort === "price" ? "price" : Sort === "latest" ? "created_at" : "", { ascending: reversed !== true ? true : false })
 
             if (error) {
                 toast.error("Failed to load the product.", { id: "fload" })
@@ -57,8 +54,8 @@ export default function Products() {
     }, [Sort, reversed])
 
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (ref.current && !ref.current.contains(e.target)) {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
                 setLogBut(false);
             }
         };
@@ -77,13 +74,13 @@ export default function Products() {
                 toast.error("Failed to delete the product.", { id: "fdelete" })
                 console.error(error)
             } else {
-                setData1(prev => prev.filter(product => product.id !== productToDelete))
+                setData1(prev => prev.filter(product => (product).id !== productToDelete))
             }
             setShowConfirm(false)
         }
     }
 
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false)
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen)
@@ -182,7 +179,7 @@ export default function Products() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data1.map(product => (
+                                        {data1.map((product: productTypes) => (
                                             <tr className={styles.pro} key={product.id}>
                                                 <td>
                                                     <div className={styles.imageContainer}>
@@ -191,7 +188,7 @@ export default function Products() {
                                                             style={{ marginTop: product.stock === 0 ? "25px" : "15px" }}
                                                             src={product.image}
                                                             fill
-                                                            key={product.title - product.id}
+                                                            key={`${product.id} - ${product.title}`}
                                                             alt={product.title}
                                                         />
                                                     </div>

@@ -9,48 +9,48 @@ import { supabase } from "@/lib/SubaBaseClient";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Skeletons from "./Skeletons";
+import { CartType, OrderType } from "@/types/types";
 
 export default function Page() {
 
-  const [data6, setData6] = useState([]);
-  const [logged, setLogged] = useState(false)
-  const [localCart, setLocalCart] = useState(false)
-  const [selectedColor, setSelectedColor] = useState({});
-  const [quan, setQuan] = useState(1)
-  const [Loading, setLoading] = useState(true)
-  const [increasingId, setIncId] = useState(null)
-  const [decreasingId, setDecId] = useState(null)
-  const [isRemoving, setIsRemoving] = useState(null)
-  const hasShown = useRef(false)
-  const hasChanged = useRef(false)
-  const [checked, setChecked] = useState(null)
+  const [data6, setData6] = useState<CartType[] | [] | null>([]);
+  const [logged, setLogged] = useState<boolean>(false)
+  const [localCart, setLocalCart] = useState<boolean>(false)
+  const [selectedColor, setSelectedColor] = useState<Record<number, string>>({});
+  const [quan, setQuan] = useState<number>(1)
+  const [Loading, setLoading] = useState<boolean>(true)
+  const [increasingId, setIncId] = useState<number | null>(null)
+  const [decreasingId, setDecId] = useState<number | null>(null)
+  const [isRemoving, setIsRemoving] = useState<number | null>(null)
+  const hasShown = useRef<boolean>(false)
+  const hasChanged = useRef<boolean>(false)
 
 
-  const timerRef = useRef()
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
-  useEffect((index) => {
+  useEffect(() => {
     const getData = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartItems: CartType[] = JSON.parse(localStorage.getItem("cart") || "[]")
         const productsId = cartItems.map(item => item.id)
 
         const { data: Products } = await supabase.from("products").select("*").in("primary_key", productsId)
-        const UpdatedCart = Products.map(item => {
+        const UpdatedCart = (Products as CartType[]).map(item => {
           const MatchedCartItem = cartItems.find(cart => cart.id === item.id)
           return { ...item, quantity: MatchedCartItem ? MatchedCartItem.quantity : 1 }
         })
         setData6(UpdatedCart)
       } else {
-        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartItems: CartType[] = JSON.parse(localStorage.getItem("cart") || "[]");
         if (cartItems.length === 0) {
           const { data: cart, error: bug } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
           if (bug) { console.error(bug); toast.error("Failed to load your cart.", { id: "floading" }) } else {
             if (cart && cart.length > 0) {
-              setData6(cart)
+              setData6(cart as unknown as CartType[])
             } else {
-              const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+              const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
               setData6(cartItems)
               window.dispatchEvent(new Event("cartUpdated"));
               setLocalCart(true)
@@ -59,7 +59,7 @@ export default function Page() {
           }
         }
         const { data: cart, } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
-        setData6(cart)
+        setData6(cart as unknown as CartType[])
         setLocalCart(false)
         setLoading(false)
       }
@@ -74,11 +74,11 @@ export default function Page() {
   }, [quan, data6 && data6.length]);
 
 
-  const removeFromCart = async (index, img) => {
+  const removeFromCart = async (index: number, img: CartType) => {
     setIsRemoving(img.id)
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
       cart.splice(index, 1);
 
@@ -96,14 +96,14 @@ export default function Page() {
   const removeCart = async () => {
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
       cart.splice("cart");
       localStorage.setItem("cart", JSON.stringify(cart));
 
       setData6([...cart]);
     }
     else {
-      const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
+      const { } = await supabase.from("cart").delete().eq("user_id", data.user.id)
       setData6(null)
       setQuan(prev => prev + 5)
     }
@@ -111,11 +111,11 @@ export default function Page() {
     setLoading(false)
   }
 
-  const increaseQty = async (index, img) => {
+  const increaseQty = async (index: number, img: CartType) => {
     setIncId(img.id)
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = data6
+      let cart = data6 as CartType[]
       if (cart[index].quantity < 3 && cart[index].quantity + 1 <= img.stock) {
         cart[index].quantity += 1;
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -133,7 +133,7 @@ export default function Page() {
       }
     }
     else {
-      const newData = [...data6]
+      const newData = [...data6 as CartType[]]
       if (newData[index].quantity < 3 && newData[index].quantity + 1 <= img.products.stock) {
         const Quantity = newData[index].quantity += 1
         setData6([...newData])
@@ -160,11 +160,11 @@ export default function Page() {
     setIncId(null)
   };
 
-  const decreaseQty = async (index, img) => {
+  const decreaseQty = async (index: number, img: CartType) => {
     setDecId(img.id)
     const { data } = await supabase.auth.getUser()
     if (!data.user || localCart === true) {
-      let cart = data6
+      let cart = data6 as CartType[]
       if (cart[index].quantity > 0) {
         cart[index].quantity -= 1;
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -177,10 +177,10 @@ export default function Page() {
       }
     }
     else {
-      const newData = [...data6]
+      const newData = [...data6 as CartType[]]
       if (newData[index].quantity !== 1) {
         const Quantity = newData[index].quantity -= 1
-        setData6([...newData])
+        setData6([...newData] as CartType[])
         if (timerRef.current) {
           clearTimeout(timerRef.current)
         }
@@ -197,12 +197,12 @@ export default function Page() {
     setDecId(null)
   };
 
-  const CheckedOut = async (totat_price) => {
+  const CheckedOut = async (totat_price: number) => {
     const { data } = await supabase.auth.getUser()
     if (data.user) {
       hasChanged.current = false;
       const { data: cart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
-      for (let img of cart) {
+      for (let img of (cart as unknown as CartType[])) {
         if (img.quantity > img.products.stock) {
           if (img.products.stock !== 0) {
             const { } = await supabase.from("cart").update({ quantity: img.products.stock }).eq("user_id", data.user.id).eq("product_id", img.products.primary_key)
@@ -216,16 +216,16 @@ export default function Page() {
 
       if (hasChanged.current === true) {
         const { data: FinalCart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
-        setData6(FinalCart)
+        setData6(FinalCart as unknown as CartType[])
         if (hasShown.current === false) {
-          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" }, id: "update-cart-quantity", duration: 5000 });
           hasShown.current = true
         }
         window.dispatchEvent(new Event("cartUpdated"));
       } else {
         const { data: CartItems, error: upl } = await supabase.from("cart").select("product_id, quantity, products: product_id (primary_key, title, image, price, category)").eq("user_id", data.user.id)
         if (upl) { console.error(upl); toast.error("Failed to checkout.", { id: "fSecCheck" }) } else {
-          const mappedCartItems = CartItems.map(item => ({
+          const mappedCartItems = (CartItems as unknown as CartType[]).map((item) => ({
             product_id: item.product_id,
             image: item.products.image,
             title: item.products.title,
@@ -242,13 +242,13 @@ export default function Page() {
         }
 
         const { data: cartDetails } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id)
-        for (let img of cartDetails) {
+        for (let img of (cartDetails as unknown as CartType[])) {
           const newStock = img.products.stock - img.quantity
           const { error } = await supabase.from("products").update({ stock: newStock }).eq("primary_key", img.products.primary_key)
           if (error) { console.error(error); toast.error("Failed to checkout.", { id: "fSecCheck" }) }
         }
 
-        const { } = await supabase.from("cart").delete("*").eq("user_id", data.user.id)
+        const { } = await supabase.from("cart").delete().eq("user_id", data.user.id)
         setData6(null)
         setLogged(true)
         setLoading(false)
@@ -260,22 +260,22 @@ export default function Page() {
     window.dispatchEvent(new Event("cartUpdated"));
   }
 
-  const StockValidation = async (cartItems) => {
+  const StockValidation = async (cartItems: CartType[]) => {
     const { data } = await supabase.auth.getUser()
     if (!data.user) {
-      const updatedCart = cartItems.map(item => {
+      const updatedCart = cartItems.map((item: CartType) => {
 
         if (item.quantity > item.stock) {
           hasChanged.current = true;
           return { ...item, quantity: item.stock }
         }
         return item
-      }).filter(item => item.quantity > 0)
+      }).filter((item: CartType) => item.quantity > 0)
       if (hasChanged.current === true) {
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         setData6([...updatedCart]);
         if (hasShown.current === false) {
-          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" }, id: "update-cart-quantity", duration: 5000 });
           hasShown.current = true
         }
       }
@@ -297,9 +297,9 @@ export default function Page() {
       if (hasChanged.current === true) {
 
         const { data: cart } = await supabase.from("cart").select("id, quantity, products: product_id (primary_key, title, image, price, oldPrice, time, stock)").eq("user_id", data.user.id).order("created_at", { ascending: false })
-        setData6(cart)
+        setData6(cart as unknown as CartType[])
         if (hasShown.current === false) {
-          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" } }, { id: "update-cart-quantity", duration: 5000 });
+          toast("We’ve updated your cart items to match the current stock.", { icon: "🛍️", style: { backgroundColor: "#fff", color: "#1a1a1a", borderLeft: "solid 4px #1a75e8", maxWidth: "400px", boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)", borderRadius: "6px", padding: "14px 20px", fontWeight: "600", fontSize: "14px" }, id: "update-cart-quantity", duration: 5000 });
           hasShown.current = true
         }
         window.dispatchEvent(new Event("cartUpdated"));
@@ -330,7 +330,7 @@ export default function Page() {
 
   return (
     <div>
-      <Header />
+      <Header router="" />
       <div onClick={() => { router.back() }} style={{}}><img className={styles.arrow} src={'/help_icons/backarrow.png'} alt="HelpIcon" /></div>
 
       <h1 className={styles.cartTitle}>
@@ -409,13 +409,13 @@ export default function Page() {
                         className={styles.colorOption}
                         style={{
                           transform:
-                            selectedColor[index] === color.id ? "scale(1.07)" : "scale(1)",
+                            (selectedColor)[index] === color.id ? "scale(1.07)" : "scale(1)",
                           border:
-                            selectedColor[index] === color.id
+                            (selectedColor)[index] === color.id
                               ? "2px solid #1a75e8"
                               : "2px solid #ddd",
                           boxShadow:
-                            selectedColor[index] === color.id
+                            (selectedColor)[index] === color.id
                               ? "0px 0px 6px rgba(0,0,0,0.2)"
                               : "none",
                         }}

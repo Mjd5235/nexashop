@@ -1,17 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, } from 'react';
 import styles from './Orders.module.css';
 
-const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }) => {
+interface customProps {
+    options: string[]
+    defaultValue: string
+    onChange: (value: string) => void
+    dataLen: number
+    itemLen: number
+}
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(defaultValue || options[0]);
+const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }: customProps) => {
 
-    const selectRef = useRef(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectedOption, setSelectedOption] = useState<string>(defaultValue || options[0]);
+
+    const selectRef = useRef<HTMLDivElement | null>(null);
 
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (selectRef.current && !selectRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -21,11 +29,11 @@ const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }) => 
         };
     }, []);
 
-    const handleOptionClick = (option) => {
+    const handleOptionClick = (option: string) => {
         setSelectedOption(option);
         setIsOpen(false);
         if (onChange) {
-            onChange(option);
+            onChange(option)
         }
     };
 
@@ -39,7 +47,7 @@ const CustomSelect = ({ options, defaultValue, onChange, dataLen, itemLen }) => 
             </div>
             {isOpen && (
                 <div className={styles.optionsList} style={{ top: !isLastOrder ? "calc(100% + 8px)" : "-230%" }}>
-                    {options.map((option) => (
+                    {(options as string[]).map((option: string) => (
                         <div
                             key={option}
                             className={`${styles.optionItem} ${selectedOption === option ? styles.selectedOption : ''}`}

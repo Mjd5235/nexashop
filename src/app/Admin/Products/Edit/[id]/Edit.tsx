@@ -9,37 +9,34 @@ import Image from 'next/image'
 import styles from './Edit.module.css'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { productTypes } from '@/types/types'
 
 export default function Edit() {
 
-    const [data1, setData1] = useState([])
+    const [data1, setData1] = useState<productTypes[]>([])
     const path = usePathname()
     const router = useRouter()
 
-    const [file, setFile] = useState(null)
-    const [name, setName] = useState(null)
+    const [file, setFile] = useState<File | null>(null)
+    const [name, setName] = useState<string | null>(null)
 
-    const [description, setDescription] = useState(null)
-    const [features, setFeatures] = useState(null)
-    const [stock, setStock] = useState(null)
-    const [time, setTime] = useState(null)
-    const [price, setPrice] = useState(null)
-    const [oldPrice, setOldPrice] = useState(null)
+    const [description, setDescription] = useState<string | null>(null)
+    const [features, setFeatures] = useState<string | null>(null)
+    const [stock, setStock] = useState<number | null | string>(null)
+    const [time, setTime] = useState<number | null | string>(null)
+    const [price, setPrice] = useState<number | null | string>(null)
+    const [oldPrice, setOldPrice] = useState<number | null | string>(null)
 
-    const [preview, setPreview] = useState(null)
-    const [category, setCategory] = useState(null)
+    const [preview, setPreview] = useState<string | null>(null)
+    const [category, setCategory] = useState<string | null>(null)
 
     const idFromUrl = path.split("/")[4]
     const find = data1.find(prod => prod.id.toString() === idFromUrl)
 
-    const [sided, setSided] = useState(true)
-    const [nameLength, setNameLength] = useState()
-    const [DescriptionLength, setDescriptionLength] = useState()
-    const [FeaturesLength, setFeaturesLength] = useState()
-
-    const SideB = () => {
-        { sided === true ? setSided(false) : setSided(true) }
-    }
+    const [sided, setSided] = useState<boolean>(true)
+    const [nameLength, setNameLength] = useState<number>()
+    const [DescriptionLength, setDescriptionLength] = useState<number>()
+    const [FeaturesLength, setFeaturesLength] = useState<number>()
 
     const categories = [
         { id: 1, name: "Phones", },
@@ -65,7 +62,7 @@ export default function Edit() {
         getData()
     }, [])
 
-    const handleFile = (file) => {
+    const handleFile = (file: File) => {
 
         const selectedFile = file
         const onlyImages = selectedFile && selectedFile.type.startsWith("image/")
@@ -82,17 +79,17 @@ export default function Edit() {
     const FormsReset = () => {
         setFile(null)
         setPreview(null)
-        setName(find?.title || "")
-        setCategory(find?.category || "Phones")
-        setDescription(find?.description || "")
-        setFeatures(find?.features || "")
-        setStock(find?.stock || "")
-        setTime(find?.time || "")
-        setPrice(find?.price || "")
-        setOldPrice(find?.oldPrice || "")
-        setNameLength(find?.title?.length || 0)
-        setDescriptionLength(find?.description?.length || 0)
-        setFeaturesLength(find?.features?.length || 0)
+        setName(find?.title ?? "")
+        setCategory(find?.category ?? "Phones")
+        setDescription(find?.description ?? "")
+        setFeatures(find?.features ?? "")
+        setStock(find?.stock ?? "")
+        setTime(find?.time ?? "")
+        setPrice(find?.price ?? "")
+        setOldPrice(find?.oldPrice ?? "")
+        setNameLength(find?.title?.length ?? 0)
+        setDescriptionLength(find?.description?.length ?? 0)
+        setFeaturesLength(find?.features?.length ?? 0)
     }
 
 
@@ -103,24 +100,24 @@ export default function Edit() {
             return;
         }
 
-        let image = find.image
-        let filePath = find.image_path
+        let image = find?.image
+        let filePath = find?.image_path
 
         if (file) {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
             const fileName = `${uniqueSuffix} - ${file.name}`
-            filePath = `${find.category}/${fileName}`
+            filePath = `${find?.category}/${fileName}`
 
             const { error: removeError } = await supabase
                 .storage
                 .from("products images")
-                .remove([find.image_path])
+                .remove([find?.image_path as string])
             if (removeError) {
                 toast.error("Failed to update.", { id: "fsave" })
                 console.error(removeError)
             }
 
-            const { error: uploadError } = supabase
+            const { error: uploadError } = await supabase
                 .storage
                 .from("products images")
                 .upload(filePath, file)
@@ -141,14 +138,14 @@ export default function Edit() {
                 .from("products")
                 .update({
                     image: image,
-                    title: name ?? find.title,
-                    category: category ?? find.category,
-                    description: description ?? find.description,
-                    features: features ?? find.features,
-                    stock: stock ?? find.stock,
-                    time: time ?? find.time,
-                    price: price ?? find.price,
-                    oldPrice: oldPrice === "" ? null : oldPrice ?? find.oldPrice,
+                    title: name ?? find?.title,
+                    category: category ?? find?.category,
+                    description: description ?? find?.description,
+                    features: features ?? find?.features,
+                    stock: stock ?? find?.stock,
+                    time: time ?? find?.time,
+                    price: price ?? find?.price,
+                    oldPrice: oldPrice === "" ? null : oldPrice ?? find?.oldPrice,
                     image_path: filePath,
                 })
                 .eq("id", idFromUrl)
@@ -165,7 +162,7 @@ export default function Edit() {
         }
     }
 
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false)
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen)
@@ -228,10 +225,10 @@ export default function Edit() {
                                             }}
                                             className={`${styles.dropZone} ${file !== null ? styles.dropZoneActive : styles.dropZoneInactive}`}
                                         >
-                                            <input onChange={(e) => { handleFile(e.target.files[0]) }} type='file' accept='image/*' hidden />
+                                            <input onChange={(e) => { handleFile((e.target.files as FileList)?.[0]) }} type='file' accept='image/*' hidden />
                                             <Image src={'/Admin/Icons/uploadn.svg'} width={30} height={30} alt='upload' />
 
-                                            <span className={styles.uploadTextContainer}>
+                                            <span className={styles.uploadTetxtContainer}>
                                                 Click or drag image to upload
                                                 <span className={styles.uploadFormats}>PNG, JPG, SVG up to 5MP</span>
                                             </span>
@@ -268,12 +265,12 @@ export default function Edit() {
                                     <div className={styles.formRow}>
                                         <div className={`${styles.fieldGrid} ${styles.marginTop50}`}>
                                             <span className={styles.fieldLabel}>Description</span>
-                                            <textarea maxLength={330} value={description !== null ? description : find.description} onChange={(e) => { setDescription(e.target.value); setDescriptionLength(e.target.value.length) }} type="text" className={`${styles.textareaInput} ${styles.marginRight50}`} />
+                                            <textarea maxLength={330} value={description !== null ? description : find.description} onChange={(e) => { setDescription(e.target.value); setDescriptionLength(e.target.value.length) }} className={`${styles.textareaInput} ${styles.marginRight50}`} itemType="text" />
                                             <span className={styles.charCounter}>{DescriptionLength} / 330</span>
                                         </div>
                                         <div className={`${styles.fieldGrid} ${styles.marginTop50}`}>
                                             <span className={styles.fieldLabel}>Features</span>
-                                            <textarea maxLength={330} value={features !== null ? features : find.features} onChange={(e) => { setFeatures(e.target.value); setFeaturesLength(e.target.value.length) }} type="text" className={styles.textareaInput} />
+                                            <textarea maxLength={330} value={features !== null ? features : find.features} onChange={(e) => { setFeatures(e.target.value); setFeaturesLength(e.target.value.length) }} className={styles.textareaInput} itemType="text" />
                                             <span className={styles.charCounter}>{FeaturesLength} / 330</span>
                                         </div>
                                     </div>
@@ -281,12 +278,12 @@ export default function Edit() {
                                     <div className={`${styles.formRow} ${styles.marginTop50}`}>
                                         <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                             <span className={styles.fieldLabel}>Stock quantity</span>
-                                            <input value={stock !== null ? stock : find.stock} onChange={(e) => { setStock(e.target.value >= 0 ? e.target.value : toast.error("Stock cannot be negative", { id: "stock-negative" }) & "0") }} className={styles.numberInputFull} type="number" />
+                                            <input value={stock !== null ? stock : find.stock} onChange={(e) => { setStock(Number(e.target.value) >= 0 ? e.target.value : toast.error("Stock cannot be negative", { id: "stock-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                         </div>
                                         <div className={`${styles.fieldGrid} ${styles.flex1} ${styles.marginRight50}`}>
                                             <span className={styles.fieldLabel}>Delivery time</span>
                                             <div className={styles.flexRow}>
-                                                <input value={time !== null ? time : find.time} onChange={(e) => { setTime(e.target.value === "" ? ("") : e.target.value > 0 && e.target.value <= 28 ? e.target.value : toast.error("Days cannot be negative or more than 4 weeks", { id: "time-negative" }) && "") }} className={styles.numberInputFull} type="number" />
+                                                <input value={time !== null ? time : find.time} onChange={(e) => { setTime(e.target.value === "" ? ("") : Number(e.target.value) > 0 && Number(e.target.value) <= 28 ? e.target.value : toast.error("Days cannot be negative or more than 4 weeks", { id: "time-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>Days</span>
                                             </div>
                                         </div>
@@ -296,14 +293,14 @@ export default function Edit() {
                                         <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey}`}>
                                             <span className={styles.fieldLabel}>Price</span>
                                             <div className={styles.flexRow}>
-                                                <input value={price !== null ? price : find.price} onChange={(e) => { setPrice(e.target.value === "" ? ("") : e.target.value > 0 ? e.target.value : toast.error("Price cannot be negative or equals zero.", { id: "price-negative" }) && "") }} className={styles.numberInputFull} type="number" />
+                                                <input value={price !== null ? price : find.price} onChange={(e) => { setPrice(e.target.value === "" ? ("") : Number(e.target.value) > 0 ? e.target.value : toast.error("Price cannot be negative or equals zero.", { id: "price-negative" }) && "") }} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>SAR</span>
                                             </div>
                                         </div>
                                         <div className={`${styles.fieldGrid} ${styles.width500} ${styles.colorGrey} ${styles.marginLeft30}`}>
                                             <span className={styles.fieldLabel}>Old price</span>
                                             <div className={styles.flexRow}>
-                                                <input value={oldPrice !== null ? oldPrice : find.oldPrice ?? ""} onChange={(e) => setOldPrice(e.target.value === "" ? ("") : (Number(e.target.value) <= 0 && Number(e.target.value) !== "" && Number(e.target.value) !== null ? (toast.error("Old price cannot be negative or equals zero.", { id: "oldPrice-negative" }) && "") : e.target.value))} className={styles.numberInputFull} type="number" />
+                                                <input value={oldPrice !== null ? oldPrice : find.oldPrice ?? ""} onChange={(e) => setOldPrice(e.target.value === "" ? ("") : (Number(e.target.value) <= 0 && (e.target.value) !== "" && Number(e.target.value) !== null ? (toast.error("Old price cannot be negative or equals zero.", { id: "oldPrice-negative" }) && "") : e.target.value))} className={styles.numberInputFull} type="number" />
                                                 <span className={styles.unitText}>SAR</span>
                                             </div>
                                         </div>

@@ -14,18 +14,18 @@ const InterSans = Inter({
 
 export default function Header() {
 
-  const [Name, setName] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [avatar, setAvatar] = useState(null)
-  const [role, setRole] = useState("admin")
+  const [Name, setName] = useState<string | null>(null)
+  const [email, setEmail] = useState<string | null>(null)
+  const [avatar, setAvatar] = useState<string | null>(null)
+  const [role, setRole] = useState<string>("admin")
 
   const [ProfB, SetProB] = useState(false)
 
-  const ref = useRef()
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         SetProB(false);
       }
     };
@@ -38,7 +38,7 @@ export default function Header() {
       const { data, error } = await supabase.auth.getUser()
       if (data.user) {
         setName(data.user.user_metadata.name)
-        setEmail(data.user.email)
+        setEmail(data.user.email ?? null)
         setAvatar(data.user.user_metadata.name.charAt(0).toUpperCase())
         if (error) {
           console.error(error)

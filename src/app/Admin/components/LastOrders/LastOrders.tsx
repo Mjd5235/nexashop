@@ -39,7 +39,7 @@ export default function RecentOrders() {
         },
     ];
 
-    const getStatusClass = (status) => {
+    const getStatusClass = (status: string) => {
         if (status === "completed") return styles.statusCompleted;
         if (status === "pending") return styles.statusPending;
         if (status === "cancelled") return styles.statusCancelled;

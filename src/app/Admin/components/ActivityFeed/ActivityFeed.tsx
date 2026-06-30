@@ -4,7 +4,7 @@ import styles from './Activity.module.css'
 import Image from 'next/image'
 
 const ActivityFeed = () => {
-  const [enter, setEnter] = useState(null)
+  const [enter, setEnter] = useState<number | null>(null)
 
   const feeds = [
     { key: 1, message: "Order", continueMes: "checked out successfully.", id: "#3849", time: "5m ago", Image: "/Admin/Icons/checkout.svg", state: "affirmative", color: "#16a34a " },

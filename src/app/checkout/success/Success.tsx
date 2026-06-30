@@ -5,31 +5,42 @@ import { Inter } from 'next/font/google'
 import { supabase } from '@/lib/SubaBaseClient'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { User } from '@supabase/supabase-js'
 
 const InterSans = Inter({
     subsets: ["latin"],
     weight: ["800", "900"]
 })
 
+interface OrderData {
+    id: string
+    created_at: string
+    status: string
+    user_avatar: string
+    user_email: string
+    cart_items: []
+    total_price: number
+}
+
 export default function Success() {
 
-    const [userEmail, setUserEmail] = useState(null)
-    const [id, setId] = useState(null)
-    const [status, setStatus] = useState(null)
-    const [total, setTotal] = useState(null)
-    const [date, setDate] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [userEmail, setUserEmail] = useState<string | null>(null)
+    const [id, setId] = useState<number | null>(null)
+    const [status, setStatus] = useState<string | null>(null)
+    const [total, setTotal] = useState<number | null>(null)
+    const [date, setDate] = useState<number | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const getData = async () => {
             const { data: user } = await supabase.auth.getUser()
-            setUserEmail(user.user.email)
-            const { data: order, error } = await supabase.from("orders").select("*").eq("user_id", user.user.id).order("created_at", { ascending: false }).limit(1).single()
+            setUserEmail((user.user as User).email ?? "")
+            const { data: order, error } = await supabase.from("orders").select("*").eq("user_id", (user.user as User).id).order("created_at", { ascending: false }).limit(1).single()
             if (error) { console.error(error); toast.error("Failed to load the invoice.", { id: "finvoice" }) } else {
                 setId(order.id.slice(0, 6).toUpperCase())
                 setStatus(order.status)
                 setTotal(order.total_price)
-                setDate(new Date(order.created_at).toLocaleDateString('en-US', { year: "numeric", day: "numeric", month: "short", }))
+                setDate(order && new Date(order.created_at).toLocaleDateString('en-US', { year: "numeric", day: "numeric", month: "short", }))
             }
             setLoading(false)
         }

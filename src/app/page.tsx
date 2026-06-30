@@ -8,6 +8,7 @@ import Products from "@/components/Products/Products";
 import Footer from "@/components/Footer/Footer";
 import "@/styles/page.module.css";
 import { supabase } from "@/lib/SubaBaseClient";
+import { productTypes } from "@/types/types";
 
 
 function HomePage() {
@@ -16,14 +17,14 @@ function HomePage() {
 
   const router = useRouter()
 
-  const hasShown = useRef(false)
+  const hasShown = useRef<boolean>(false)
 
   useEffect(() => {
     const updateCart = async () => {
       const { data } = await supabase.auth.getUser()
       if (data.user) {
-        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-        const cartToSync = cartItems.map(item => ({
+        const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+        const cartToSync = cartItems.map((item: productTypes) => ({
           product_id: item.id,
           quantity: item.quantity,
         }))
@@ -54,7 +55,7 @@ function HomePage() {
 
   return (
     <div>
-      <Header />
+      <Header router="" />
       <Hero />
       <Products />
       <Footer />
