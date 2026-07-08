@@ -72,7 +72,6 @@
 .TitleT {
   font-size: 32px;
   margin-top: 150px;
-  margin-bottom: 50px;
 }
 
 .detail {
@@ -311,7 +310,7 @@
 
   .TitleT {
     font-size: 30px;
-    margin-top: -400px;
+    margin-top: -450px;
     text-align: center;
   }
 
