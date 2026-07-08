@@ -176,7 +176,7 @@ export default function AllCategories({ title, data1, loading, category }: categ
 
             <ul
                 className={`${loading === true ? styles.skeletons : styles.products} ${styles.productsList}`}
-                style={{ overflowX: data1.length > 4 ? "scroll" : "hidden" }}
+                style={{ overflowX: data1.length > 4 ? "scroll" : "auto" }}
             >
                 {loading === true
                     ? data.map(img => (
