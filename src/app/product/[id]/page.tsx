@@ -291,6 +291,9 @@ export default function Page() {
 
         {product ? (
           <div className="product-card">
+            <h1 className={`${styles.TitleT2} ${styles.titlePadding}`}>
+              {`${product.title} ${ChoosedColor}`}
+            </h1>
             <div className={styles.productinfo}>
               {product.image && (
                 <img

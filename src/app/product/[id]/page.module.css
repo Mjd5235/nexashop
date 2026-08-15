@@ -268,6 +268,9 @@
   padding: 0px 0px 0px 9px;
 }
 
+.TitleT2 {
+  display: none;
+}
 
 .animateSpin {
   animation: spin 1s infinite linear;
@@ -293,7 +296,6 @@
     margin: 0 auto;
     padding-left: 30px;
     display: grid;
-    margin-top: 0px;
   }
 
   .infoproduct {
@@ -305,13 +307,20 @@
     overflow: visible;
     width: 350px;
     margin-right: 30px;
-    margin-top: 50px;
+    margin-bottom: 30px;
   }
 
   .TitleT {
+    display: none;
+  }
+
+  .TitleT2 {
     font-size: 30px;
-    margin-top: -500px;
+    margin-bottom: 50px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -150px;
   }
 
   .detail {
