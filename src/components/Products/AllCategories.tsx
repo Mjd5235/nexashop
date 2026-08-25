@@ -176,11 +176,11 @@ export default function AllCategories({ title, data1, loading, category }: categ
 
             <ul
                 className={`${loading === true ? styles.skeletons : styles.products} ${styles.productsList}`}
-                style={{ overflowX: data1.length > 4 ? "scroll" : "auto" }}
+                style={{ overflowX: data1.length > 4 ? "scroll" : "hidden" }}
             >
                 {loading === true
                     ? data.map(img => (
-                        <div key={img.id} className={styles.skeletonCard}>
+                        <li key={img.id} className={styles.skeletonCard}>
                             <div className={`${styles.skeleton} ${styles.skeletonImage}`}></div>
 
                             <div className={`${styles.skeleton} ${styles.skeletonName}`}></div>
@@ -203,14 +203,14 @@ export default function AllCategories({ title, data1, loading, category }: categ
                             <div className={`${styles.skeleton} ${styles.skeletonDelivery}`}></div>
 
                             <div className={`${styles.skeleton} ${styles.skeletonButton}`}></div>
-                        </div>
+                        </li>
                     ))
                     :
                     data1.map((img) => (
-                        <div key={img.id} className={styles.product}>
+                        <li key={img.id} className={styles.product}>
                             <div className="product-card">
                                 <Link href={`/product/${img.id}`}>
-                                    <li>
+                                    <div>
 
                                         {img.oldPrice !== null &&
                                             <div className={styles.saleBadge}>
@@ -292,7 +292,7 @@ export default function AllCategories({ title, data1, loading, category }: categ
                                             </span>
                                         </span>
 
-                                    </li>
+                                    </div>
                                 </Link>
 
                                 {img.stock === 0 ?
@@ -320,7 +320,7 @@ export default function AllCategories({ title, data1, loading, category }: categ
 
                                 }
                             </div>
-                        </div>
+                        </li>
                     ))
                 }
             </ul>

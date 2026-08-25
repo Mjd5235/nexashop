@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import styles from './Hero.module.css'
+import { Inter } from 'next/font/google'
+import Image from 'next/image';
+
+const InterSans = Inter({
+  subsets: ["latin"],
+  weight: ['900']
+});
 
 export default function Hero() {
 
@@ -7,11 +14,12 @@ export default function Hero() {
     <div className={`${styles.hero}`}>
       <div className={`${styles.herotext}`}>
         <div className={styles.textWrapper}>
-          <Link href='/'><h1 className={styles.logoname}>
-
-            <span>Nexa</span>
-            <span className={styles.shopText}>Shop</span>
-          </h1></Link>
+          <Link href='/'>
+            <h1 className={`${InterSans.className} ${styles.logoname}`}>
+              <span>Nexa</span>
+              <span className={styles.shopText}>Shop</span>
+            </h1>
+          </Link>
           <div className={styles.heroNormalText}><span> —Where Innovation</span><span> Meets Shopping </span><span className={styles.excelText}> Excellence.</span></div></div>
         <div className={styles.space}>
           <div className={styles.twobut}>
@@ -33,15 +41,15 @@ export default function Hero() {
             </div>
           </div>
           <div className={styles.Herofeatures}>
-            <div className={styles.heroFeature}><div><img className={styles.heroFeatureImg} src={'/Hero/secure_payments.png'} alt='feature-icon' /></div>secure payments </div>
-            <div className={styles.heroFeature}><div><img className={styles.heroFeatureImg} src={'/Hero/fast_delivery.png'} alt='feature-icon' /></div>Fast & Free Delivery</div>
-            <div className={styles.heroFeature}><div><img className={styles.heroFeatureImg} src={'/Hero/premium_quality.png'} alt='feature-icon' /></div>Premium Quality</div>
-            <div className={styles.heroFeature}><div><img className={styles.heroFeatureImg} src={'/Hero/support.png'} alt='feature-icon' /></div>24/7 Support</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} fill src={'/Hero/secure_payments.png'} alt='secure-icon' /></div>secure payments </div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} fill src={'/Hero/fast_delivery.png'} alt='fast-icon' /></div>Fast & Free Delivery</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} fill src={'/Hero/premium_quality.png'} alt='premium-icon' /></div>Premium Quality</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} fill src={'/Hero/support.png'} alt='support-icon' /></div>24/7 Support</div>
           </div>
           <div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }

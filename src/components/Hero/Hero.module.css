@@ -93,10 +93,14 @@
     display: flex;
     gap: 5px;
     align-items: center;
-    width: 40px;
+    width: 65px;
     height: 40px;
     margin-right: 8px;
     position: relative;
+}
+
+.heroFI {
+    object-fit: contain;
 }
 
 .shop {
@@ -157,7 +161,7 @@
     }
 
     .heroFeatureImg {
-        width: 35px;
+        width: 60px;
         height: 35px;
     }
 }
@@ -180,7 +184,7 @@
     }
 
     .heroFeatureImg {
-        width: 35px;
+        width: 55px;
         height: 35px;
     }
 
@@ -224,7 +228,7 @@
     }
 
     .heroFeatureImg {
-        width: 30px;
+        width: 45px;
         height: 30px;
     }
 

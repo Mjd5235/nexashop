@@ -204,7 +204,7 @@ export default function Header({ router }: HeaderProps) {
                     }
 
                     <div className={`${styles.cart} cartIcon`}>
-                        <Link href='/cart'>
+                        <Link href='/cart' aria-label="Shopping Cart">
                             <svg
                                 height="60"
                                 viewBox="0 0 14 44"
