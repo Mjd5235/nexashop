@@ -5,16 +5,19 @@ import { Inter } from 'next/font/google';
 
 const InterSans = Inter({
   subsets: ["latin"],
+  display: 'swap',
   weight: ["400", "600", "800"],
 })
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  display: 'swap',
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  display: 'swap',
   subsets: ["latin"],
 });
 
