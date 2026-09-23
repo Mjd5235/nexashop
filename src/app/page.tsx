@@ -6,6 +6,7 @@ import Header from "@/components/Header/Header";
 import Hero from '@/components/Hero/Hero'
 import Products from "@/components/Products/Products";
 import Footer from "@/components/Footer/Footer";
+import "@/styles/page.module.css";
 import { supabase } from "@/lib/SubaBaseClient";
 import { productTypes } from "@/types/types";
 
