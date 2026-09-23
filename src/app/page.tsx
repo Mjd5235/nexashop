@@ -55,8 +55,10 @@ function HomePage() {
   return (
     <div>
       <Header router="" />
-      <Hero />
-      <Products />
+      <main>
+        <Hero />
+        <Products />
+      </main>
       <Footer />
     </div>
   );

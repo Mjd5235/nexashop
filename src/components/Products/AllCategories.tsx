@@ -240,24 +240,24 @@ export default function AllCategories({ title, data1, loading, category }: categ
                                             {img.oldPrice !== null ?
                                                 <div className={styles.oldPriceRow}>
                                                     was:&nbsp;
-                                                    <h6 className={styles.oldPriceValue}>
+                                                    <span className={styles.oldPriceValue}>
                                                         {img.oldPrice}
-                                                    </h6>
+                                                    </span>
 
-                                                    <h5 className={styles.oldPriceSar}>
+                                                    <span className={styles.oldPriceSar}>
                                                         SAR
-                                                    </h5>
+                                                    </span>
                                                 </div>
                                                 : null}
 
                                             <div className={styles.currentPriceRow}>
-                                                <h4 className={`${styles.price} ${styles.currentPrice}`}>
+                                                <span className={`${styles.price} ${styles.currentPrice}`}>
                                                     {img.price}
-                                                </h4>
+                                                </span>
 
-                                                <h5 className={styles.currentPriceSar}>
+                                                <span className={styles.currentPriceSar}>
                                                     SAR
-                                                </h5>
+                                                </span>
                                             </div>
 
                                         </div>
