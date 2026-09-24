@@ -1,19 +1,15 @@
 .hero {
-    position: relative;
     color: black;
+    background-image: url('/Hero/hero-bg.webp');
+    background-color: black;
     height: 100vh;
     min-height: 570px;
+    background-size: cover;
     width: 100%;
-    display: grid;
+    background-position: center;
     align-items: center;
+    display: grid;
     padding-left: 120px;
-    overflow: hidden;
-    background-color: black;
-}
-
-.heroBack {
-    object-fit: cover;
-    object-position: center;
 }
 
 .herotext {
@@ -23,7 +19,6 @@
     font-size: 32px;
     color: #fff;
     padding-bottom: 30px;
-    z-index: 10;
 }
 
 .textWrapper {

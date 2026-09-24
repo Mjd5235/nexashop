@@ -2,7 +2,6 @@ import Link from 'next/link'
 import styles from './Hero.module.css'
 import { Inter } from 'next/font/google'
 import Image from 'next/image';
-import HeroBg from '../../../public/Hero/nexashop_bg.png'
 
 const InterSans = Inter({
   subsets: ["latin"],
@@ -13,16 +12,6 @@ export default function Hero() {
 
   return (
     <div className={`${styles.hero}`}>
-      <Image
-        src={HeroBg}
-        alt="NexaShop Hero Background"
-        className={styles.heroBack}
-        fill
-        priority={true}
-        quality={100}
-        sizes="100vw"
-        placeholder="blur"
-      />
       <div className={`${styles.herotext}`}>
         <div className={styles.textWrapper}>
           <Link href='/'>
