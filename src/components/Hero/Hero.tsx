@@ -12,6 +12,15 @@ export default function Hero() {
 
   return (
     <div className={`${styles.hero}`}>
+      <Image
+        src="/Hero/nexashop_bg.png"
+        alt="NexaShop Hero Background"
+        className={styles.heroBack}
+        fill
+        priority
+        quality={100}
+        sizes="100vw"
+      />
       <div className={`${styles.herotext}`}>
         <div className={styles.textWrapper}>
           <Link href='/'>
