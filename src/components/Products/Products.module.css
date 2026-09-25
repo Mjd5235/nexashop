@@ -9,16 +9,16 @@
 }
 
 .skeletons {
-  margin: 32px;
   display: flex;
   gap: 12px !important;
   width: 1120px;
   margin: 0 auto;
   overflow-x: hidden;
-  padding: 14px;
-  padding-left: 21px;
+  padding-top: 6px !important;
+  padding-left: 10px;
   border: solid 1px white;
   overflow-y: hidden;
+  padding-bottom: 6px;
 }
 
 .product {
@@ -285,12 +285,14 @@
 
 .currentPrice {
   font-size: 20px;
+  font-weight: 700;
 }
 
 .currentPriceSar {
   margin-top: 6px;
   margin-left: 2px;
   font-size: 12px;
+  font-weight: 700;
 }
 
 .deliveryText {
@@ -439,7 +441,7 @@
   font-size: 12px;
   font-weight: 600;
   height: 18px;
-  display: flex;
+  display: flex; 
   justify-content: left;
   align-items: center;
   margin-top: 14px;

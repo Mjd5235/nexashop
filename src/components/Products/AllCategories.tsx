@@ -6,6 +6,7 @@ import { supabase } from "@/lib/SubaBaseClient";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { productTypes } from "@/types/types";
+import ProductsSkeleton from "./ProductsSkeleton";
 
 interface categoriesProps {
     title: string,
@@ -179,32 +180,8 @@ export default function AllCategories({ title, data1, loading, category }: categ
                 style={{ overflowX: data1.length > 4 ? "scroll" : "hidden" }}
             >
                 {loading === true
-                    ? data.map(img => (
-                        <li key={img.id} className={styles.skeletonCard}>
-                            <div className={`${styles.skeleton} ${styles.skeletonImage}`}></div>
-
-                            <div className={`${styles.skeleton} ${styles.skeletonName}`}></div>
-
-                            <div className={styles.skeletonDescription}>
-                                <div className={`${styles.skeleton} ${styles.skeletonLine100}`}></div>
-                                <div className={`${styles.skeleton} ${styles.skeletonLine90}`}></div>
-                                <div className={`${styles.skeleton} ${styles.skeletonLine85}`}></div>
-                                <div className={`${styles.skeleton} ${styles.skeletonLine80}`}></div>
-                                <div className={`${styles.skeleton} ${styles.skeletonLine75}`}></div>
-                            </div>
-
-                            <div className={styles.skeletonPriceArea}>
-                                <div className={`${styles.skeleton} ${styles.skeletonPrice1}`}></div>
-                                <div className={`${styles.skeleton} ${styles.skeletonPrice2}`}></div>
-                            </div>
-
-                            <div className={`${styles.skeleton} ${styles.skeletonStock}`}></div>
-
-                            <div className={`${styles.skeleton} ${styles.skeletonDelivery}`}></div>
-
-                            <div className={`${styles.skeleton} ${styles.skeletonButton}`}></div>
-                        </li>
-                    ))
+                    ?
+                    <ProductsSkeleton />
                     :
                     data1.map((img) => (
                         <li key={img.id} className={styles.product}>
