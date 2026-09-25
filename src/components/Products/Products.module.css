@@ -82,6 +82,7 @@
   font-weight: bold;
   justify-content: center;
   align-items: center;
+  text-shadow: 0 0 1px #000000;
   transition: background-color, color .3s ease-in-out;
 }
 
@@ -94,6 +95,7 @@
   font-size: 13px;
   justify-content: center;
   align-items: center;
+  text-shadow: 0 0 1px #000000;
 }
 
 .cartbut:hover {
@@ -439,9 +441,9 @@
 
 .StockText {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   height: 18px;
-  display: flex; 
+  display: flex;
   justify-content: left;
   align-items: center;
   margin-top: 14px;
