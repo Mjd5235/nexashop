@@ -32,16 +32,16 @@ export default function Footer() {
         <div className={styles.follow}>
           <h4>follow us on</h4>
           <div className={styles.contacts}>
-            <Image className={styles.contact} src={'/contact/you.webp'} width={28} height={23} alt='contact1' />
+            <Image className={styles.contact} src={'/contact/you.webp'} width={28} height={20.14} alt='contact1' />
             <Image className={styles.contact} src={'/contact/face.webp'} width={23} height={23} alt='contact2' />
             <Image className={styles.contact} src={'/contact/ins.webp'} width={23} height={23} alt='contact3' />
-            <Image className={styles.contact} src={'/contact/twi.webp'} width={23} height={23} alt='contact4' />
+            <Image className={styles.contact} src={'/contact/twi.webp'} width={23} height={18.69} alt='contact4' />
             <Image className={styles.contact} src={'/contact/lin.webp'} width={23} height={23} alt='contact5' />
           </div>
         </div>
         <div className={styles.appimgs}>
-          <Image className={styles.apps} src={'/Application/google.webp'} width={150} height={50} alt='google' />
-          <Image className={styles.apps} src={'/Application/apple.webp'} width={150} height={50} alt='google' />
+          <Image className={styles.apps} src={'/Application/google.webp'} width={150} height={45} alt='google' />
+          <Image className={styles.apps} src={'/Application/apple.webp'} width={150} height={45} alt='apple' />
         </div>
       </div>
       <ul className={styles.footerlinks}>
