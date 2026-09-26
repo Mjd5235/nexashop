@@ -4,11 +4,6 @@ import { Inter } from 'next/font/google'
 import Image from 'next/image';
 import HeroBg from '../../../public/Hero/hero-bg.webp'
 
-const InterSans = Inter({
-  subsets: ["latin"],
-  weight: ['900']
-});
-
 export default function Hero() {
 
   return (
@@ -26,7 +21,7 @@ export default function Hero() {
       <div className={`${styles.herotext}`}>
         <div className={styles.textWrapper}>
           <Link href='/'>
-            <h1 className={`${InterSans.className} ${styles.logoname}`}>
+            <h1 className={styles.logoname}>
               <span>Nexa</span>
               <span className={styles.shopText}>Shop</span>
             </h1>
