@@ -18,7 +18,7 @@ export default function Hero() {
         alt="NexaShop Hero Background"
         className={styles.heroBack}
         fill
-        priority={true}
+        priority
         quality={75}
         sizes="100vw"
       />

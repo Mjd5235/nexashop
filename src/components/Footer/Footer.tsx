@@ -40,8 +40,8 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.appimgs}>
-          <Image className={styles.apps} src={'/Application/google.webp'} width={150} height={45} alt='google' />
-          <Image className={styles.apps} src={'/Application/apple.webp'} width={134.1} height={45} alt='apple' />
+          <Image className={styles.Goapp} src={'/Application/google.webp'} width={150} height={45} alt='google' />
+          <Image className={styles.Apapp} src={'/Application/apple.webp'} width={134.1} height={45} alt='apple' />
         </div>
       </div>
       <ul className={styles.footerlinks}>
