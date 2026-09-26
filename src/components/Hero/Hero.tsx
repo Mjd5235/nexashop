@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styles from './Hero.module.css'
-import { Inter } from 'next/font/google'
 import Image from 'next/image';
 import HeroBg from '../../../public/Hero/hero-bg.webp'
 
