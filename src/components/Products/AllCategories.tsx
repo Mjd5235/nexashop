@@ -244,7 +244,7 @@ export default function AllCategories({ title, data1, loading, category }: categ
                                             style={{
                                                 color:
                                                     img.stock <= 5 && img.stock !== 0
-                                                        ? "#ff8800"
+                                                        ? "#b35f00"
                                                         : img.stock !== 0
                                                             ? "#055e25"
                                                             : "#49505a"
