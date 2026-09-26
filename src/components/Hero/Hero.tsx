@@ -52,10 +52,10 @@ export default function Hero() {
             </div>
           </div>
           <div className={styles.Herofeatures}>
-            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} priority src={'/Hero/secure_payments.webp'} alt='secure-icon' /></div>secure payments </div>
-            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} priority src={'/Hero/fast_delivery.webp'} alt='fast-icon' /></div>Fast & Free Delivery</div>
-            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} priority src={'/Hero/premium_quality.webp'} alt='premium-icon' /></div>Premium Quality</div>
-            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} priority src={'/Hero/support.webp'} alt='support-icon' /></div>24/7 Support</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} src={'/Hero/secure_payments.webp'} alt='secure-icon' /></div>secure payments </div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} src={'/Hero/fast_delivery.webp'} alt='fast-icon' /></div>Fast & Free Delivery</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} src={'/Hero/premium_quality.webp'} alt='premium-icon' /></div>Premium Quality</div>
+            <div className={styles.heroFeature}><div className={styles.heroFeatureImg}><Image className={styles.heroFI} quality={75} width={40} height={40} src={'/Hero/support.webp'} alt='support-icon' /></div>24/7 Support</div>
           </div>
           <div>
           </div>
